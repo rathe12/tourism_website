@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link type="text/css" href="{{ url_for('static', filename='css/style.css')}}" rel="stylesheet" />
+</head>
+<body>
+    {% block content %}
+    {% block mainmenu %}
+    <ul class="mainmenu">
+        <li><img class="logo" src="{{ url_for('static', filename='images/logo.png') }}" alt="logo"></li>
+        {% for m in menu  %}
+        <li><a href="{{m.url}}">{{m.name}}</a></li>
+        {% endfor %}
+    </ul>
+    {% endblock mainmenu %}
+    <div class='clear'></div>
+    <div class='content'></div>
+    {% endblock content %}
+</body>
+</html>
