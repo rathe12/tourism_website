@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link type="text/css" href="{{ url_for('static', filename='css/style.css')}}" rel="stylesheet" />
+    <title>{{title}}</title>
 </head>
 <body>
     {% block content %}
@@ -15,8 +16,8 @@
         {% endfor %}
     </ul>
     {% endblock mainmenu %}
-    <div class='clear'></div>
-    <div class='content'></div>
+    <!-- <div class='clear'></div>
+    <div class='content'></div> -->
     {% endblock content %}
 </body>
 </html>
