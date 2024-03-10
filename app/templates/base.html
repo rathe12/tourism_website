@@ -10,14 +10,13 @@
     {% block content %}
     {% block mainmenu %}
     <ul class="mainmenu">
-        <li><img class="logo" src="{{ url_for('static', filename='images/logo.png') }}" alt="logo"></li>
+        <li class="lilogo"><img class="logo" src="{{ url_for('static', filename='images/logo.png') }}" alt="logo"></li>
+        <li class="liname">Rathe12Travel</li>
         {% for m in menu  %}
-        <li><a href="{{m.url}}">{{m.name}}</a></li>
+        <li class="anotherli"><a href="{{m.url}}">{{m.name}}</a></li>
         {% endfor %}
     </ul>
     {% endblock mainmenu %}
-    <!-- <div class='clear'></div>
-    <div class='content'></div> -->
     {% endblock content %}
 </body>
 </html>

@@ -4,6 +4,7 @@ html,body {
     padding: 0;
     height: 100%;
     width: 100%;
+    overflow: hidden;
 }
 
 /* a{
@@ -28,9 +29,17 @@ ul.mainmenu {
     overflow: hidden;
 }
 
-ul.mainmenu li{
+.anotherli{
     float:left;
-    margin: 18px 40px 0 50px;
+    margin: 18px 40px 0 50px; 
+}
+
+.liname{
+    float:left;
+    margin: 18px 40px 0 50px; 
+    margin-left: -6%;
+    padding: 0;
+    color: #3A97D2;
 }
 
 ul.mainmenu li.last {float: right;}
@@ -43,10 +52,16 @@ ul.mainmenu li a{
 ul.mainmenu li a:hover{
     color: #3280b1;
 }
+.lilogo{
+    float:left;
+    padding-right: 0;
+    width: 10%;
+    height: 100%;
+
+}
 img.logo {
-    width: 12%;
-    height: auto;
-    margin: -15px -40px 0px -20px;
+    height: 100%;
+    width: auto;
 }
 /* div.content{
     margin: 0px;
@@ -61,34 +76,49 @@ img.logo {
  margin: 0;
  padding-top: 1%;
  padding-bottom: 1%;
+ padding-left: 3%;
 }
 
 .container {
     display: flex;
+    min-height: 100%;
 }
 
 .sidebar {
-    width: 20%; /* Ширина левой панели */
     background-color: #3A97D2;
-    color: #E9E7E7;
-    padding: 20px;
+    width: 12%;
 }
 
 .sidebar ul {
     list-style-type: none;
     padding: 0;
+    margin-top: 0;
 }
 
 .sidebar li {
-    margin-bottom: 10px;
+    text-align: left;
+    padding-top: 13%;
+    padding-bottom: 13%;
+    width: 100%;
 }
 
 .sidebar a {
     text-decoration: none;
-    color: white;
+    padding-left: 15%;
 }
 
 .main-content {
     flex: 1; /* Занимает все оставшееся пространство */
-    padding: 20px;
+}
+
+.selected_item{
+    background-color: #E9E7E7;
+}
+
+.selected_item a{
+    color: #3A97D2;
+}
+
+.nonselected_item a{
+    color: #E9E7E7;
 }
