@@ -109,6 +109,8 @@ img.logo {
 
 .main-content {
     flex: 1; /* Занимает все оставшееся пространство */
+    padding-top: 2%;
+    padding-left: 2%;
 }
 
 .selected_item{

@@ -7,7 +7,23 @@ from flask_login import logout_user, login_required, current_user
 @profile_bp.route('/myaccount')
 def myaccount():
     if current_user.is_authenticated:
-        return render_template('profile.html', menu=menu, title='Профиль')
+        return render_template('myaccount.html', menu=menu, title='Профиль')
+    else:
+        return redirect(url_for('login'))
+
+
+@profile_bp.route('/myorders')
+def myorders():
+    if current_user.is_authenticated:
+        return render_template('myorders.html', menu=menu, title='Заказы')
+    else:
+        return redirect(url_for('login'))
+
+
+@profile_bp.route('/settings')
+def settings():
+    if current_user.is_authenticated:
+        return render_template('settings.html', menu=menu, title='Настройки')
     else:
         return redirect(url_for('login'))
 
