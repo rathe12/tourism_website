@@ -41,7 +41,7 @@ def register():
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
-        flash('Congratulations, you are now a registered user!')
+        flash('Поздравляем, вы успешно зарагестрировались!', 'success')
         return redirect(url_for('login'))
     return render_template('register.html', title='Регистраця', form=form, menu=menu)
 
@@ -54,7 +54,7 @@ def login():
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
         if user is None or not user.check_password(form.password.data):
-            flash('Invalid username or password')
+            flash('Неврный логин или пароль', 'error')
             return redirect(url_for('login'))
         login_user(user, remember=form.remember.data)
         return redirect(url_for('profile.myaccount'))

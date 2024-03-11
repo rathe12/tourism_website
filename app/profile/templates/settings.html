@@ -12,8 +12,26 @@
             </ul>
         </div>
         <div class="main-content">
-            <p><strong>Username:</strong> {{ current_user.username }}</p>
-        <p><strong>Email:</strong> {{ current_user.email }}</p>
+            <form action="" method="post" class="form-contact">
+                <p>{{ form.hidden_tag() }}
+                    {% for field in form if field.name not in ['csrf_token', 'remember', 'submit'] -%}
+                     <p>{{ field.label() }} 
+                     {% if field.errors %}
+                               {{ field(class="invalid") }}
+                     <span class="invalid-feedback">
+                               {% for e in field.errors %}
+                               {{ e }}
+                               {% endfor %}
+                     </span>
+                     {% else %}
+                               {{ field() }}
+                     {% endif %}
+            {% endfor %}
+                                <p>{{ form.submit() }}</p>
+                {% for cat, msg in get_flashed_messages(True) %}
+                <div class="flash {{cat}}">{{msg}}</div>
+                {% endfor %} 
+            </form>
         </div>
     </div>
 {% endblock content %}

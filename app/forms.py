@@ -7,7 +7,8 @@ class RegistrationForm(FlaskForm):
     username = StringField("Имя: ", validators=[Length(
         min=4, max=20, message="Имя должно быть от 4 до 20 символов")])
     email = StringField("Email: ", validators=[Email("Некорректный email")])
-    password = PasswordField('Пароль:', validators=[DataRequired()])
+    password = PasswordField('Пароль:', validators=[DataRequired(), Length(
+        min=4, max=50, message="Пароль должен быть от 4 до 50 символов")])
     password2 = PasswordField(
         'Повтор пароля:', validators=[DataRequired(), EqualTo('password', message='Пароли не совпадают')])
     submit = SubmitField("Регистрация")
@@ -19,3 +20,13 @@ class LoginForm(FlaskForm):
                                                      Length(min=4, max=50, message="Пароль должен быть от 4 до 50 символов")])
     remember = BooleanField('Запомнить меня')
     submit = SubmitField("Войти")
+
+
+class ChangePassword(FlaskForm):
+    old_password = PasswordField("Старый пароль: ", validators=[DataRequired(),
+                                                                Length(min=4, max=50, message="Пароль должен быть от 4 до 50 символов")])
+    new_password = PasswordField("Новый пароль: ", validators=[DataRequired(),
+                                                               Length(min=4, max=50, message="Пароль должен быть от 4 до 50 символов")])
+    new_password2 = PasswordField(
+        'Повтор пароля:', validators=[DataRequired(), EqualTo('new_password', message='Пароли не совпадают')])
+    submit = SubmitField("Поменять")

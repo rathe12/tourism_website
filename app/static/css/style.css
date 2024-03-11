@@ -124,3 +124,20 @@ img.logo {
 .nonselected_item a{
     color: #E9E7E7;
 }
+
+.flash {padding: 10px;}
+.flash.success {
+         border: 1px solid #21DB56;
+         background: #AEFFC5;
+}
+.flash.error {
+         border: 1px solid #FF4343;
+         background: #FF9C9C;
+}
+.form-contact .invalid {
+    display: inline-block;
+    background: #FF9898;
+}
+.form-contact .invalid-feedback {
+    color: #CC0000;
+}
