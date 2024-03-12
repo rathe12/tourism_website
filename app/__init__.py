@@ -14,6 +14,7 @@ app.config.from_object(Config)
 # Инициализация расширений Flask
 db.init_app(app)
 
+
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 

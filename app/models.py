@@ -22,3 +22,15 @@ class User(db.Model, UserMixin):
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
+
+
+class Hotels(db.Model):
+    __bind_key__ = 'hotels_db'
+    id = db.Column(db.Integer, primary_key=True)
+    city = db.Column(db.String(128))
+    # Предполагается, что здесь будет храниться ссылка на фото
+    photo = db.Column(db.String(256))
+    name = db.Column(db.String(128), unique=True)
+
+    def __repr__(self):
+        return '<Hotel {}>'.format(self.name)

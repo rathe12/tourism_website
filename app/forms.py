@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, DateField
 from wtforms.validators import DataRequired, Email, EqualTo, Length
 
 
@@ -30,3 +30,12 @@ class ChangePassword(FlaskForm):
     new_password2 = PasswordField(
         'Повтор пароля:', validators=[DataRequired(), EqualTo('new_password', message='Пароли не совпадают')])
     submit = SubmitField("Поменять")
+
+
+class ResidenceForm(FlaskForm):
+    destination = StringField('Куда', validators=[DataRequired()])
+    start_date = DateField(
+        'Начальная дата', format='%Y-%m-%d', validators=[DataRequired()])
+    end_date = DateField('Конечная дата', format='%Y-%m-%d',
+                         validators=[DataRequired()])
+    submit = SubmitField("Поиск")

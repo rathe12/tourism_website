@@ -1,5 +1,30 @@
 {% extends 'base.html' %}
 {% block content %}
 {{ super() }}
-<h1>Проживание</h1>
+<div class="delimiter_accommodation">
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <div class="form-row">
+            {{ form.destination.label }}{{ form.destination(class="form-control", id="destination") }}
+            {{ form.start_date.label }}{{ form.start_date(class="form-control", id="start_datepicker") }}
+            {{ form.end_date.label }}{{ form.end_date(class="form-control", id="end_datepicker") }}
+            {{ form.submit(class="accommodation_button") }}
+        </div>
+    </form>
+    <!-- Подключаем скрипт для активации Datepicker -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        flatpickr("#start_datepicker", {
+            dateFormat: "Y-m-d",
+            minDate: "today",
+            onClose: function(selectedDates) {
+                document.getElementById("end_datepicker")._flatpickr.set("minDate", selectedDates[0]);
+            }
+        });
+        flatpickr("#end_datepicker", {
+            dateFormat: "Y-m-d",
+            minDate: "today", // Добавляем minDate здесь также
+        });
+    </script>
+</div>
 {% endblock %}

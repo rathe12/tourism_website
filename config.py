@@ -17,5 +17,10 @@ class Config:
     # Строка подключения к базе данных
     SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL')
 
+    SQLALCHEMY_BINDS = {
+        'hotels_db': os.getenv('HOTELS_DATABASE_URL')
+        # Добавьте здесь другие базы данных по мере необходимости
+    }
+
     # Отключение отслеживания изменений в базе данных
     SQLALCHEMY_TRACK_MODIFICATIONS = False

@@ -5,6 +5,7 @@ html,body {
     height: 100%;
     width: 100%;
     overflow: hidden;
+    background-color: #E9E7E7;
 }
 
 /* a{
@@ -140,4 +141,41 @@ img.logo {
 }
 .form-contact .invalid-feedback {
     color: #CC0000;
+}
+
+
+.form-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-top: 2%;
+}
+.form-row label {
+    width: 10%;
+    text-align: right;
+}
+.form-row input {
+    width: 10%;
+}
+
+.accommodation_button{
+    margin-right: 10%;
+}
+.delimiter_accommodation{
+    background-color: #3A97D2;
+    height: 10%;
+}
+
+.hotel{
+    display: flex;
+    background-color: white;
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-bottom: 1%;
+}
+
+.hotel img{
+    height: 200px;
+    width: 300px;
+    padding: 1%;
 }

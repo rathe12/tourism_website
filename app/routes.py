@@ -1,7 +1,7 @@
 from . import app, db
-from flask import render_template, flash, redirect, url_for
-from app.forms import RegistrationForm, LoginForm
-from app.models import User
+from flask import render_template, flash, redirect, url_for, request
+from app.forms import RegistrationForm, LoginForm, ResidenceForm
+from app.models import User, Hotels
 from flask_login import login_user, current_user
 
 menu = [{"name": "Акции", "url": "/"},
@@ -21,9 +21,29 @@ def tours():
     return render_template('tours.html', menu=menu, title='Туры')
 
 
-@app.route('/accommodation')
+@app.route('/accommodation', methods=['GET', 'POST'])
 def accommodation():
-    return render_template('accommodation.html', menu=menu, title='Проживание')
+    form = ResidenceForm()
+    if form.validate_on_submit():
+        destination = form.destination.data
+        start_date = form.start_date.data
+        end_date = form.end_date.data
+        return redirect(url_for('hotels', destination=destination, start_date=start_date, end_date=end_date))
+    return render_template('accommodation.html', form=form, menu=menu, title='Проживание')
+
+
+@app.route('/hotels')
+def hotels():
+    form = ResidenceForm()
+    # Получаем данные из параметров URL
+    destination = request.args.get('destination')
+    start_date = request.args.get('start_date')
+    end_date = request.args.get('end_date')
+
+    # Здесь вы можете выполнить необходимые операции с этими данными, например, передать их в шаблон
+    # Или выполнить запрос к базе данных для получения данных о гостиницах
+    hotels = Hotels.query.filter_by(city=destination).all()
+    return render_template('hotels.html', form=form, hotels=hotels, destination=destination, start_date=start_date, end_date=end_date, menu=menu)
 
 
 @app.route('/air_tickets')
