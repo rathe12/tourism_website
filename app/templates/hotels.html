@@ -1,11 +1,23 @@
 {% extends 'accommodation.html' %}
 {% block content %}
 {{ super() }}
-<h1> Отели в {{destination}}</h1>
+<h1 class="hotels_city"> Отели в {{destination}}</h1>
 {% for hotel in hotels %}
     <div class="hotel">
-        <img src="{{ hotel.photo }}" alt="{{ hotel.name }}">
-        <h2>{{ hotel.name }}</h2>
+        <div class="hotel_description">
+            <img src="{{ hotel.image_url }}" alt="{{ hotel.name }}">
+            <a href="{{ url_for('show_hotel', hotel_id=hotel.id) }}">{{ hotel.name }}</a>
+        </div>
+            <div class="hotels_price">
+                {% if hotel.get_lowest_room_price() %}
+                <h2>Цена от:</h2> 
+                <div class="hotels_price_price">
+                    <h3>{{ hotel.get_lowest_room_price() }}</h3> <p>₽</p>
+                </div>
+                {% else %}
+                    No rooms available
+                {% endif %}
+            </div>
     </div>
 {% endfor %}
 {% endblock %}

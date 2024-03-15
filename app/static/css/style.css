@@ -166,16 +166,57 @@ img.logo {
     height: 10%;
 }
 
+.hotels_city{
+    padding-left: 15%;
+}
+
 .hotel{
     display: flex;
     background-color: white;
-    margin-left: 10%;
-    margin-right: 10%;
+    margin-left: 15%;
+    margin-right: 15%;
     margin-bottom: 1%;
 }
-
-.hotel img{
+.hotel_description{
+    display: flex;
+    width: 80%;
+}
+.hotel_description img{
     height: 200px;
     width: 300px;
     padding: 1%;
+}
+
+.hotel_description a{
+    color: #000000;
+    text-decoration: none; 
+    font-size: 150%;
+    padding-left: 5%;
+    padding-top: 2%;
+}
+
+.hotels_price{
+    flex: 1;
+    background-color: #3a98d280;
+}
+
+.hotels_price_price{
+    display: flex;
+}
+
+.hotels_price h2{
+    padding-top: 1%;
+    padding-left: 15%;
+    font-size: 100%;
+    color: #616161;
+}
+
+.hotels_price_price h3{
+    color: #ec9f05;
+    font-size: 170%;
+    padding-left: 30%;
+}
+.hotels_price_price p{
+    color: #ec9f05;
+    font-size: 150%;
 }

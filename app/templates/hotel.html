@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+{% block content %}
+{{ super() }}
+    <h1>{{ hotel.name }}</h1>
+    <p>Description: {{ hotel.description }}</p>
+{% endblock %}

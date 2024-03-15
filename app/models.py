@@ -1,5 +1,4 @@
 from app import db, login_manager
-from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
@@ -8,7 +7,8 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 
-class User(db.Model, UserMixin):
+# Модель для таблицы "User"
+class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
     email = db.Column(db.String(120), index=True, unique=True)
@@ -24,13 +24,106 @@ class User(db.Model, UserMixin):
         return '<User {}>'.format(self.username)
 
 
-class Hotels(db.Model):
+# Модель для таблицы "City"
+class City(db.Model):
     __bind_key__ = 'hotels_db'
     id = db.Column(db.Integer, primary_key=True)
-    city = db.Column(db.String(128))
-    # Предполагается, что здесь будет храниться ссылка на фото
-    photo = db.Column(db.String(256))
-    name = db.Column(db.String(128), unique=True)
+    name = db.Column(db.String(100), nullable=False, index=True, unique=True)
 
     def __repr__(self):
-        return '<Hotel {}>'.format(self.name)
+        return f"City('{self.name}')"
+
+
+# Модель для таблицы "Hotels"
+class Hotel(db.Model):
+    __bind_key__ = 'hotels_db'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    city_id = db.Column(db.Integer, db.ForeignKey(
+        'city.id'), nullable=False, index=True)
+    image_url = db.Column(db.String(1000))
+    description = db.Column(db.Text)
+    rating = db.Column(db.Float)
+
+    city = db.relationship('City', backref='hotels')
+
+    def get_lowest_room_price(self):
+        if self.rooms:
+            return min(room.price_per_night for room in self.rooms)
+        return None
+
+    def __repr__(self):
+        return f"Hotel('{self.name}', '{self.city.name}')"
+
+
+# Модель для таблицы "HotelPhotos"
+class HotelPhoto(db.Model):
+    __bind_key__ = 'hotels_db'
+    id = db.Column(db.Integer, primary_key=True)
+    hotel_id = db.Column(db.Integer, db.ForeignKey(
+        'hotel.id'), nullable=False, index=True)
+    photo_url = db.Column(db.String(1000))
+
+    hotel = db.relationship('Hotel', backref='photos')
+
+    def __repr__(self):
+        return f"HotelPhoto('{self.photo_url}')"
+
+
+# Модель для таблицы "Rooms"
+class Room(db.Model):
+    __bind_key__ = 'hotels_db'
+    id = db.Column(db.Integer, primary_key=True)
+    hotel_id = db.Column(db.Integer, db.ForeignKey(
+        'hotel.id'), nullable=False, index=True)
+    type = db.Column(db.String(100))
+    price_per_night = db.Column(db.Float)
+    description = db.Column(db.Text)
+
+    hotel = db.relationship('Hotel', backref='rooms')
+
+    def __repr__(self):
+        return f"Room('{self.type}', '{self.hotel.name}')"
+
+
+# Модель для таблицы "RoomImages"
+class RoomImage(db.Model):
+    __bind_key__ = 'hotels_db'
+    id = db.Column(db.Integer, primary_key=True)
+    room_id = db.Column(db.Integer, db.ForeignKey(
+        'room.id'), nullable=False, index=True)
+    image_url = db.Column(db.String(1000))
+
+    room = db.relationship('Room', backref='images')
+
+    def __repr__(self):
+        return f"RoomImage('{self.image_url}')"
+
+
+# Модель для таблицы "BookingStatus"
+class BookingStatus(db.Model):
+    __bind_key__ = 'hotels_db'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), nullable=False, index=True, unique=True)
+
+    def __repr__(self):
+        return f"BookingStatus('{self.name}')"
+
+
+# Модель для таблицы "Bookings"
+class Booking(db.Model):
+    __bind_key__ = 'hotels_db'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, nullable=False)
+    hotel_id = db.Column(db.Integer, nullable=False)
+    room_id = db.Column(db.Integer, nullable=False)
+    check_in_date = db.Column(db.Date)
+    check_out_date = db.Column(db.Date)
+    total_price = db.Column(db.Float)
+    status_id = db.Column(db.Integer, db.ForeignKey(
+        'booking_status.id'), nullable=False)
+
+    status = db.relationship('BookingStatus')
+
+    def __repr__(self):
+        return f"Booking('{self.id}', '{self.user_id}', '{self.hotel_id}')"
