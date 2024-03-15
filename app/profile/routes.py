@@ -17,7 +17,6 @@ def myaccount():
 @profile_bp.route('/myorders')
 @login_required
 def myorders():
-    print()
     return render_template('myorders.html', menu=menu, title='Заказы')
 
 
