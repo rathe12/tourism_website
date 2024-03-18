@@ -1,7 +1,7 @@
 from . import app, db
-from flask import render_template, flash, redirect, url_for, request
+from flask import render_template, flash, redirect, url_for, request, session
 from app.forms import RegistrationForm, LoginForm, ResidenceForm
-from app.models import User, Hotel, City
+from app.models import User, Hotel, City, Room
 from flask_login import login_user, current_user
 
 menu = [{"name": "Акции", "url": "/"},
@@ -39,6 +39,8 @@ def hotels():
     destination = request.args.get('destination')
     start_date = request.args.get('start_date')
     end_date = request.args.get('end_date')
+    session['start_hotel_date'] = request.args.get('start_date')
+    session['end_hotel_date'] = request.args.get('end_date')
 
     # Здесь вы можете выполнить необходимые операции с этими данными, например, передать их в шаблон
     # Или выполнить запрос к базе данных для получения данных о гостиницах
@@ -51,7 +53,7 @@ def hotels():
 @app.route('/hotel/<int:hotel_id>')
 def show_hotel(hotel_id):
     hotel = Hotel.query.get(hotel_id)
-    return render_template('hotel.html', hotel=hotel)
+    return render_template('hotel.html', hotel=hotel, menu=menu)
 
 
 @app.route('/air_tickets')

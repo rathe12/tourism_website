@@ -4,7 +4,6 @@ html,body {
     padding: 0;
     height: 100%;
     width: 100%;
-    overflow: hidden;
     background-color: #E9E7E7;
 }
 
@@ -181,6 +180,7 @@ img.logo {
     display: flex;
     width: 80%;
 }
+
 .hotel_description img{
     height: 200px;
     width: 300px;
@@ -190,9 +190,15 @@ img.logo {
 .hotel_description a{
     color: #000000;
     text-decoration: none; 
-    font-size: 150%;
+    font-size: 200%;
     padding-left: 5%;
     padding-top: 2%;
+}
+
+.hotel_description p{
+    font-size: 150%;
+    padding-top: 12%;
+    margin-left: -10%;
 }
 
 .hotels_price{
@@ -205,18 +211,184 @@ img.logo {
 }
 
 .hotels_price h2{
-    padding-top: 1%;
     padding-left: 15%;
     font-size: 100%;
-    color: #616161;
+    color: #4a4a4a;
+}
+
+.hotels_price h4{
+    font-size: 70%;
+    padding-top: 0;
+    margin-top: -8%;
+    padding-left: 20%;
+    color: #4a4a4a;
+    padding-bottom: 10%;
 }
 
 .hotels_price_price h3{
     color: #ec9f05;
     font-size: 170%;
-    padding-left: 30%;
+    padding-left: 20%;
+    padding-top: 0;
+    margin-top: 5%;
+    padding-bottom: 0;
+    margin-bottom: 0;
 }
+
 .hotels_price_price p{
     color: #ec9f05;
     font-size: 150%;
+    padding-left: 4%;
+    padding-top: 6%;
+    margin-top: 0;
 }
+
+.myButton {
+    background-color: #ec9f05; /* Зеленый цвет фона */
+    border: none;
+    color: white;
+    padding: 15px 32px; /* Отступы внутри кнопки */
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 10px; /* Закругленные углы */
+    margin-left:7% ;
+    width: 55%;
+}
+
+/* CSS стили для при наведении курсора на кнопку */
+.myButton:hover {
+    background-color: #d69718; /* Темно-зеленый цвет фона */
+}
+
+.delimiter_hotel{
+    background-color: #3A97D2;
+    height: 8%;
+}
+
+/* Стили для основного контейнера */
+.container_hotel {
+    max-width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Заголовок отеля */
+h1 {
+    color: #333;
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+/* Описание отеля */
+.description {
+    color: #666;
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+
+/* Галерея фотографий отеля */
+.gallery {
+    position: relative;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.image-wrapper {
+    text-align: center;
+}
+
+.hotel-photo {
+    display: none; /* Сначала скрываем все фотографии */
+    height: 40vw;
+    width: auto;
+}
+
+.navigation {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.arrow {
+    font-size: 36px;
+    cursor: pointer;
+}
+
+.prev {
+    position: absolute;
+    left: 1px; /* Расположение слева */
+}
+
+.next {
+    position: absolute;
+    right: 1px; /* Расположение справа */
+}
+/* Галерея фотографий номеров */
+.room-images {
+    margin-bottom: 20px;
+}
+
+.room-images img {
+    max-width: 20%;
+    height: auto;
+    margin-right: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+
+/* Название и описание номера */
+.room {
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.room h3 {
+    color: #333;
+    font-size: 22px;
+    margin-bottom: 10px;
+    margin-top: 0;
+    padding-top: 0;
+}
+
+.room p {
+    color: #666;
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+/* Кнопка Забронировать */
+.btn-book {
+    display: inline-block;
+    padding: 2% 20px;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    float: right;
+    margin-top: -15%;
+    margin-right: 5%;
+}
+
+.btn-book:hover {
+    background-color: #0056b3;
+}
+

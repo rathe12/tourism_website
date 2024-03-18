@@ -1,6 +1,41 @@
 {% extends 'base.html' %}
 {% block content %}
 {{ super() }}
+<div class="delimiter_hotel"></div>
+<div class="container_hotel">
     <h1>{{ hotel.name }}</h1>
-    <p>Description: {{ hotel.description }}</p>
+    <p class="description">{{ hotel.description }}</p>
+    
+    <div class="gallery">
+        {% for photo in hotel.photos %}
+            <div class="image-wrapper">
+                <img src="{{ photo.photo_url }}" class="hotel-photo" alt="Hotel Photo">
+            </div>
+        {% endfor %}
+        <div class="navigation">
+            <div class="arrow prev">&#10094;</div>
+            <div class="arrow next">&#10095;</div>
+        </div>
+    </div>
+    
+    <h2>Номера:</h2>
+    {% for room in hotel.rooms %}
+        <div class="room">
+            <h3>{{ room.type }}</h3>
+            <div class="room-images">
+                {% for image in room.images %}
+                    <a href="{{ image.image_url }}" target="_blank">
+                        <img src="{{ image.image_url }}" alt="Room Photo">
+                    </a>
+                {% endfor %}
+            </div>
+            <p>{{ room.description }}</p>
+            <p class="price">Цена: {{ room.price_per_night }} ₽</p>
+            <a href="" class="btn-book">Забронировать</a>
+        </div>
+    {% endfor %}
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="{{ url_for('static', filename='js/scripts.js') }}"></script> 
 {% endblock %}

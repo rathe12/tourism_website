@@ -7,6 +7,7 @@
         <div class="hotel_description">
             <img src="{{ hotel.image_url }}" alt="{{ hotel.name }}">
             <a href="{{ url_for('show_hotel', hotel_id=hotel.id) }}">{{ hotel.name }}</a>
+            <p>{{hotel.description}}</p>
         </div>
             <div class="hotels_price">
                 {% if hotel.get_lowest_room_price() %}
@@ -14,9 +15,11 @@
                 <div class="hotels_price_price">
                     <h3>{{ hotel.get_lowest_room_price() }}</h3> <p>₽</p>
                 </div>
+                <h4>(Цена за 1 ночь)</h4>
                 {% else %}
                     No rooms available
                 {% endif %}
+                <a href="{{ url_for('show_hotel', hotel_id=hotel.id) }}" class="myButton">Выбрать</a>
             </div>
     </div>
 {% endfor %}

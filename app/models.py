@@ -1,4 +1,5 @@
 from app import db, login_manager
+from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
@@ -8,7 +9,7 @@ def load_user(user_id):
 
 
 # Модель для таблицы "User"
-class User(db.Model):
+class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
     email = db.Column(db.String(120), index=True, unique=True)
@@ -70,7 +71,6 @@ class HotelPhoto(db.Model):
         return f"HotelPhoto('{self.photo_url}')"
 
 
-# Модель для таблицы "Rooms"
 class Room(db.Model):
     __bind_key__ = 'hotels_db'
     id = db.Column(db.Integer, primary_key=True)
@@ -85,8 +85,9 @@ class Room(db.Model):
     def __repr__(self):
         return f"Room('{self.type}', '{self.hotel.name}')"
 
-
 # Модель для таблицы "RoomImages"
+
+
 class RoomImage(db.Model):
     __bind_key__ = 'hotels_db'
     id = db.Column(db.Integer, primary_key=True)
@@ -110,7 +111,6 @@ class BookingStatus(db.Model):
         return f"BookingStatus('{self.name}')"
 
 
-# Модель для таблицы "Bookings"
 class Booking(db.Model):
     __bind_key__ = 'hotels_db'
     id = db.Column(db.Integer, primary_key=True)
