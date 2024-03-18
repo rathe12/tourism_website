@@ -18,4 +18,4 @@
 1. Клонируйте репозиторий на вашем локальном компьютере:
 
 ```bash
-git clone https://github.com/your-username/your-repository.git
+git clone https://github.com/rathe12/tourism_website.git
