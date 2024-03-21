@@ -85,6 +85,24 @@ class Room(db.Model):
     def __repr__(self):
         return f"Room('{self.type}', '{self.hotel.name}')"
 
+
+# Модель для таблицы "RoomAvailability"
+class RoomAvailability(db.Model):
+    __bind_key__ = 'hotels_db'
+    id = db.Column(db.Integer, primary_key=True)
+    room_id = db.Column(db.Integer, db.ForeignKey(
+        'room.id'), nullable=False, index=True)
+    # Дата заезда может быть не указана
+    check_in_date = db.Column(db.Date, nullable=True)
+    # Дата выезда может быть не указана
+    check_out_date = db.Column(db.Date, nullable=True)
+
+    room = db.relationship('Room', backref='availabilities')
+
+    def __repr__(self):
+        return f"RoomAvailability('{self.room.type}', '{self.check_in_date}', '{self.check_out_date}')"
+
+
 # Модель для таблицы "RoomImages"
 
 

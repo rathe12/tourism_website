@@ -14,7 +14,11 @@
         <li class="lilogo"><img class="logo" src="{{ url_for('static', filename='images/logo.png') }}" alt="logo"></li>
         <li class="liname">Rathe12Travel</li>
         {% for m in menu  %}
-        <li class="anotherli"><a href="{{m.url}}">{{m.name}}</a></li>
+            {% if m.name == 'Профиль' %}
+                <li class="anotherli"><a href="{{ url_for('profile.myaccount', username=current_user.username) }}">{{m.name}}</a></li>
+            {% else %}
+                <li class="anotherli"><a href="{{m.url}}">{{m.name}}</a></li>
+            {% endif %}
         {% endfor %}
     </ul>
     {% endblock mainmenu %}

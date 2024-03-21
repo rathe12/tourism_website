@@ -31,7 +31,11 @@
             </div>
             <p>{{ room.description }}</p>
             <p class="price">Цена: {{ room.price_per_night }} ₽</p>
+            {% if room in rooms %}
             <a href="" class="btn-book">Забронировать</a>
+            {% else %}
+                <p class="booked">Все номера на указанные даты забронированы</p>
+            {% endif %}
         </div>
     {% endfor %}
 </div>

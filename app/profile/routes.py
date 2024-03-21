@@ -8,9 +8,9 @@ from werkzeug.security import generate_password_hash
 from app import db
 
 
-@profile_bp.route('/myaccount')
+@profile_bp.route('/<username>')
 @login_required
-def myaccount():
+def myaccount(username):
     return render_template('myaccount.html', menu=menu, title='Профиль')
 
 

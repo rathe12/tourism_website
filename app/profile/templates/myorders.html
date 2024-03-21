@@ -10,7 +10,7 @@
     <div class="container">
         <div class="sidebar">
             <ul>
-                <li class="nonselected_item"><a href="{{ url_for('profile.myaccount') }}">Мой аккаунт</a></li>
+                <li class="nonselected_item"><a href="{{ url_for('profile.myaccount',username=current_user.username) }}">Мой аккаунт</a></li>
                 <li class="selected_item"><a href="{{ url_for('profile.myorders') }}">Мои заказы</a></li>
                 <li class="nonselected_item"><a href="{{ url_for('profile.settings') }}">Настройки</a></li>
                 <li class="nonselected_item"><a href="{{ url_for('profile.logout') }}">Выйти из аккаунта</a></li>
