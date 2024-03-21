@@ -67,11 +67,8 @@ def show_hotel(hotel_id):
     print(end_date)
     availability_room_type = []
     for room in hotel.rooms:
-        # print(room)
         availability = RoomAvailability.query.filter_by(room_id=room.id).all()
-        # print(availability)
         for room_info in availability:
-            # print(room_info)
             if room_info.check_in_date == None and room_info.check_out_date == None:
                 if room_info.room not in availability_room_type:
                     availability_room_type.append(room_info.room)
