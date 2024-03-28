@@ -82,6 +82,10 @@ class Room(db.Model):
 
     hotel = db.relationship('Hotel', backref='rooms')
 
+    def get_total_price(self, check_in_date, check_out_date):
+        num_days = (check_out_date - check_in_date).days
+        return num_days * self.price_per_night
+
     def __repr__(self):
         return f"Room('{self.type}', '{self.hotel.name}')"
 
@@ -142,6 +146,11 @@ class Booking(db.Model):
         'booking_status.id'), nullable=False)
 
     status = db.relationship('BookingStatus')
+
+    name = db.Column(db.String(100))
+    phone_number = db.Column(db.String(50))
+    passport_number = db.Column(db.String(50))
+    passport_series = db.Column(db.String(50))
 
     def __repr__(self):
         return f"Booking('{self.id}', '{self.user_id}', '{self.hotel_id}')"

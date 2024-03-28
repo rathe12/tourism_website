@@ -1,8 +1,8 @@
 from . import app, db
 from flask import render_template, flash, redirect, url_for, request, session
-from app.forms import RegistrationForm, LoginForm, ResidenceForm
-from app.models import User, Hotel, City, Room, RoomAvailability
-from flask_login import login_user, current_user
+from app.forms import RegistrationForm, LoginForm, ResidenceForm, BookingHotelForm
+from app.models import User, Hotel, City, Room, RoomAvailability, Booking, BookingStatus
+from flask_login import login_user, current_user, login_required
 from datetime import datetime
 
 menu = [{"name": "Акции", "url": "/"},
@@ -33,7 +33,7 @@ def accommodation():
     return render_template('accommodation.html', form=form, menu=menu, title='Проживание')
 
 
-@app.route('/hotels')
+@app.route('/hotels', methods=['GET', 'POST'])
 def hotels():
     form = ResidenceForm()
     if form.validate_on_submit():
@@ -61,10 +61,8 @@ def show_hotel(hotel_id):
     hotel = Hotel.query.get(hotel_id)
     start_date = datetime.strptime(session.get(
         'start_hotel_date'), '%Y-%m-%d').date()
-    print(start_date)
     end_date = datetime.strptime(session.get(
         'end_hotel_date'), '%Y-%m-%d').date()
-    print(end_date)
     availability_room_type = []
     for room in hotel.rooms:
         availability = RoomAvailability.query.filter_by(room_id=room.id).all()
@@ -80,6 +78,40 @@ def show_hotel(hotel_id):
 
     print(availability_room_type)
     return render_template('hotel.html', hotel=hotel, menu=menu, rooms=availability_room_type)
+
+
+@login_required
+@app.route('/booking/<int:hotel_id>/<int:room_id>', methods=['GET', 'POST'])
+def book_hotel(hotel_id, room_id):
+    start_date = datetime.strptime(session.get(
+        'start_hotel_date'), '%Y-%m-%d').date()
+    end_date = datetime.strptime(session.get(
+        'end_hotel_date'), '%Y-%m-%d').date()
+    hotel = Hotel.query.get_or_404(hotel_id)
+    room = Room.query.get_or_404(room_id)
+    total_price = room.get_total_price(start_date, end_date)
+    form = BookingHotelForm()
+    if form.validate_on_submit():
+
+        print(total_price)
+        booking = Booking(
+            user_id=current_user.id,
+            hotel_id=hotel_id,
+            room_id=room_id,
+            check_in_date=start_date,
+            check_out_date=end_date,
+            total_price=total_price,
+            status_id=1,
+            name=form.name.data,
+            phone_number=form.phone_number.data,
+            passport_number=form.passport_number.data,
+            passport_series=form.passport_series.data
+        )
+        db.session.add(booking)
+        db.session.commit()
+    # db.session.add(booking)
+    # db.session.commit()
+    return render_template('booking_hotel.html', hotel=hotel, form=form, menu=menu)
 
 
 @app.route('/air_tickets')
