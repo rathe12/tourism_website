@@ -1,6 +1,7 @@
 from app import db, login_manager
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
+from sqlalchemy import and_
 
 
 @login_manager.user_loader
@@ -96,6 +97,7 @@ class RoomAvailability(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     room_id = db.Column(db.Integer, db.ForeignKey(
         'room.id'), nullable=False, index=True)
+    room_number = db.Column(db.Integer, nullable=False)
     # Дата заезда может быть не указана
     check_in_date = db.Column(db.Date, nullable=True)
     # Дата выезда может быть не указана
@@ -104,8 +106,7 @@ class RoomAvailability(db.Model):
     room = db.relationship('Room', backref='availabilities')
 
     def __repr__(self):
-        return f"RoomAvailability('{self.room.type}', '{self.check_in_date}', '{self.check_out_date}')"
-
+        return f"RoomAvailability('{self.room.type}','{self.room_number}', '{self.check_in_date}', '{self.check_out_date}')"
 
 # Модель для таблицы "RoomImages"
 
@@ -139,6 +140,7 @@ class Booking(db.Model):
     user_id = db.Column(db.Integer, nullable=False)
     hotel_id = db.Column(db.Integer, nullable=False)
     room_id = db.Column(db.Integer, nullable=False)
+    room_number = db.Column(db.Integer, nullable=False)
     check_in_date = db.Column(db.Date)
     check_out_date = db.Column(db.Date)
     total_price = db.Column(db.Float)

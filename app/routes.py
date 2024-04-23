@@ -3,7 +3,7 @@ from flask import render_template, flash, redirect, url_for, request, session
 from app.forms import RegistrationForm, LoginForm, ResidenceForm, BookingHotelForm
 from app.models import User, Hotel, City, Room, RoomAvailability, Booking, BookingStatus
 from flask_login import login_user, current_user, login_required
-from datetime import datetime
+from datetime import datetime, date
 
 menu = [{"name": "Акции", "url": "/"},
         {"name": "Туры", "url": "/tours"},
@@ -64,19 +64,60 @@ def show_hotel(hotel_id):
     end_date = datetime.strptime(session.get(
         'end_hotel_date'), '%Y-%m-%d').date()
     availability_room_type = []
+    availability_room_info = []
+    room_numbers = []
+    all_room_numbers = []
+
     for room in hotel.rooms:
         availability = RoomAvailability.query.filter_by(room_id=room.id).all()
         for room_info in availability:
-            if room_info.check_in_date == None and room_info.check_out_date == None:
-                if room_info.room not in availability_room_type:
-                    availability_room_type.append(room_info.room)
-            else:
-                if start_date > room_info.check_out_date or end_date < room_info.check_in_date:
-                    print(room_info)
-                    if room_info.room not in availability_room_type:
-                        availability_room_type.append(room_info.room)
+            if room_info.room_number not in room_numbers:
+                all_room_numbers.append(room_info.room_number)
+                if room_info.check_out_date > datetime.today().date():
+                    room_numbers.append(room_info.room_number)
 
-    print(availability_room_type)
+    multi_dict = {key: [] for key in room_numbers}
+
+    for numbers in room_numbers:
+        number_all_time = RoomAvailability.query.filter_by(
+            room_number=numbers).all()
+        for rm_number in number_all_time:
+            if rm_number.check_out_date > datetime.today().date():
+                print(rm_number)
+                multi_dict[rm_number.room_number].append(
+                    [rm_number.check_in_date, rm_number.check_out_date])
+
+    def check_intersection(start_date, end_date, date_dict):
+        # Преобразование строковых дат в объекты datetime.date
+        intersecting_keys = []
+        for key in date_dict:
+            for date_range in date_dict[key]:
+                if (start_date <= date_range[1]) and (end_date >= date_range[0]):
+                    intersecting_keys.append(key)
+                    break  # Выход из внутреннего цикла после первого совпадения
+        return intersecting_keys
+
+    intersecting_keys = check_intersection(start_date, end_date, multi_dict)
+
+    if intersecting_keys:
+        print(f"Пересечение с ключами {intersecting_keys} обнаружено!")
+    else:
+        print("Пересечение отсутствует.")
+
+    for all_rm_nmbr in set(all_room_numbers):
+        if all_rm_nmbr not in intersecting_keys:
+            info = RoomAvailability.query.filter_by(
+                room_number=all_rm_nmbr).first()
+            availability_room_info.append(
+                {'room_id': info.room_id, 'room_number': info.room_number})
+
+            availability_room_type.append(info.room)
+
+    session['availability_room_info'] = availability_room_info
+    print(session.get('availability_room_info'))
+
+    print(multi_dict)
+
     return render_template('hotel.html', hotel=hotel, menu=menu, rooms=availability_room_type)
 
 
@@ -90,14 +131,26 @@ def book_hotel(hotel_id, room_id):
     hotel = Hotel.query.get_or_404(hotel_id)
     room = Room.query.get_or_404(room_id)
     total_price = room.get_total_price(start_date, end_date)
+    rooms = session.get('availability_room_info')
+    room_dict = {}
+    for room in rooms:
+        room_dict[room['room_id']] = room['room_number']
+    room_number = room_dict.get(room_id)
     form = BookingHotelForm()
     if form.validate_on_submit():
-
+        new_availability = RoomAvailability(
+            room_id=room_id,
+            room_number=room_number,
+            check_in_date=start_date,
+            check_out_date=end_date,
+        )
+        db.session.add(new_availability)
         print(total_price)
         booking = Booking(
             user_id=current_user.id,
             hotel_id=hotel_id,
             room_id=room_id,
+            room_number=room_number,
             check_in_date=start_date,
             check_out_date=end_date,
             total_price=total_price,
@@ -109,8 +162,7 @@ def book_hotel(hotel_id, room_id):
         )
         db.session.add(booking)
         db.session.commit()
-    # db.session.add(booking)
-    # db.session.commit()
+        return redirect(url_for('profile.myorders'))
     return render_template('booking_hotel.html', hotel=hotel, form=form, menu=menu)
 
 
