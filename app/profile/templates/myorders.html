@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 {% block content %}
 {{ super() }}
-<style>
+<!-- <style>
     body{
         overflow: hidden;
     }
-</style>
+</style> -->
     <div class="delimiter"><h2>Личный кабинет</h2></div>
     <div class="container">
         <div class="sidebar">
@@ -17,7 +17,34 @@
             </ul>
         </div>
         <div class="main-content">
-    
+            {% if orders_list == [] %}
+                <h1>У вас нет заказов</h1>
+            {% else %}
+                {% for order in orders_list  %}
+                <div class="flexb">
+                    <div class="order">
+                        <a href="{{ url_for('show_hotel', hotel_id=order[1].id) }}">{{ order[1].name }}</a>
+                        <div class="order_description">
+                            <img src="{{ order[1].image_url }}" alt="{{ order[1].name }}">
+                            <p>{{order[1].description}}</p>
+                        </div>
+                            <div class="order_price">
+                                <h2>Цена:</h2> 
+                                <div class="order_price_price">
+                                    <h3>{{ order[0].total_price }}</h3> <p>₽</p>
+                                </div>
+                            </div>
+                    </div>
+                    <div class="order_info">
+                        <div class="order_status"></div>
+                        <h4>Статус:</h4> 
+                        <h4>{{ order[0].status.name }}</h4>
+                        <h3>Тип номера:</h3>
+                        <h3></h3>
+                    </div>
+                </div>
+                {% endfor %}
+            {% endif %}
         </div>
     </div>
 {% endblock content %}

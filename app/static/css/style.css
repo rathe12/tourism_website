@@ -187,6 +187,7 @@ img.logo {
     height: 26vh;
     width: 18vw;
     padding: 1%;
+    border-radius: 10px;
 }
 
 .hotel_description a{
@@ -400,4 +401,104 @@ h1 {
 .booked{
     padding-top: 1vw;
     font-weight: bold;
+}
+
+.order{
+    /* background-color: white;
+    margin-left: 10vw;
+    margin-right: 10vw;
+    margin-bottom: 1vh;
+    border-radius: 10px;
+    padding-top: 1vw;
+    width: auto;
+    height: auto; */
+}
+.order_description{
+}
+
+.order_description img{
+    height: 26vh;
+    width: 18vw;
+    padding: 1%;
+    display: block;
+    padding-left: 2vw;
+    border-radius: 10px;
+}
+
+.order a{
+    color: #000000;
+    text-decoration: none; 
+    font-size: 200%;
+    padding-left: 2vw;
+    padding-top: 2vh;
+}
+
+.order_description p{
+    font-size: 150%;
+    padding-left: 2vw;
+    margin-top: -0.1vh;
+}
+
+.order_price{
+    /* background-color: #3a98d280;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px; */
+    display: flex;
+}
+
+.order_price_price{
+}
+
+.order_price h2{
+    padding-left: 2vw;
+    font-size: 120%;
+    color: #4a4a4a;
+    margin-top: -0.1vh;
+}
+
+.order_price h4{
+    font-size: 100%;
+    padding-top: 0;
+    margin-top: -3vh;
+    padding-left: 3vw;
+    color: #4a4a4a;
+    padding-bottom: 3vh;
+}
+
+.order_price_price h3{
+    color: #ec9f05;
+    font-size: 170%;
+    padding-top: 0;
+    margin-top: -0.5vh;
+    padding-bottom: 0;
+    margin-bottom: 0;
+    padding-left: 1vw;
+}
+
+.order_price_price p{
+    color: #ec9f05;
+    font-size: 150%;
+    margin-top: -3vh;
+    padding-left: 5.3vw;
+}
+.flexb{
+    background-color: white;
+    margin-left: 10vw;
+    margin-right: 10vw;
+    margin-bottom: 1vh;
+    border-radius: 10px;
+    padding-top: 1vw;
+    width: auto;
+    height: auto;
+    display: flex;
+}
+
+.order_info{
+    flex: 1;
+    background-color: #3a98d280;
+    margin-left: 5vw;
+    margin-top: -2.1vh;
+    border-radius: 10px;
 }

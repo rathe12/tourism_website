@@ -3,7 +3,7 @@ from app.routes import menu
 from . import profile_bp
 from flask_login import logout_user, login_required, current_user
 from app.forms import ChangePassword
-from app.models import User
+from app.models import User, Booking, Hotel, Room
 from werkzeug.security import generate_password_hash
 from app import db
 
@@ -17,7 +17,17 @@ def myaccount(username):
 @profile_bp.route('/myorders')
 @login_required
 def myorders():
-    return render_template('myorders.html', menu=menu, title='Заказы')
+    orders = Booking.query.filter_by(user_id=current_user.id).all()
+    print(orders)
+    orders_list = []
+    if not orders:
+        orders = 'У вас нет заказов'
+    else:
+        for order in orders:
+            hotel = Hotel.query.filter_by(id=order.hotel_id).first()
+            room = Room.query.filter_by(id=order.room_id).first()
+            orders_list.append([order, hotel, room])
+    return render_template('myorders.html', orders_list=orders_list, menu=menu, title='Заказы')
 
 
 @profile_bp.route('/settings', methods=['GET', 'POST'])
