@@ -31,16 +31,25 @@
                             <div class="order_price">
                                 <h2>Цена:</h2> 
                                 <div class="order_price_price">
-                                    <h3>{{ order[0].total_price }}</h3> <p>₽</p>
+                                    <h3>{{ order[0].total_price }}</h3> <p class="rubl">₽</p>
                                 </div>
                             </div>
                     </div>
                     <div class="order_info">
                         <div class="order_status"></div>
-                        <h4>Статус:</h4> 
-                        <h4>{{ order[0].status.name }}</h4>
-                        <h3>Тип номера:</h3>
-                        <h3></h3>
+                        <h4>Статус: {{ order[0].status.name }}</h4> 
+                        <h3>Номер: {{ order[2].type  }}</h3>
+                        {% for image in order[2].images %}
+                            <a class="images_order" href="{{ image.image_url }}" target="_blank">
+                                <img class="image_order" src="{{ image.image_url }}" alt="Room Photo">
+                            </a>
+                        {% endfor %}
+                        <h3>Даты: {{ order[0].check_in_date }} - {{ order[0].check_out_date }}</h3>
+                        {% if order[0].status.name == 'Забронирован' %}
+                         <a href="#" class="myButton_order">Оплатить</a>
+                        {% else %}
+                            
+                        {% endif %}
                     </div>
                 </div>
                 {% endfor %}

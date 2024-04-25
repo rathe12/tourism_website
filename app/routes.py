@@ -9,7 +9,7 @@ menu = [{"name": "Акции", "url": "/"},
         {"name": "Туры", "url": "/tours"},
         {"name": "Проживание", "url": "/accommodation"},
         {"name": "Авиабилеты", "url": "/air_tickets"},
-        {"name": "Профиль", "url": "/profile/myaccount"}]
+        {"name": "Профиль", "url": "/profile"}]
 
 
 @app.route('/')
@@ -121,8 +121,8 @@ def show_hotel(hotel_id):
     return render_template('hotel.html', hotel=hotel, menu=menu, rooms=availability_room_type)
 
 
-@login_required
 @app.route('/booking/<int:hotel_id>/<int:room_id>', methods=['GET', 'POST'])
+@login_required
 def book_hotel(hotel_id, room_id):
     start_date = datetime.strptime(session.get(
         'start_hotel_date'), '%Y-%m-%d').date()
@@ -199,3 +199,8 @@ def login():
         login_user(user, remember=form.remember.data)
         return redirect(url_for('profile.myaccount', username=current_user.username))
     return render_template('login.html', title='Войти', form=form, menu=menu)
+
+
+@app.route('/profile/', methods=['GET', 'POST'])
+def profile():
+    return redirect(url_for('login'))
