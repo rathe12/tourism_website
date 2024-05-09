@@ -537,3 +537,105 @@ h1 {
     width: 10vw;
     height: auto;
 }
+
+.reset_passeord_button{
+    background-color: #ec9f05; /* Зеленый цвет фона */
+    border: none;
+    color: white;
+    padding: 1vh 3vw; /* Отступы внутри кнопки */
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 10px; /* Закругленные углы */
+    margin-top: 2vh;
+    margin-left: 2.5vw;
+}
+
+.reset_passeord_button:hover {
+    background-color: #ec9f05; /* Темно-зеленый цвет фона */
+}
+
+.reset_passeord{
+    margin-left: 2.5vw;
+    font-size: 2vh;
+    padding-top: 10;
+}
+
+.reset_passeord_window{
+   margin-left: 1vw; 
+   border-radius: 5px;
+   height: 2.3vh; 
+   width: 15vw;
+   border-color: #666;
+}
+
+.destination_label{
+    font-size: 2vh;
+    padding-right: 0;
+    margin-right: 0;
+}
+
+.destination_window{
+    padding-left: 0;
+    margin-left: -3vw;
+    border-radius: 5px;
+    height: 2.3vh; 
+    width: 15vw;
+    border-color: #666;
+    text-align: center;
+    font-size: 2vh;
+}
+
+.start_date_label{
+    font-size: 2vh;
+    padding-right: 0;
+    margin-right: 0;
+}
+
+.start_date_window{
+    padding-left: 0;
+    margin-left: -3vw;
+    border-radius: 5px;
+    height: 2.3vh; 
+    width: 15vw;
+    border-color: #666;
+    text-align: center;
+    font-size: 2vh;
+}
+
+.end_date_label{
+    font-size: 2vh;
+    padding-right: 0;
+    margin-right: 0;
+}
+
+.end_date_window{
+    padding-left: 0;
+    margin-left: -3vw;
+    border-radius: 5px;
+    height: 2.3vh; 
+    width: 15vw;
+    border-color: #666;
+    text-align: center;
+    font-size: 2vh;
+}
+
+.accommodation_button{
+    background-color: #ec9f05; /* Зеленый цвет фона */
+    border: none;
+    color: white;
+    padding: 1.5vh 4vw; /* Отступы внутри кнопки */
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    margin-top: -1.2vh;
+    cursor: pointer;
+    border-radius: 10px; /* Закругленные углы */    
+    margin-left: 2.5vw;
+}
+
+.accommodation_button:hover {
+    background-color: #ec9f05; /* Темно-зеленый цвет фона */
+}
+
