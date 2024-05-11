@@ -5,9 +5,9 @@
     <form method="POST">
         {{ form.hidden_tag() }}
         <div class="form-row">
-            {{ form.destination.label }}{{ form.destination(class="form-control", id="destination") }}
-            {{ form.start_date.label }}{{ form.start_date(class="form-control", id="start_datepicker") }}
-            {{ form.end_date.label }}{{ form.end_date(class="form-control", id="end_datepicker") }}
+            {{ form.destination.label(class = 'destination_label') }}{{ form.destination(class="destination_window", id="destination") }}
+            {{ form.start_date.label(class = 'start_date_label') }}{{ form.start_date(class="start_date_window", id="start_datepicker") }}
+            {{ form.end_date.label(class = 'end_date_label') }}{{ form.end_date(class="end_date_window", id="end_datepicker") }}
             {{ form.submit(class="accommodation_button") }}
         </div>
     </form>

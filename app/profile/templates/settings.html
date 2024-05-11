@@ -20,7 +20,7 @@
             <form action="" method="post" class="form-contact">
                 <p>{{ form.hidden_tag() }}
                     {% for field in form if field.name not in ['csrf_token', 'remember', 'submit'] -%}
-                     <p>{{ field.label() }} 
+                     <p>{{ field.label(class = 'reset_passeord') }}
                      {% if field.errors %}
                                {{ field(class="invalid") }}
                      <span class="invalid-feedback">
@@ -29,10 +29,10 @@
                                {% endfor %}
                      </span>
                      {% else %}
-                               {{ field() }}
+                               {{ field( class='reset_passeord_window') }}
                      {% endif %}
             {% endfor %}
-                                <p>{{ form.submit() }}</p>
+            <br>{{ form.submit(class="reset_passeord_button") }}
                 {% for cat, msg in get_flashed_messages(True) %}
                 <div class="flash {{cat}}">{{msg}}</div>
                 {% endfor %} 
