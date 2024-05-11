@@ -1,5 +1,39 @@
 {% extends 'base.html' %}
 {% block content %}
 {{ super() }}
-<h1>Авиабилеты</h1>
+<div class="delimiter_accommodation">
+    <div class="container">
+        <form method="post" action="/" class="form-row">
+            {{ form.csrf_token }}
+            <div>
+                {{ form.departure.label }}<br>
+                {{ form.departure }}
+            </div>
+            <div>
+                {{ form.destination.label }}<br>
+                {{ form.destination }}
+            </div>
+            <div>
+                {{ form.date.label }}<br>
+                <input type="text" class="form-control datepicker" name="{{ form.date.name }}">
+            </div>
+            <div>
+                {{ form.flight_class.label }}<br>
+                {{ form.flight_class }}
+            </div>
+            <div>
+                {{ form.submit }}
+            </div>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        flatpickr('.datepicker', {
+            dateFormat: 'Y-m-d',
+            enableTime: false,
+        });
+    </script>
+</div>
 {% endblock %}

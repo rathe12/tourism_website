@@ -537,3 +537,18 @@ h1 {
     width: 10vw;
     height: auto;
 }
+
+.form-row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.form-row > * {
+    flex: 1;
+    margin-right: 10px; /* Пространство между элементами формы */
+}
+
+/* Опциональный стиль для поля выбора даты */
+.datepicker {
+    width: 100%; /* Растягиваем поле выбора даты на всю ширину */
+}

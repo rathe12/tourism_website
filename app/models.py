@@ -156,3 +156,68 @@ class Booking(db.Model):
 
     def __repr__(self):
         return f"Booking('{self.id}', '{self.user_id}', '{self.hotel_id}')"
+
+
+# Таблица для самолетов
+class Aircraft(db.Model):
+    # Уникальный идентификатор самолета
+    id = db.Column(db.Integer, primary_key=True)
+    aircraft_number = db.Column(
+        db.String(20), unique=True, nullable=False)  # Номер самолета
+    model = db.Column(db.String(100), nullable=False)  # Модель самолета
+
+# Таблица для классов обслуживания
+
+
+class Class(db.Model):
+    # Уникальный идентификатор класса
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), nullable=False)  # Название класса
+
+# Таблица для мест в самолетах
+
+
+class Seat(db.Model):
+    # Уникальный идентификатор места
+    id = db.Column(db.Integer, primary_key=True)
+    aircraft_id = db.Column(db.Integer, db.ForeignKey(
+        'aircraft.id'), nullable=False)  # Идентификатор самолета
+    class_id = db.Column(db.Integer, db.ForeignKey(
+        'class.id'), nullable=False)  # Идентификатор класса
+    seat_number = db.Column(db.String(10), nullable=False)  # Номер места
+
+# Модель для таблицы рейсов
+
+
+class Flight(db.Model):
+    # Уникальный идентификатор рейса
+    id = db.Column(db.Integer, primary_key=True)
+    flight_number = db.Column(
+        db.String(20), unique=True, nullable=False)  # Номер рейса
+    origin_city_id = db.Column(db.Integer, db.ForeignKey(
+        'city.id'), nullable=False)  # Идентификатор города отправления
+    destination_city_id = db.Column(db.Integer, db.ForeignKey(
+        'city.id'), nullable=False)  # Идентификатор города назначения
+    departure_time = db.Column(
+        db.DateTime, nullable=False)  # Время отправления
+    arrival_time = db.Column(db.DateTime, nullable=False)  # Время прибытия
+    aircraft_id = db.Column(db.Integer, db.ForeignKey(
+        'aircraft.id'), nullable=False)  # Идентификатор самолета
+    # Связь с таблицей бронирований
+    bookings = db.relationship('AirBooking', backref='flight', lazy=True)
+
+# Модель для таблицы бронирования
+
+
+class AirBooking(db.Model):
+    # Уникальный идентификатор бронирования
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey(
+        'user.id'), nullable=False)  # Идентификатор пользователя
+    flight_id = db.Column(db.Integer, db.ForeignKey(
+        'flight.id'), nullable=False)  # Идентификатор рейса
+    seat_id = db.Column(db.Integer, db.ForeignKey(
+        'seat.id'), nullable=False)  # Идентификатор места
+    class_id = db.Column(db.Integer, db.ForeignKey(
+        'class.id'), nullable=False)  # Идентификатор класса
+    total_price = db.Column(db.Float, nullable=False)  # Обща

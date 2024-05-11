@@ -1,0 +1,4 @@
+from app.models import User,City,Hotel,HotelPhoto,Room,RoomAvailability,RoomImage,BookingStatus,Booking,Aircraft,Class,Seat,Flight,AirBooking
+from app import db, app
+with app.app_context():
+	db.create_all()
