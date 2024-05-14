@@ -2,7 +2,7 @@ from . import app, db
 from flask import render_template, flash, redirect, url_for, request, session
 from app.forms import RegistrationForm, LoginForm, ResidenceForm, BookingHotelForm, AirplaneTicketsForm
 from app.models import User, Hotel, City, Room, RoomAvailability, Booking, BookingStatus
-from config import dbx
+# from config import dbx
 from flask_login import login_user, current_user, login_required
 from datetime import datetime, date
 
