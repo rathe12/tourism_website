@@ -158,66 +158,102 @@ class Booking(db.Model):
         return f"Booking('{self.id}', '{self.user_id}', '{self.hotel_id}')"
 
 
-# Таблица для самолетов
+# Модель для таблицы "AirCity"
+class AirCity(db.Model):
+    __bind_key__ = 'aircraft_db'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False, index=True, unique=True)
+
+    def __repr__(self):
+        return f"AirCity('{self.name}')"
+
+# Модель для самолетов
+
+
 class Aircraft(db.Model):
-    # Уникальный идентификатор самолета
+    __bind_key__ = 'aircraft_db'
     id = db.Column(db.Integer, primary_key=True)
-    aircraft_number = db.Column(
-        db.String(20), unique=True, nullable=False)  # Номер самолета
-    model = db.Column(db.String(100), nullable=False)  # Модель самолета
+    aircraft_number = db.Column(db.String(20), unique=True, nullable=False)
+    model = db.Column(db.String(100), nullable=False)
 
-# Таблица для классов обслуживания
+    def __repr__(self):
+        return f"Aircraft('{self.id}', '{self.aircraft_number}', '{self.model}')"
+# Модель для классов обслуживания
 
 
-class Class(db.Model):
-    # Уникальный идентификатор класса
+class FlightClass(db.Model):
+    __bind_key__ = 'aircraft_db'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50), nullable=False)  # Название класса
+    name = db.Column(db.String(50), nullable=False)
 
-# Таблица для мест в самолетах
+    def __repr__(self):
+        return f"Aircraft('{self.id}', '{self.name}')"
+# Модель для мест в самолетах
 
 
 class Seat(db.Model):
-    # Уникальный идентификатор места
+    __bind_key__ = 'aircraft_db'
     id = db.Column(db.Integer, primary_key=True)
+
     aircraft_id = db.Column(db.Integer, db.ForeignKey(
-        'aircraft.id'), nullable=False)  # Идентификатор самолета
-    class_id = db.Column(db.Integer, db.ForeignKey(
-        'class.id'), nullable=False)  # Идентификатор класса
-    seat_number = db.Column(db.String(10), nullable=False)  # Номер места
+        'aircraft.id'), nullable=False)
+    seat_number = db.Column(db.String(10), nullable=False)
+
+    flight_class_id = db.Column(db.Integer, db.ForeignKey(
+        'flight_class.id'), nullable=False)
+
+    aircraft = db.relationship('Aircraft')
+    flight_class = db.relationship('FlightClass')
+
+    def __repr__(self):
+        return f"Seat('{self.id}', '{self.aircraft_id}', '{self.flight_class_id }', '{self.seat_number}')"
 
 # Модель для таблицы рейсов
 
 
 class Flight(db.Model):
-    # Уникальный идентификатор рейса
+    __bind_key__ = 'aircraft_db'
     id = db.Column(db.Integer, primary_key=True)
-    flight_number = db.Column(
-        db.String(20), unique=True, nullable=False)  # Номер рейса
-    origin_city_id = db.Column(db.Integer, db.ForeignKey(
-        'city.id'), nullable=False)  # Идентификатор города отправления
-    destination_city_id = db.Column(db.Integer, db.ForeignKey(
-        'city.id'), nullable=False)  # Идентификатор города назначения
-    departure_time = db.Column(
-        db.DateTime, nullable=False)  # Время отправления
-    arrival_time = db.Column(db.DateTime, nullable=False)  # Время прибытия
+    flight_number = db.Column(db.String(20), unique=True, nullable=False)
+    origin_city_id = db.Column(
+        db.Integer, db.ForeignKey('air_city.id'), nullable=False)
+    destination_city_id = db.Column(
+        db.Integer, db.ForeignKey('air_city.id'), nullable=False)
+    departure_time = db.Column(db.DateTime, nullable=False)
+    arrival_time = db.Column(db.DateTime, nullable=False)
     aircraft_id = db.Column(db.Integer, db.ForeignKey(
-        'aircraft.id'), nullable=False)  # Идентификатор самолета
-    # Связь с таблицей бронирований
-    bookings = db.relationship('AirBooking', backref='flight', lazy=True)
+        'aircraft.id'), nullable=False)
+
+    origin_city = db.relationship('AirCity', foreign_keys=[origin_city_id])
+    destination_city = db.relationship(
+        'AirCity', foreign_keys=[destination_city_id])
+
+    aircraft = db.relationship('Aircraft')
+
+    def __repr__(self):
+        return f"Flight('{self.id}', '{self.flight_number}', '{self.origin_city_id}', '{self.destination_city_id}', '{self.departure_time}', '{self.arrival_time}', '{self.aircraft_id}')"
 
 # Модель для таблицы бронирования
 
 
+# Модель для таблицы бронирования
 class AirBooking(db.Model):
-    # Уникальный идентификатор бронирования
+    __bind_key__ = 'aircraft_db'
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey(
-        'user.id'), nullable=False)  # Идентификатор пользователя
+    user_id = db.Column(db.Integer, nullable=False)
     flight_id = db.Column(db.Integer, db.ForeignKey(
-        'flight.id'), nullable=False)  # Идентификатор рейса
-    seat_id = db.Column(db.Integer, db.ForeignKey(
-        'seat.id'), nullable=False)  # Идентификатор места
+        'flight.id'), nullable=False)
+    # Заменяем 'flight.id' на 'Flight.id'
+    seat_id = db.Column(db.Integer, db.ForeignKey('seat.id'), nullable=False)
     class_id = db.Column(db.Integer, db.ForeignKey(
-        'class.id'), nullable=False)  # Идентификатор класса
-    total_price = db.Column(db.Float, nullable=False)  # Обща
+        'flight_class.id'), nullable=False)
+    total_price = db.Column(db.Float, nullable=False)
+
+    name = db.Column(db.String(100))
+    phone_number = db.Column(db.String(50))
+    passport_number = db.Column(db.String(50))
+    passport_series = db.Column(db.String(50))
+
+    flight = db.relationship('Flight')
+    seat = db.relationship('Seat')
+    flight_class = db.relationship('FlightClass')

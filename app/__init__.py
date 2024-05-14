@@ -26,7 +26,7 @@ def create_app():
     from app import routes, models
     app.register_blueprint(create_blueprint(), url_prefix='/profile')
 
-    from .models import User, City, Hotel, HotelPhoto, Room, RoomAvailability, RoomImage, Booking, BookingStatus
+    from .models import User, City, Hotel, HotelPhoto, Room, RoomAvailability, RoomImage, Booking, BookingStatus, AirCity, Aircraft, FlightClass, Seat, Flight, AirBooking
 
     class HotelView(ModelView):
         form_ajax_refs = {
@@ -46,5 +46,11 @@ def create_app():
     admin.add_view(ModelView(RoomImage, db.session))
     admin.add_view(ModelView(Booking, db.session))
     admin.add_view(ModelView(BookingStatus, db.session))
+    admin.add_view(ModelView(AirCity, db.session))
+    admin.add_view(ModelView(Aircraft, db.session))
+    admin.add_view(ModelView(FlightClass, db.session))
+    admin.add_view(ModelView(Seat, db.session))
+    admin.add_view(ModelView(Flight, db.session))
+    admin.add_view(ModelView(AirBooking, db.session))
 
     return app

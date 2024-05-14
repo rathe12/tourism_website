@@ -1,5 +1,6 @@
 import os
 from dotenv import load_dotenv
+# import dropbox
 
 # Загрузка переменных окружения из файла .env
 load_dotenv()
@@ -8,6 +9,8 @@ load_dotenv()
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 # Конфигурация приложения
+
+# dbx = dropbox.Dropbox(os.getenv('ACCESS_TOKEN'))
 
 
 class Config:
@@ -18,7 +21,8 @@ class Config:
     SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL')
 
     SQLALCHEMY_BINDS = {
-        'hotels_db': os.getenv('HOTELS_DATABASE_URL')
+        'hotels_db': os.getenv('HOTELS_DATABASE_URL'),
+        'aircraft_db': os.getenv('AIRCRAFT_DATABASE_URL')
         # Добавьте здесь другие базы данных по мере необходимости
     }
 
