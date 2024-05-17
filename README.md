@@ -11,7 +11,8 @@
 
 ## Технологии
 - Фронтенд: HTML, CSS, JavaScript.
-- Бэкенд: Python (Flask), SQLAlchemy (SQLite *временно).
+- Бэкенд: Python (Flask).
+- -Бд: Sqlite(SQLAlchemy).
 - Возможно использование дополнительных технологий для разработки и деплоя.
 
 ## Установка
