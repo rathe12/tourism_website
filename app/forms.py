@@ -42,13 +42,13 @@ class ResidenceForm(FlaskForm):
 
 
 class BookingHotelForm(FlaskForm):
-    name = StringField('Имя', validators=[DataRequired()])
+    name = StringField('Фио', validators=[DataRequired()])
     phone_number = StringField('Номер телефона', validators=[DataRequired()])
     passport_number = StringField(
         'Номер паспорта', validators=[DataRequired()])
     passport_series = StringField(
         'Серия паспорта', validators=[DataRequired()])
-    submit = SubmitField('Отправить')
+    submit = SubmitField('Забронировать')
 
 
 class AirplaneTicketsForm(FlaskForm):

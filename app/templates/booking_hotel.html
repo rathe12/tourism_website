@@ -1,24 +1,62 @@
 {% extends 'base.html' %}
 {% block content %}
 {{ super() }}
-<h1>Бронирование номера в отеле {{hotel.name}}</h1>
-<form action="" method="post">
-    {{ form.csrf_token }}
-    <p>
-        <label for="name">{{ form.name.label }}</label>
-        {{ form.name }}
-    </p>
-    <p>
-        <label for="phone_number">{{ form.phone_number.label }}</label>
-        {{ form.phone_number }}
-    </p>
-    <p>
-        <label for="passport_number">{{ form.passport_number.label }}</label>
-        {{ form.passport_number }}
-    </p>
-    <p>
-        <label for="passport_series">{{ form.passport_series.label }}</label>
-        {{ form.passport_series }}
-    </p>
-    <p>{{ form.submit() }}</p>
+<div class="delimiter_accommodation_booking">
+<h1 class="top-label">Бронирование номера в отеле {{hotel.name}}</h1>
+</div>
+<div class="container_booking">
+    <div class="form-container">
+        <form method="POST" class="booking_form">
+            {{ form.csrf_token }}
+            <p>
+                <label for="name" class="name_label">{{ form.name.label }}</label>
+                {{ form.name(class="name_input", id="name") }}
+            </p>
+            <p>
+                <label for="phone_number" class="phone_number_label">{{ form.phone_number.label }}</label>
+                {{ form.phone_number(class="phone_number_input", id="phone_number") }}
+            </p>
+            <p>
+                <div class="passport_book">
+                    <label for="passport_series" class="passport_series_label">{{ form.passport_series.label }}</label>
+                    <label for="passport_number" class="passport_number_label">{{ form.passport_number.label }}</label>
+                </div>
+                <div class="passport_book">
+                    {{ form.passport_number(class="passport_number_input", id="passport_number") }}
+                    {{ form.passport_series(class="passport_series_input", id="passport_series") }}
+                </div>
+            </p>
+            <p>
+                <div class="passport_book">
+                    <label for="check_in_date" class="check_in_label">Дата заезда:</label>
+                    <label for="check_out_date" class="check_out_label">Дата выезда:</label>
+                </div>
+                <div class="passport_book">
+                    <input type="text" name="check_in_date" id="check_in_date" class="date_input" value="2024-05-25" readonly>
+                    <input type="text" name="check_out_date" id="check_out_date" class="date_input_out" value="2024-05-25" readonly>
+                </div>
+            </p>
+            <p>{{ form.submit(class="submit_button") }}</p>
+        </form>
+    </div>
+    <div class="description-container">
+        <!-- Здесь вы можете добавить описание отеля -->
+        <h2 class="description_title">{{hotel.name}}</h2>
+        <div class="room-booking">
+            <p class="room-name-booking">Тип номера - {{ room.type }}</p>
+            <div class="room-images-booking">
+                {% for image in room.images %}
+                    <a href="{{ image.image_url }}" target="_blank">
+                        <img src="{{ image.image_url }}" alt="Room Photo" class="room-booking-foto">
+                    </a>
+                {% endfor %}
+            </div>
+            <p class="booking-description">{{ room.description }}</p>
+    </div>
+    <div class="passport_book">
+        <p class="price-booking">Итоговая стоимость:</p>
+        <p class="itog-price-booking">{{ total_price }} ₽</p>
+    </div>
+</div>
+
 {% endblock %}

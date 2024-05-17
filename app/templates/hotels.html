@@ -5,15 +5,39 @@
 {% for hotel in hotels %}
     <div class="hotel">
         <div class="hotel_description">
-            <img src="{{ hotel.image_url }}" alt="{{ hotel.name }}">
-            <a href="{{ url_for('show_hotel', hotel_id=hotel.id) }}">{{ hotel.name }}</a>
-            <p>{{hotel.description}}</p>
+            <img src="{{ hotel.image_url }}" alt="{{ hotel.name }}" class="hotel_preview">
+            <div class="hotel_description_text">
+                <div class="name_rating">
+                    <a href="{{ url_for('show_hotel', hotel_id=hotel.id) }}" class="hotel_description_name">{{ hotel.name }}</a>
+                <div class="star_rating">{{ generate_star_rating(hotel.rating) | safe }}</div>
+                </div>
+                <br>
+                <a href="https://yandex.ru/maps/?text={{ hotel.address }}" class="hotel_description_address">{{ hotel.address }}</a>
+                {{ get_distance(destination,hotel.address) }}
+                <p class="hotel_description_des">{{hotel.description}}</p>
+                            <!-- Проверяем наличие Wi-Fi и отображаем иконку, если есть -->
+                {% if hotel.wifi %}
+                    <i class="fas fa-wifi icon"></i> Wi-Fi
+                {% endif %}
+                <!-- Проверяем наличие трансфера и отображаем иконку, если есть -->
+                {% if hotel.transfer %}
+                    <i class="fas fa-bus icon"></i> Transfer
+                {% endif %}
+                <!-- Проверяем наличие еды и отображаем иконку, если есть -->
+                {% if hotel.food %}
+                    <i class="fas fa-utensils icon"></i> Food
+                {% endif %}
+                <!-- Проверяем наличие спортивного зала и отображаем иконку, если есть -->
+                {% if hotel.gym %}
+                    <i class="fas fa-dumbbell icon"></i> Gym
+                {% endif %}
+            </div>
         </div>
             <div class="hotels_price">
                 {% if hotel.get_lowest_room_price() %}
                 <h2>Цена от:</h2> 
                 <div class="hotels_price_price">
-                    <h3>{{ hotel.get_lowest_room_price() }}</h3> <p>₽</p>
+                    <h3>{{ hotel.get_lowest_room_price() }}  ₽</h3>
                 </div>
                 <h4>(Цена за 1 ночь)</h4>
                 {% else %}

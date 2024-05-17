@@ -46,6 +46,11 @@ class Hotel(db.Model):
     image_url = db.Column(db.String(1000))
     description = db.Column(db.Text)
     rating = db.Column(db.Float)
+    address = db.Column(db.String(100), nullable=False)
+    wifi = db.Column(db.Boolean)
+    transfer = db.Column(db.Boolean)
+    food = db.Column(db.Boolean)
+    gym = db.Column(db.Boolean)
 
     city = db.relationship('City', backref='hotels')
 

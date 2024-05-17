@@ -5,6 +5,8 @@ from app.models import User, Hotel, City, Room, RoomAvailability, Booking, Booki
 # from config import dbx
 from flask_login import login_user, current_user, login_required
 from datetime import datetime, date
+from geopy.geocoders import Nominatim
+from geopy.distance import geodesic
 
 menu = [{"name": "Акции", "url": "/"},
         {"name": "Туры", "url": "/tours"},
@@ -49,12 +51,43 @@ def hotels():
     session['start_hotel_date'] = request.args.get('start_date')
     session['end_hotel_date'] = request.args.get('end_date')
 
-    # Здесь вы можете выполнить необходимые операции с этими данными, например, передать их в шаблон
+    def generate_star_rating(rating):
+        full_stars = int(rating)  # Целые звезды
+        half_star = rating - full_stars >= 0.5  # Половинка звезды, если остаток >= 0.5
+        html = ''
+
+        # Добавляем целые звезды
+        for _ in range(full_stars):
+            html += f'<img src="{url_for("static", filename="images/star.png")}" alt="star" class="star-icon">'
+
+        # Добавляем половинку звезды, если есть
+        if half_star:
+            html += f'<img src="{url_for("static", filename="images/half_star.png")}" alt="half-star" class="star-icon">'
+
+        # Возвращаем сгенерированный HTML-код
+        return html
+
+    def get_distance(city, address):
+        geolocator = Nominatim(user_agent="geo_distance_calculator")
+
+        # Получаем координаты адреса и центра города
+        address_location = geolocator.geocode(address)
+        city_location = geolocator.geocode(city)
+
+        if address_location is None or city_location is None:
+            return "Не удалось найти одно из местоположений. Проверьте правильность введенных данных."
+
+        # Вычисляем расстояние между двумя точками в километрах
+        distance = geodesic((address_location.latitude, address_location.longitude),
+                            (city_location.latitude, city_location.longitude)).kilometers
+
+        return f"{distance:.2f} км до центра"
+        # Здесь вы можете выполнить необходимые операции с этими данными, например, передать их в шаблон
     # Или выполнить запрос к базе данных для получения данных о гостиницах
     city = City.query.filter_by(name=destination).first()
     if city:
         hotels = Hotel.query.filter_by(city_id=city.id).all()
-    return render_template('hotels.html', form=form, hotels=hotels, destination=destination, start_date=start_date, end_date=end_date, menu=menu)
+    return render_template('hotels.html', form=form, hotels=hotels, destination=destination, start_date=start_date, end_date=end_date, generate_star_rating=generate_star_rating, get_distance=get_distance, menu=menu)
 
 
 @app.route('/hotel/<int:hotel_id>')
@@ -131,6 +164,7 @@ def book_hotel(hotel_id, room_id):
         'end_hotel_date'), '%Y-%m-%d').date()
     hotel = Hotel.query.get_or_404(hotel_id)
     room = Room.query.get_or_404(room_id)
+    room_info = Room.query.get(room_id)
     total_price = room.get_total_price(start_date, end_date)
     rooms = session.get('availability_room_info')
     room_dict = {}
@@ -164,7 +198,7 @@ def book_hotel(hotel_id, room_id):
         db.session.add(booking)
         db.session.commit()
         return redirect(url_for('profile.myorders'))
-    return render_template('booking_hotel.html', hotel=hotel, form=form, menu=menu)
+    return render_template('booking_hotel.html', hotel=hotel, room=room_info, total_price=total_price, form=form, menu=menu)
 
 
 @app.route('/air_tickets')

@@ -177,32 +177,65 @@ img.logo {
     margin-right: 15vw;
     margin-bottom: 1vh;
     border-radius: 10px;
-    height: 28vh;
+    height: 23vh;
 }
 .hotel_description{
     display: flex;
     width: 55vw;
 }
 
-.hotel_description img{
-    height: 26vh;
-    width: 18vw;
+.hotel_description_text{
+    padding-top: 2vh;
+}
+
+.hotel_preview{
+    height: 21vh;
+    width: 14vw;
     padding: 1%;
     border-radius: 10px;
 }
 
-.hotel_description a{
+.hotel_description_name{
     color: #000000;
     text-decoration: none; 
     font-size: 200%;
-    padding-left: 3vw;
-    padding-top: 2vh;
+    padding-left: 1.5vw;
+    padding-bottom: 0;
+    margin-bottom: 0;
 }
 
-.hotel_description p{
-    font-size: 150%;
-    padding-top: 13vh;
-    margin-left: -6vw;
+.star_rating{
+    padding-top: 0.8vh;
+    padding-left: 1vw;
+}
+.hotel_description_address{
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    padding-left: 1.6vw;
+    margin-right: 1vw;
+    padding-top: 0;
+    margin-top: 0;
+    text-decoration: none;
+    color: #00448e;
+}
+
+.hotel_description_des{ 
+    font-size: 90%;
+    padding-left: 1.6vw;
+    padding-top: 1vh;
+    max-width: 35vw;
+}
+
+.star-icon {
+    width: 1vw;
+    height: 1vw;
+}
+
+.name_rating{
+    display: inline-flex;
+}
+.icon{
+    padding-left: 1.6vw;
+    padding-top: 2vh;
 }
 
 .hotels_price{
@@ -220,50 +253,42 @@ img.logo {
 
 .hotels_price h2{
     padding-left: 2vw;
-    font-size: 100%;
+    font-size: 150%;
     color: #4a4a4a;
+    padding-top: 0.3vh;
+    margin-bottom: 0;
 }
 
 .hotels_price h4{
     font-size: 70%;
-    padding-top: 0;
-    margin-top: -3vh;
-    padding-left: 3vw;
     color: #4a4a4a;
-    padding-bottom: 3vh;
+    margin-top: 0;
+    padding-left: 3vw;
+
 }
 
 .hotels_price_price h3{
     color: #ec9f05;
-    font-size: 170%;
-    padding-left: 3vw;
-    padding-top: 0;
-    margin-top: 5%;
+    font-size: 200%;
     padding-bottom: 0;
     margin-bottom: 0;
+    margin-top: 2vh;
+    padding-left: 3vw;
 }
 
-.hotels_price_price p{
-    color: #ec9f05;
-    font-size: 150%;
-    padding-left: 1vw;
-    padding-top: 2vh;
-    margin-top: 0;
-}
 
 .myButton {
     background-color: #ec9f05; /* Зеленый цвет фона */
     border: none;
     color: white;
-    padding: 15px 32px; /* Отступы внутри кнопки */
+    padding: 1.6vh 2vw; /* Отступы внутри кнопки */
     text-align: center;
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
-    margin: 4px 2px;
+    margin: 2.5vh 1.4vw;
     cursor: pointer;
     border-radius: 10px; /* Закругленные углы */
-    margin-left:7% ;
     width: 55%;
 }
 
@@ -316,7 +341,7 @@ h1 {
 
 .hotel-photo {
     display: none; /* Сначала скрываем все фотографии */
-    height: 70vh;
+    height: 60vh;
 }
 
 .navigation {
@@ -324,6 +349,7 @@ h1 {
     top: 50%;
     transform: translateY(-50%);
     width: 100%;
+    height: 10vh;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -337,18 +363,20 @@ h1 {
 .prev {
     position: absolute;
     left: 1px; /* Расположение слева */
+    padding-left: 10vw;
 }
 
 .next {
     position: absolute;
-    right: 1px; /* Расположение справа */
+    right: 1px; 
+    padding-right: 10vw;
 }
 /* Галерея фотографий номеров */
 .room-images {
     margin-bottom: 5vh;
 }
 
-.room-images img {
+.nomer-foto{
     max-width: 20%;
     height: auto;
     margin-right: 1vw;
@@ -367,7 +395,7 @@ h1 {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.room h3 {
+.room-name {
     color: #333;
     font-size: 22px;
     margin-bottom: 5vh;
@@ -584,7 +612,9 @@ h1 {
    width: 15vw;
    border-color: #666;
 }
-
+#new_password{
+    margin-left: 1.3vw;
+}
 .destination_label{
     font-size: 2vh;
     padding-right: 5vw;
@@ -658,3 +688,192 @@ h1 {
     background-color: #ec9f05; /* Темно-зеленый цвет фона */
 }
 
+.delimiter_accommodation_booking{
+    background-color: #3A97D2;
+    height: 10vh;
+    padding-top: 0;
+    margin-top: -2vh;
+}
+
+.top-label{
+    padding-left: 2vw;
+    color: white;
+    padding-top: 3vh;
+}   
+.container_booking {
+    display: flex;
+    max-width: 1200px;
+    margin: 20px auto;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 3vw;
+}
+
+/* Стили для формы */
+.form-container {
+    width: 40%;
+    padding: 20px;
+    background-color: #f7f7f7;
+    border-right: 1px solid #ccc;
+    border-radius: 10px;    
+}
+
+.booking_form {
+    max-width: 100%;
+    margin: 0;
+}
+
+.booking_form .name_label,.check_in_label,.check_out_label,
+.booking_form .phone_number_label
+ {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    font-size: 1.1em;
+    color: #333;
+}
+.check_out_label{
+    padding-left: 6.2vw;
+}
+
+.booking_form .name_input,
+.booking_form .phone_number_input{
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+    background-color: #fff;
+    box-sizing: border-box;
+}
+
+.date_input{
+    width: 9vw;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+    background-color: #fff;
+    box-sizing: border-box;
+}
+.date_input_out{
+    width: 9vw;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+    background-color: #fff;
+    box-sizing: border-box;
+    margin-left: 2.5vw;
+
+}
+.passport_book{
+    display: flex;
+}
+.booking_form .passport_series_label,
+.booking_form .passport_number_label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    font-size: 1.1em;
+    color: #333;
+    width: 10vw; /* Устанавливаем ширину меток */
+}
+.passport_series_label{
+    padding-right: 0;
+    margin-right: 0;
+}
+.passport_name_label{
+    padding-left: 0;
+    margin-left: 0  ;
+}
+.booking_form .passport_series_input,
+.booking_form .passport_number_input {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+    background-color: #fff;
+    box-sizing: border-box;
+    vertical-align: top; /* Выравниваем поля по верхнему краю */
+}
+
+.passport_number_input{
+    width: 9vw;
+    margin-right: 1vw;
+}
+
+
+
+
+.booking_form .submit_button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007BFF;
+    color: white;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    height: 6vh;
+    margin-bottom: 0;
+}
+
+.booking_form .submit_button:hover {
+    background-color: #0056b3;
+}
+
+/* Стили для контейнера описания */
+.description-container {
+    width: 60%;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+}
+
+.description_title {
+    margin-top: 0;
+    font-size: 1.5em;
+}
+
+.room-booking{
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 1vh;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-left: 1vw;
+}
+.room-name-booking{
+    padding-left: 1vw;
+    font-weight: bold;
+    font-size:large;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+.room-booking-foto{
+    height: 17vh;
+}
+.room-images-booking{
+    padding-left: 1vw;
+}
+.booking-description{
+    padding-left: 1vw;
+}
+.price-booking{
+    font-weight: lighter;
+    font-size: xx-large;
+    padding-left: 1vw;
+    margin-bottom: 0.5vh;
+}
+.itog-price-booking{
+    font-weight: bold;
+    font-size: xx-large;
+    padding-left: 2vw;
+    margin-bottom: 0.5vh;
+}

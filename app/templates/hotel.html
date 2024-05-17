@@ -21,11 +21,11 @@
     <h2>Номера:</h2>
     {% for room in hotel.rooms %}
         <div class="room">
-            <h3>{{ room.type }}</h3>
+            <h3 class="room-name">{{ room.type }}</h3>
             <div class="room-images">
                 {% for image in room.images %}
                     <a href="{{ image.image_url }}" target="_blank">
-                        <img src="{{ image.image_url }}" alt="Room Photo">
+                        <img src="{{ image.image_url }}" alt="Room Photo" class="nomer-foto">
                     </a>
                 {% endfor %}
             </div>
