@@ -17,8 +17,42 @@
             </ul>
         </div>
         <div class="main-content">
-            <p><strong>Username:</strong> {{ current_user.username }}</p>
-        <p><strong>Email:</strong> {{ current_user.email }}</p>
+            <div class="user-info">
+            <form method="POST" class="user-form">
+                {{ form.csrf_token }}
+                <p>
+                    <div class="user-column">
+                        <label class="gender_label">{{ form.gender.label }}: </label>
+                        {{ form.gender(class="gender_input", id="gender") }}
+                    </div>
+                </p>
+                <p>
+                    <div class="user-column">
+                        <label class="first_name_label">{{ form.first_name.label }}</label>
+                        <label class="last_name_label">{{ form.last_name.label }}</label>
+                        <label class="birth_date_label">{{ form.birth_date.label }}</label>
+                    </div>
+                    <div class="user-column">
+                        {{ form.first_name(class="first_name_input", id="first_name",value=current_user.first_name) }}
+                        {{ form.last_name(class="last_name_input", id="last_name_series",value=current_user.last_name ) }}
+                        {{ form.birth_date(class="birth_date_input", id="birth_date_series",value=current_user.birth_date) }}
+                    </div>
+                </p>
+                    <div class="user-column">
+                        <label class="email_label">{{ form.email.label }}</label>
+                        <label class="phone_code_label">{{ form.phone_code.label }}</label>
+                        <label class="phone_number_label_user">{{ form.phone_number.label }}</label>
+                    </div>
+                    <div class="user-column">
+                        {{ form.email(class="email_input", id="email", value=current_user.email, **{'readonly': 'readonly'})|safe }}
+                        {{ form.phone_code(class="phone_code_input", id="phone_code",value=current_user.phone_code) }}
+                        {{ form.phone_number(class="phone_number_input_user", id="phone_number",value=current_user.phone_number) }}
+
+                        {{ form.submit(class="submit_button_user") }}
+                    </div>
+                </p>
+            </form>
+            </div>
         </div>
     </div>
 {% endblock content %}

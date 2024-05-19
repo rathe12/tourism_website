@@ -702,7 +702,7 @@ h1 {
 }   
 .container_booking {
     display: flex;
-    max-width: 1200px;
+    max-width: 59vw;
     margin: 20px auto;
     background-color: #ffffff;
     border-radius: 10px;
@@ -750,7 +750,7 @@ h1 {
 }
 
 .date_input{
-    width: 9vw;
+    width: 9.2vw;
     padding: 10px;
     margin-bottom: 15px;
     border: 1px solid #ccc;
@@ -760,7 +760,7 @@ h1 {
     box-sizing: border-box;
 }
 .date_input_out{
-    width: 9vw;
+    width: 9.2vw;
     padding: 10px;
     margin-bottom: 15px;
     border: 1px solid #ccc;
@@ -787,9 +787,9 @@ h1 {
     padding-right: 0;
     margin-right: 0;
 }
-.passport_name_label{
+.passport_number_label{
     padding-left: 0;
-    margin-left: 0  ;
+    margin-left: -1vw  ;
 }
 .booking_form .passport_series_input,
 .booking_form .passport_number_input {
@@ -803,9 +803,12 @@ h1 {
     vertical-align: top; /* Выравниваем поля по верхнему краю */
 }
 
-.passport_number_input{
-    width: 9vw;
+.passport_series_input{
+    width: 8vw;
     margin-right: 1vw;
+}
+.passport_number_input{
+    width: 11.9vw;
 }
 
 
@@ -816,7 +819,7 @@ h1 {
     padding: 10px;
     border: none;
     border-radius: 5px;
-    background-color: #007BFF;
+    background-color: #3A97D2;
     color: white;
     font-size: 1.1em;
     cursor: pointer;
@@ -826,7 +829,7 @@ h1 {
 }
 
 .booking_form .submit_button:hover {
-    background-color: #0056b3;
+    background-color: #3280b1;
 }
 
 /* Стили для контейнера описания */
@@ -876,4 +879,124 @@ h1 {
     font-size: xx-large;
     padding-left: 2vw;
     margin-bottom: 0.5vh;
+}
+
+
+.user-info {
+    width: 50vw;
+    margin: 20px auto;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 3vw;
+}
+
+.user-form {
+    max-width: 100%;
+    margin: 0;
+}
+
+.user-column{
+    display: flex;
+}
+
+.user-form .first_name_label,.last_name_label,.birth_date_label,
+.user-form .email_label,.phone_code_label,.phone_number_label_user,.gender_label {
+    display: block;
+    font-weight: bold;
+    padding: 1vh;
+    font-size: 1.1em;
+    color: #333;
+    width: 10vw; /* Устанавливаем ширину меток */
+    padding-top: 3vh;
+}
+.user-form .first_name_label,.last_name_label,.birth_date_label{
+    padding-top: 0;
+    margin-top: 0;
+}
+.user-form .email_label,.phone_code_label,.phone_number_label_user{
+    padding-top: 0;
+}
+.gender_label{
+    padding-left: 1.1vw;
+    font-weight: lighter;
+    padding-top: 1vh;
+    margin-right: 0;
+    padding-right: 0;
+}
+.first_name_label,.email_label{
+    margin-left: 0.7vw;
+}
+.last_name_label,.phone_code_label{
+    margin-left: 5vw;
+    padding-right: 0;
+    margin-right: 0;
+}
+.phone_number_label_user{
+    padding-left: 0;
+    margin-left: -7vw;
+}
+
+.birth_date_label{
+    padding-left: 6vw;
+}
+
+.user-form .first_name_input,.last_name_input,.birth_date_input,
+.user-form .email_input,.phone_code_input,.phone_number_input_user {
+    width: 15vw;
+    height: 6vh;
+    padding: 1vw;
+    margin-bottom: 2vh;
+    margin-left: 1vw;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+    background-color: #fff;
+    box-sizing: border-box;
+    vertical-align: top; /* Выравниваем поля по верхнему краю */
+    background-color: #dfecfd
+}
+
+.birth_date_input{
+    font-size: 1.3em;
+}
+
+.phone_code_input{
+    width: 3vw;
+    padding-right: 0;
+    margin-right: 0;
+}
+.phone_number_input_user{
+    width: 12vw;
+    margin-left: 0;
+}
+
+
+.user-form  .submit_button_user {
+    width: 15vw;
+    padding: 1vw;
+    margin-left: 1vw;
+    border: none;
+    border-radius: 5px;
+    background-color: #ebbb1d;
+    color: white;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    height: 6vh;
+    margin-bottom: 0;
+}
+
+.user-form  .submit_button_user:hover {
+    background-color: #daa800;
+}
+
+.gender_input{
+    display: flex;
+    list-style: none;
+    margin-left: -10vw;
+    margin-top: 1vh;
+}
+#gender-0,#gender-1{
+    margin-left: 0.5vw;
 }
