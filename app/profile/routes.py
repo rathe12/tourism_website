@@ -11,27 +11,23 @@ from app import db
 @profile_bp.route('/<username>', methods=['GET', 'POST'])
 @login_required
 def myaccount(username):
-    form = UserForm()
-    form.gender.data = current_user.gender
+    user = User.query.get_or_404(current_user.id)
+    form = UserForm(obj=user)
+
     if form.validate_on_submit():
-        # Получаем пользователя по id или возвращаем 404, если не найден
-        user = User.query.get_or_404(current_user.id)
-        print(user)
-        # Обновляем поля пользователя с использованием данных из формы
         user.gender = form.gender.data
         user.first_name = form.first_name.data
         user.last_name = form.last_name.data
-        user.birth_date = form.birth_date .data
+        user.birth_date = form.birth_date.data
+        user.email = form.email.data
         user.phone_code = form.phone_code.data
         user.phone_number = form.phone_number.data
 
-        # Сохраняем изменения в базе данных
         db.session.commit()
-
-        flash('Данные успешно сохранены!')
-        return render_template('myaccount.html', form=form, menu=menu, title='Профиль')
+        flash('User updated successfully', 'success')
+        return redirect('myaccount.html', username=current_user.username, form=form, menu=menu, title='Профиль')
         # Обработка сохранения данных здесь
-    return render_template('myaccount.html', form=form, menu=menu, title='Профиль')
+    return render_template('myaccount.html', username=current_user.username, form=form, menu=menu, title='Профиль')
 
 
 @profile_bp.route('/myorders')

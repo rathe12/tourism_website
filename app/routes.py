@@ -1,10 +1,10 @@
 from . import app, db
 from flask import render_template, flash, redirect, url_for, request, session
 from app.forms import RegistrationForm, LoginForm, ResidenceForm, BookingHotelForm, AirplaneTicketsForm
-from app.models import User, Hotel, City, Room, RoomAvailability, Booking, BookingStatus
+from app.models import User, City, Hotel, HotelPhoto, Room, RoomAvailability, RoomImage, BookingStatus, Booking, AirCity, Aircraft, FlightClass, Seat, Flight, AirBooking
 # from config import dbx
 from flask_login import login_user, current_user, login_required
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 from geopy.geocoders import Nominatim
 from geopy.distance import geodesic
 
@@ -201,12 +201,218 @@ def book_hotel(hotel_id, room_id):
     return render_template('booking_hotel.html', hotel=hotel, room=room_info, total_price=total_price, form=form, menu=menu)
 
 
-@app.route('/air_tickets')
+@app.route('/air_tickets', methods=['GET', 'POST'])
 def air_tickets():
     form = AirplaneTicketsForm()
     if form.validate_on_submit():
-        pass
+        departure_city = form.departure_city.data
+        arrival_city = form.arrival_city.data
+        departure_date = form.departure_date.data
+        passengers = form.passengers.data
+        flight_class = form.flight_class.data
+        # Передача данных для дальнейшей обработки
+        return redirect(url_for('search_flights', departure_city=departure_city, arrival_city=arrival_city, departure_date=departure_date, passengers=passengers, flight_class=flight_class))
     return render_template('air_tickets.html', form=form, menu=menu, title='Авиабилеты')
+
+
+# @app.route('/search_flights', methods=['GET', 'POST'])
+# def search_flights():
+#     form = AirplaneTicketsForm()
+#     if form.validate_on_submit():
+#         departure_city = form.departure_city.data
+#         arrival_city = form.arrival_city.data
+#         departure_date = form.departure_date.data
+#         passengers = form.passengers.data
+#         flight_class = form.flight_class.data
+#         # Передача данных для дальнейшей обработки
+#         return redirect(url_for('search_flights', departure_city=departure_city, arrival_city=arrival_city, departure_date=departure_date, passengers=passengers, flight_class=flight_class))
+
+#     departure_city = request.args.get('departure_city')
+#     arrival_city = request.args.get('arrival_city')
+#     departure_date = request.args.get('departure_date')
+#     passengers = request.args.get('passengers')
+#     flight_class = request.args.get('flight_class')
+#     session['departure_date'] = request.args.get('departure_date')
+#     departure_city_id = AirCity.query.filter_by(
+#         name=departure_city).first().id
+#     arrival_city_id = AirCity.query.filter_by(name=arrival_city).first().id
+
+#     def search_flights(departure_city, arrival_city, departure_date, passengers, flight_class):
+#         # Конвертируем дату из формы в datetime
+#         departure_date = datetime.strptime(departure_date, '%Y-%m-%d').date()
+
+#         # Ищем рейсы с датой вылета, соответствующей выбранной дате
+#         flights = Flight.query.filter(
+#             Flight.origin_city_id == departure_city,
+#             Flight.destination_city_id == arrival_city,
+#             db.func.date(Flight.departure_time) == departure_date
+#         ).all()
+
+#         # Фильтрация по классу обслуживания и доступным местам
+#         suitable_flights = []
+#         for flight in flights:
+#             available_seats = Seat.query.filter_by(
+#                 aircraft_id=flight.aircraft_id,
+#                 flight_class_id=FlightClass.query.filter_by(
+#                     name=flight_class).first().id
+#             ).count()
+#             if available_seats >= int(passengers):
+#                 suitable_flights.append(flight)
+
+#             # Поиск рейсов с пересадками, если прямых нет
+#         suitable_flights_with_transfers = search_flights_with_transfers(
+#             departure_city, arrival_city, departure_date, passengers, flight_class)
+
+#         return suitable_flights, suitable_flights_with_transfers
+
+#     # Используйте тот же метод для поиска рейсов с пересадками
+#     def search_flights_with_transfers(departure_city, arrival_city, departure_date, passengers, flight_class):
+
+#         first_leg_flights = Flight.query.filter(
+#             Flight.origin_city_id == departure_city,
+#             db.func.date(Flight.departure_time) == departure_date
+#         ).all()
+
+#         suitable_flights_with_transfers = []
+
+#         for first_flight in first_leg_flights:
+#             transfer_city_id = first_flight.destination_city_id
+#             second_leg_flights = Flight.query.filter(
+#                 Flight.origin_city_id == transfer_city_id,
+#                 Flight.destination_city_id == arrival_city,
+#                 db.func.date(Flight.departure_time) > first_flight.arrival_time
+#             ).filter(
+#                 db.func.date(
+#                     Flight.departure_time) == departure_date + timedelta(days=1)
+#             ).all()
+
+#             for second_flight in second_leg_flights:
+#                 first_leg_seats = Seat.query.filter_by(
+#                     aircraft_id=first_flight.aircraft_id,
+#                     flight_class_id=FlightClass.query.filter_by(
+#                         name=flight_class).first().id
+#                 ).count()
+#                 second_leg_seats = Seat.query.filter_by(
+#                     aircraft_id=second_flight.aircraft_id,
+#                     flight_class_id=FlightClass.query.filter_by(
+#                         name=flight_class).first().id
+#                 ).count()
+
+#                 if first_leg_seats >= passengers and second_leg_seats >= passengers:
+#                     suitable_flights_with_transfers.append(
+#                         (first_flight, second_flight))
+
+#         return suitable_flights_with_transfers
+
+#     flights = search_flights(departure_city_id, arrival_city_id,
+#                              departure_date, passengers, flight_class)
+#     print(flights)
+#     return render_template('search_flights.html', form=form, menu=menu, title='Авиабилеты')
+
+@app.route('/search_flights', methods=['GET', 'POST'])
+def search_flights():
+    form = AirplaneTicketsForm()
+    if form.validate_on_submit():
+        departure_city = form.departure_city.data
+        arrival_city = form.arrival_city.data
+        departure_date = form.departure_date.data
+        passengers = form.passengers.data
+        flight_class = form.flight_class.data
+        # Передача данных для дальнейшей обработки
+        return redirect(url_for('search_flights', departure_city=departure_city, arrival_city=arrival_city, departure_date=departure_date, passengers=passengers, flight_class=flight_class))
+
+    departure_city = request.args.get('departure_city')
+    arrival_city = request.args.get('arrival_city')
+    departure_date = request.args.get('departure_date')
+    passengers = int(request.args.get('passengers'))
+    flight_class = FlightClass.query.filter_by(
+        name=request.args.get('flight_class')).first().id
+    session['departure_date'] = request.args.get('departure_date')
+    departure_city_id = AirCity.query.filter_by(
+        name=departure_city).first().id
+    arrival_city_id = AirCity.query.filter_by(name=arrival_city).first().id
+
+    def calculate_flight_duration(departure_time, arrival_time):
+        return arrival_time - departure_time
+
+    def search_direct_flights(departure_city, arrival_city, departure_date, passengers, flight_class):
+        departure_date = datetime.strptime(departure_date, '%Y-%m-%d').date()
+        flights = Flight.query.filter(
+            Flight.origin_city_id == departure_city,
+            Flight.destination_city_id == arrival_city,
+            db.func.date(Flight.departure_time) == departure_date
+        ).all()
+
+        suitable_flights = []
+        for flight in flights:
+            available_seats = Seat.query.filter_by(
+                aircraft_id=flight.aircraft_id,
+                flight_class_id=flight_class
+            ).count()
+            if available_seats >= passengers:
+                flight_duration = calculate_flight_duration(
+                    flight.departure_time, flight.arrival_time)
+                suitable_flights.append((flight, flight_duration))
+        return suitable_flights
+
+    def search_flights_with_transfers(departure_city, arrival_city, departure_date, passengers, flight_class):
+        departure_date = datetime.strptime(departure_date, '%Y-%m-%d').date()
+        first_leg_flights = Flight.query.filter(
+            Flight.origin_city_id == departure_city,
+            db.func.date(Flight.departure_time) == departure_date
+        ).all()
+
+        suitable_flights_with_transfers = []
+
+        for first_flight in first_leg_flights:
+            transfer_city_id = first_flight.destination_city_id
+
+            # Ищем рейсы, которые вылетают в тот же день после прибытия первого рейса или на следующий день
+            second_leg_flights = Flight.query.filter(
+                Flight.origin_city_id == transfer_city_id,
+                Flight.destination_city_id == arrival_city,
+                db.or_(
+                    db.and_(
+                        db.func.date(
+                            Flight.departure_time) == first_flight.arrival_time.date(),
+                        Flight.departure_time > first_flight.arrival_time
+                    ),
+                    db.func.date(
+                        Flight.departure_time) == first_flight.arrival_time.date() + timedelta(days=1)
+                )
+            ).all()
+
+            for second_flight in second_leg_flights:
+                first_leg_seats = Seat.query.filter_by(
+                    aircraft_id=first_flight.aircraft_id,
+                    flight_class_id=flight_class
+                ).count()
+                second_leg_seats = Seat.query.filter_by(
+                    aircraft_id=second_flight.aircraft_id,
+                    flight_class_id=flight_class
+                ).count()
+
+                if first_leg_seats >= passengers and second_leg_seats >= passengers:
+                    transfer_duration = second_flight.departure_time - first_flight.arrival_time
+                    total_travel_duration = calculate_flight_duration(first_flight.departure_time, first_flight.arrival_time) + \
+                        calculate_flight_duration(second_flight.departure_time, second_flight.arrival_time) + \
+                        transfer_duration
+                    suitable_flights_with_transfers.append(
+                        (first_flight, second_flight, transfer_duration, total_travel_duration))
+
+        return suitable_flights_with_transfers
+
+    def search_all_flights(departure_city, arrival_city, departure_date, passengers, flight_class):
+        direct_flights = search_direct_flights(
+            departure_city, arrival_city, departure_date, passengers, flight_class)
+        connecting_flights = search_flights_with_transfers(
+            departure_city, arrival_city, departure_date, passengers, flight_class)
+        return direct_flights, connecting_flights
+
+    direct_flights, connecting_flights = search_all_flights(departure_city_id, arrival_city_id,
+                                                            departure_date, passengers, flight_class)
+
+    return render_template('search_flights.html', direct_flights=direct_flights, connecting_flights=connecting_flights, form=form, menu=menu, title='Авиабилеты')
 
 
 @app.route('/register', methods=['GET', 'POST'])

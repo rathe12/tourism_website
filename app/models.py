@@ -26,6 +26,24 @@ class User(UserMixin, db.Model):
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
 
+    def set_gender(self, gender):
+        self.gender = gender
+
+    def set_first_name(self, first_name):
+        self.first_name = first_name
+
+    def set_last_name(self, last_name):
+        self.last_name = last_name
+
+    def set_birth_date(self, birth_date):
+        self.birth_date = birth_date
+
+    def set_phone_code(self, phone_code):
+        self.phone_code = phone_code
+
+    def set_phone_number(self, phone_number):
+        self.phone_number = phone_number
+
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
@@ -199,7 +217,7 @@ class FlightClass(db.Model):
     name = db.Column(db.String(50), nullable=False)
 
     def __repr__(self):
-        return f"Aircraft('{self.id}', '{self.name}')"
+        return f"FlightClass('{self.id}', '{self.name}')"
 # Модель для мест в самолетах
 
 

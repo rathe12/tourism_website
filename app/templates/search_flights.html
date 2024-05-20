@@ -1,0 +1,31 @@
+{% extends 'air_tickets.html' %}
+{% block content %}
+{{ super() }}
+<h1>Результаты поиска</h1>
+
+    <h2>Прямые рейсы</h2>
+    {% if direct_flights %}
+        <ul>
+            {% for flight, flight_duration in direct_flights %}
+                <li>Рейс: {{ flight.flight_number }}, Откуда: {{ flight.origin_city.name }}, Куда: {{ flight.destination_city.name }}, Время вылета: {{ flight.departure_time }}, Время прибытия: {{ flight.arrival_time }}, Продолжительность полета: {{ flight_duration }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Нет доступных прямых рейсов</p>
+    {% endif %}
+
+    <h2>Рейсы с пересадками</h2>
+    {% if connecting_flights %}
+        <ul>
+            {% for first_flight, second_flight, transfer_duration, total_travel_duration in connecting_flights %}
+                <li>Первый рейс: {{ first_flight.flight_number }}, Откуда: {{ first_flight.origin_city.name }}, Куда: {{ first_flight.destination_city.name }}, Время вылета: {{ first_flight.departure_time }}, Время прибытия: {{ first_flight.arrival_time }}</li>
+                <li>Второй рейс: {{ second_flight.flight_number }}, Откуда: {{ second_flight.origin_city.name }}, Куда: {{ second_flight.destination_city.name }}, Время вылета: {{ second_flight.departure_time }}, Время прибытия: {{ second_flight.arrival_time }}</li>
+                <li>Время пересадки: {{ transfer_duration }}</li>
+                <li>Общее время в пути: {{ total_travel_duration }}</li>
+                <br>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Нет доступных рейсов с пересадками</p>
+    {% endif %}
+{% endblock %}

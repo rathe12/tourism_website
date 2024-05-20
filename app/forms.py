@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, DateField, RadioField, SelectField, TelField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, DateField, RadioField, SelectField, TelField, IntegerField
 from wtforms.validators import DataRequired, Email, EqualTo, Length
 
 
@@ -52,11 +52,14 @@ class BookingHotelForm(FlaskForm):
 
 
 class AirplaneTicketsForm(FlaskForm):
-    departure = StringField('Место вылета', validators=[DataRequired()])
-    destination = StringField('Место назначения', validators=[DataRequired()])
-    date = DateField('Дата', format='%Y-%m-%d', validators=[DataRequired()])
-    flight_class = SelectField('Класс', choices=[('Economy', 'Economy'), (
-        'Business', 'Business'), ('First', 'First')], default='Economy', validators=[DataRequired()])
+    departure_city = StringField('Откуда', validators=[DataRequired()])
+    arrival_city = StringField('Куда', validators=[DataRequired()])
+    departure_date = DateField(
+        'Дата вылета', format='%Y-%m-%d', validators=[DataRequired()])
+    passengers = IntegerField('Количество пассажиров',
+                              validators=[DataRequired()])
+    flight_class = SelectField('Класс обслуживания', choices=[
+                               ('economy', 'Эконом'), ('business', 'Бизнес')])
     submit = SubmitField('Submit')
 
 
