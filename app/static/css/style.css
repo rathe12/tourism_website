@@ -177,20 +177,28 @@ img.logo {
     margin-right: 15vw;
     margin-bottom: 1vh;
     border-radius: 10px;
-    height: 23vh;
+    height: auto;
 }
 .hotel_description{
     display: flex;
     width: 55vw;
+    max-height: 30vh;
 }
 
 .hotel_description_text{
     padding-top: 2vh;
 }
 
+/* .hotel_preview{
+    height: 30vh;
+    padding: 1%;
+    border-radius: 10px;
+} */
+
 .hotel_preview{
-    height: 21vh;
-    width: 14vw;
+    height: 94%; /* Картинка займет всю высоту контейнера */
+    width: auto; /* Ширина будет авто для сохранения пропорций */
+    object-fit: cover; /* Картинка будет покрывать весь контейнер, сохраняя пропорции */
     padding: 1%;
     border-radius: 10px;
 }
@@ -205,7 +213,7 @@ img.logo {
 }
 
 .star_rating{
-    padding-top: 0.8vh;
+    padding-top: 1.3vh;
     padding-left: 1vw;
 }
 .hotel_description_address{
@@ -407,6 +415,7 @@ h1 {
     color: #666;
     font-size: 16px;
     margin-bottom: 2vh;
+    max-width: 40vw;
 }
 
 /* Кнопка Забронировать */
@@ -616,26 +625,33 @@ h1 {
     margin-left: 1.3vw;
 }
 .destination_label{
-    font-size: 2vh;
+    font-size: 3vh;
+    font-weight: lighter;
+    margin-top: -0.6vh;
     padding-right: 5vw;
     margin-right: 0;
+    margin-left: -2vw;
 }
 
 .destination_window{
     padding-left: 0;
     margin-left: -3vw;
     border-radius: 5px;
-    height: 2.3vh; 
+    height: 4vh; 
     width: 15vw;
     border-color: #666;
     text-align: center;
-    font-size: 2vh;
+    margin-top: -0.4vw;
+    font-size: 3vh;
 }
 
 .start_date_label{
-    font-size: 2vh;
+    font-size: 3vh;
+    font-weight: lighter;
+    margin-top: -0.6vh;
     padding-right: 0;
     margin-right: 0;
+    padding-left: 2vw;
     padding-right: 5vw;
 }
 
@@ -643,15 +659,19 @@ h1 {
     padding-left: 0;
     margin-left: -3vw;
     border-radius: 5px;
-    height: 2.3vh; 
+    height: 4vh; 
     width: 15vw;
     border-color: #666;
     text-align: center;
-    font-size: 2vh;
+    margin-top: -0.4vw;
+    font-size: 2.3vh;
 }
 
 .end_date_label{
-    font-size: 2vh;
+    font-size: 3vh;
+    font-weight: lighter;
+    margin-top: -0.6vh;
+    padding-left: 2vw;
     padding-right: 0;
     margin-right: 0;
     padding-right: 5vw;
@@ -661,11 +681,12 @@ h1 {
     padding-left: 0;
     margin-left: -3vw;
     border-radius: 5px;
-    height: 2.3vh; 
+    height: 4vh; 
     width: 15vw;
     border-color: #666;
     text-align: center;
-    font-size: 2vh;
+    margin-top: -0.4vw;
+    font-size: 2.5vh;
 }
 
 .accommodation_button{
@@ -999,4 +1020,26 @@ h1 {
 }
 #gender-0,#gender-1{
     margin-left: 0.5vw;
+}
+.airform label{
+    font-size: 3vh;
+    font-weight: lighter;
+    margin-top: -0.6vh;
+    margin-right: 0;
+}
+
+.destination_label{
+
+}
+
+.destination_window{
+    padding-left: 0;
+    margin-left: -3vw;
+    border-radius: 5px;
+    height: 4vh; 
+    width: 15vw;
+    border-color: #666;
+    text-align: center;
+    margin-top: -0.4vw;
+    font-size: 3vh;
 }
