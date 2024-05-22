@@ -622,10 +622,13 @@ h1 {
    border-color: #666;
 }
 #new_password{
-    margin-left: 1.3vw;
+    margin-left: 1.4vw;
+}
+#new_password2{
+    margin-left: 1.2vw;
 }
 .destination_label{
-    font-size: 3vh;
+    font-size: 2.5vh;
     font-weight: lighter;
     margin-top: -0.6vh;
     padding-right: 5vw;
@@ -637,16 +640,16 @@ h1 {
     padding-left: 0;
     margin-left: -3vw;
     border-radius: 5px;
-    height: 4vh; 
+    height: 3vh;  
     width: 15vw;
     border-color: #666;
     text-align: center;
     margin-top: -0.4vw;
-    font-size: 3vh;
+    font-size: 2.5vh;
 }
 
 .start_date_label{
-    font-size: 3vh;
+    font-size: 2.5vh;
     font-weight: lighter;
     margin-top: -0.6vh;
     padding-right: 0;
@@ -659,7 +662,7 @@ h1 {
     padding-left: 0;
     margin-left: -3vw;
     border-radius: 5px;
-    height: 4vh; 
+    height: 3vh; 
     width: 15vw;
     border-color: #666;
     text-align: center;
@@ -668,7 +671,7 @@ h1 {
 }
 
 .end_date_label{
-    font-size: 3vh;
+    font-size: 2.5vh;
     font-weight: lighter;
     margin-top: -0.6vh;
     padding-left: 2vw;
@@ -681,7 +684,7 @@ h1 {
     padding-left: 0;
     margin-left: -3vw;
     border-radius: 5px;
-    height: 4vh; 
+    height: 3vh; 
     width: 15vw;
     border-color: #666;
     text-align: center;
@@ -1021,25 +1024,119 @@ h1 {
 #gender-0,#gender-1{
     margin-left: 0.5vw;
 }
-.airform label{
-    font-size: 3vh;
-    font-weight: lighter;
-    margin-top: -0.6vh;
+.airform{
+    display: flex;
+    height: 13vh;
+}
+.airform .departure_city_label, .arrival_city_label, .departure_date_label {
+    font-size: 2.5vh;
     margin-right: 0;
+    padding-left: 4vw;
+    padding-right: 1vw;
+    padding-top: 5vh;
+}
+.passengers_label{
+    font-size: 2vh;
+    padding-left: 4vw;
 }
 
-.destination_label{
-
+.flight_class_label{
+    font-size: 2vh;
+    padding-left: 4vw;
 }
-
-.destination_window{
-    padding-left: 0;
-    margin-left: -3vw;
+.airform .departure_city_window, .arrival_city_window, .departure_date_window, .passengers_window, .flight_class_window{
     border-radius: 5px;
-    height: 4vh; 
-    width: 15vw;
     border-color: #666;
     text-align: center;
-    margin-top: -0.4vw;
-    font-size: 3vh;
+    height: 2.5vh; 
+    font-size: 1.5vh;
+    margin-top: 5vh;
+}
+.passengers_window{
+    width: 2vw;
+    margin-top: 2vh;
+    margin-left: 1vw;
+}
+
+.departure_date_window{
+    height: 3vh; 
+}
+
+.flight_class_window{
+    height: 3vh;
+    margin-top: 3vh;
+    margin-left: 1vw;
+}
+
+.air_button{
+    background-color: #ec9f05; /* Зеленый цвет фона */
+    border: none;
+    color: white;
+    padding: 2vh 6vw; /* Отступы внутри кнопки */
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 10px; /* Закругленные углы */    
+    margin-left: 7vw;
+    margin-top: 3vh;
+    margin-bottom: 3vh;
+}
+
+.air_button:hover {
+    background-color: #ec9f05; /* Темно-зеленый цвет фона */
+}
+
+.delidiv{
+    display: block;
+}
+.delimiter_accommodation_air{
+    background-color: #3A97D2;
+    height: 13vh;
+    padding-top: 0;
+}
+
+
+
+.container-air-flight {
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+}
+
+.flight-details {
+    display: flex;
+}
+
+.left-block{
+    margin-right: 3vw;
+}
+
+.first-panel{
+    display: block;
+    margin-left: 1vw;
+    margin-right: 1vw;
+}
+
+.middle-panel{
+    display: block; 
+    margin-left: 1vw;
+    margin-right: 1vw;
+}
+.middle-panel-first-div{
+    display: flex;
+}
+
+.last_flight{
+    display: block;  
+    margin-left: 1vw;
+    margin-right: 1vw;  
+}
+
+.flight-number {
+    font-weight: bold;
+    color: #007BFF;
 }

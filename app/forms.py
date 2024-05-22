@@ -56,11 +56,13 @@ class AirplaneTicketsForm(FlaskForm):
     arrival_city = StringField('Куда', validators=[DataRequired()])
     departure_date = DateField(
         'Дата вылета', format='%Y-%m-%d', validators=[DataRequired()])
+    return_date = DateField(
+        'Дата возвращения', format='%Y-%m-%d', validators=[DataRequired()])
     passengers = IntegerField('Количество пассажиров',
                               validators=[DataRequired()])
     flight_class = SelectField('Класс обслуживания', choices=[
                                ('economy', 'Эконом'), ('business', 'Бизнес')])
-    submit = SubmitField('Submit')
+    submit = SubmitField('Поиск')
 
 
 class UserForm(FlaskForm):

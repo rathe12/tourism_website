@@ -1,31 +1,199 @@
 {% extends 'air_tickets.html' %}
 {% block content %}
 {{ super() }}
+
 <h1>Результаты поиска</h1>
 
-    <h2>Прямые рейсы</h2>
-    {% if direct_flights %}
-        <ul>
-            {% for flight, flight_duration in direct_flights %}
-                <li>Рейс: {{ flight.flight_number }}, Откуда: {{ flight.origin_city.name }}, Куда: {{ flight.destination_city.name }}, Время вылета: {{ flight.departure_time }}, Время прибытия: {{ flight.arrival_time }}, Продолжительность полета: {{ flight_duration }}</li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>Нет доступных прямых рейсов</p>
-    {% endif %}
 
-    <h2>Рейсы с пересадками</h2>
-    {% if connecting_flights %}
-        <ul>
-            {% for first_flight, second_flight, transfer_duration, total_travel_duration in connecting_flights %}
-                <li>Первый рейс: {{ first_flight.flight_number }}, Откуда: {{ first_flight.origin_city.name }}, Куда: {{ first_flight.destination_city.name }}, Время вылета: {{ first_flight.departure_time }}, Время прибытия: {{ first_flight.arrival_time }}</li>
-                <li>Второй рейс: {{ second_flight.flight_number }}, Откуда: {{ second_flight.origin_city.name }}, Куда: {{ second_flight.destination_city.name }}, Время вылета: {{ second_flight.departure_time }}, Время прибытия: {{ second_flight.arrival_time }}</li>
-                <li>Время пересадки: {{ transfer_duration }}</li>
-                <li>Общее время в пути: {{ total_travel_duration }}</li>
-                <br>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>Нет доступных рейсов с пересадками</p>
-    {% endif %}
+
+{% for flight, flight_duration in direct_flights %}
+
+        {% for return_flight, return_flight_duration in return_direct_flights %}
+        <div class="container-air-flight">
+
+            <div class="left-block">
+                <h3>Цена</h3>
+                <h4>Багаж</h4>
+                <h4>Конпка</h4>
+            </div>
+
+            <div class="right-block">
+                <div class="logos">
+                    <p>Логотипы</p>
+                </div>
+
+                <h3>Туда</h3>
+
+                <div class="flight-number">Рейс: {{ flight.flight_number }}</div>
+
+                <div class="flight-details">
+                    <div class="first-panel">
+                        <p>{{ flight.origin_city.name }}</p>
+                        <p>{{ flight.departure_time }}</p>
+                    </div>
+                    <div class="middle-panel">
+                        <div class="middle-panel-first-div">
+                            <div>лого взлета</div>
+                            <div><p>Время полета:{{ flight_duration }}</p></div>
+                            <div>лого посадки</div>
+                        </div>
+                        <div>
+                            <hr>
+                        </div>
+                    </div>
+                    <div class="last_flight">
+                        <p>{{ flight.destination_city.name }}</p>
+                        <p>{{ flight.arrival_time }}</p>
+                    </div>
+                </div>
+
+                <h3>Обратно</h3>
+
+                <div class="flight-number">Рейс: {{ return_flight.flight_number }}</div>
+
+                <div class="flight-details">
+                    <div class="first-panel">
+                        <p>{{ return_flight.origin_city.name }}</p>
+                        <p>{{ return_flight.departure_time }}</p>
+                    </div>
+                    <div class="middle-panel">
+                        <div class="middle-panel-first-div">
+                            <div>лого взлета</div>
+                            <div><p>Время полета:{{ return_flight_duration }}</p></div>
+                            <div>лого посадки</div>
+                        </div>
+                        <div>
+                            <hr>
+                        </div>
+                    </div>
+                    <div class="last_flight">
+                        <p>{{ return_flight.destination_city.name }}</p>
+                        <p>{{ return_flight.arrival_time }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+        {% for first_return_flight, second_return_flight, transfer_duration, total_travel_duration in return_connecting_flights %}
+        <div class="container-air-flight">
+            <div class="flight-details">
+                <div class="flight-number">Рейс: {{ flight.flight_number }}</div>
+                <div>Откуда: {{ flight.origin_city.name }}</div>
+                <div>Куда: {{ flight.destination_city.name }}</div>
+                <div>Время вылета: {{ flight.departure_time }}</div>
+                <div>Время прибытия: {{ flight.arrival_time }}</div>
+                <div>Продолжительность полета: {{ flight_duration }}</div>
+            </div>
+            <div class="flight-details">
+                <div class="flight-number">Рейс: {{ first_return_flight.flight_number }}</div>
+                <div>Откуда: {{ first_return_flight.origin_city.name }}</div>
+                <div>Куда: {{ first_return_flight.destination_city.name }}</div>
+                <div>Время вылета: {{ first_return_flight.departure_time }}</div>
+                <div>Время прибытия: {{ first_return_flight.arrival_time }}</div>
+            </div>
+            <div class="flight-details">
+                <div>Пересадка: {{ transfer_duration }}</div>
+            </div>
+            <div class="flight-details">
+                <div class="flight-number">Рейс: {{ second_return_flight.flight_number }}</div>
+                <div>Откуда: {{ second_return_flight.origin_city.name }}</div>
+                <div>Куда: {{ second_return_flight.destination_city.name }}</div>
+                <div>Время вылета: {{ second_return_flight.departure_time }}</div>
+                <div>Время прибытия: {{ second_return_flight.arrival_time }}</div>
+            </div>
+            <div class="flight-details">
+                <div>Общая длительность: {{ total_travel_duration }}</div>
+            </div>
+        </div>
+        {% endfor %}
+
+{% endfor %}
+
+
+{% for first_flight, second_flight, transfer_duration, total_travel_duration in connecting_flights %}
+
+    {% for return_flight, return_flight_duration in return_direct_flights %}
+    <div class="container-air-flight">
+        <div class="flight-details">
+            <div class="flight-number">Рейс: {{ first_flight.flight_number }}</div>
+            <div>Откуда: {{ first_flight.origin_city.name }}</div>
+            <div>Куда: {{ first_flight.destination_city.name }}</div>
+            <div>Время вылета: {{ first_flight.departure_time }}</div>
+            <div>Время прибытия: {{ first_flight.arrival_time }}</div>
+        </div>
+        <div class="flight-details">
+            <div>Пересадка: {{ transfer_duration }}</div>
+        </div>
+        <div class="flight-details">
+            <div class="flight-number">Рейс: {{ second_flight.flight_number }}</div>
+            <div>Откуда: {{ second_flight.origin_city.name }}</div>
+            <div>Куда: {{ second_flight.destination_city.name }}</div>
+            <div>Время вылета: {{ second_flight.departure_time }}</div>
+            <div>Время прибытия: {{ second_flight.arrival_time }}</div>
+        </div>
+        <div class="flight-details">
+            <div>Общая длительность: {{ total_travel_duration }}</div>
+        </div>
+
+        <div class="flight-details">
+            <div class="flight-number">Рейс: {{ return_flight.flight_number }}</div>
+            <div>Откуда: {{ return_flight.origin_city.name }}</div>
+            <div>Куда: {{ return_flight.destination_city.name }}</div>
+            <div>Время вылета: {{ return_flight.departure_time }}</div>
+            <div>Время прибытия: {{ return_flight.arrival_time }}</div>
+            <div>Продолжительность полета: {{ return_flight_duration }}</div>
+        </div>
+    </div>
+    {% endfor %}
+
+    {% for first_return_flight, second_return_flight, transfer_duration, total_travel_duration in return_connecting_flights %}
+        <div class="container-air-flight">
+            <div class="flight-details">
+                <div class="flight-number">Рейс: {{ first_flight.flight_number }}</div>
+                <div>Откуда: {{ first_flight.origin_city.name }}</div>
+                <div>Куда: {{ first_flight.destination_city.name }}</div>
+                <div>Время вылета: {{ first_flight.departure_time }}</div>
+                <div>Время прибытия: {{ first_flight.arrival_time }}</div>
+            </div>
+            <div class="flight-details">
+                <div>Пересадка: {{ transfer_duration }}</div>
+            </div>
+            <div class="flight-details">
+                <div class="flight-number">Рейс: {{ second_flight.flight_number }}</div>
+                <div>Откуда: {{ second_flight.origin_city.name }}</div>
+                <div>Куда: {{ second_flight.destination_city.name }}</div>
+                <div>Время вылета: {{ second_flight.departure_time }}</div>
+                <div>Время прибытия: {{ second_flight.arrival_time }}</div>
+            </div>
+            <div class="flight-details">
+                <div>Общая длительность: {{ total_travel_duration }}</div>
+            </div>
+
+            <div class="flight-details">
+                <div class="flight-number">Рейс: {{ first_return_flight.flight_number }}</div>
+                <div>Откуда: {{ first_return_flight.origin_city.name }}</div>
+                <div>Куда: {{ first_return_flight.destination_city.name }}</div>
+                <div>Время вылета: {{ first_return_flight.departure_time }}</div>
+                <div>Время прибытия: {{ first_return_flight.arrival_time }}</div>
+            </div>
+            <div class="flight-details">
+                <div>Пересадка: {{ transfer_duration }}</div>
+            </div>
+            <div class="flight-details">
+                <div class="flight-number">Рейс: {{ second_return_flight.flight_number }}</div>
+                <div>Откуда: {{ second_return_flight.origin_city.name }}</div>
+                <div>Куда: {{ second_return_flight.destination_city.name }}</div>
+                <div>Время вылета: {{ second_return_flight.departure_time }}</div>
+                <div>Время прибытия: {{ second_return_flight.arrival_time }}</div>
+            </div>
+            <div class="flight-details">
+                <div>Общая длительность: {{ total_travel_duration }}</div>
+            </div>
+        </div>
+        {% endfor %}
+
+{% endfor %}
+ 
+
 {% endblock %}

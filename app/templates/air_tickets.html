@@ -1,18 +1,22 @@
 {% extends 'base.html' %}
 {% block content %}
 {{ super() }}
-<div class="delimiter_accommodation">
+<div class="delimiter_accommodation_air">
     <div class="container">
         <form method="POST" class="airform">
-                {{ form.hidden_tag() }}
-                {{ form.departure_city.label(class = 'departure_city_label') }} {{ form.departure_city(class="departure_city_window", id="departure_city") }}
-                {{ form.arrival_city.label(class = 'arrival_city_label') }} {{ form.arrival_city(class="arrival_city_window", id="arrival_city") }}
-                {{ form.departure_date.label(class = 'departure_dat_label') }} {{ form.departure_date(class="departure_date_window", id="departure_date) }}
+            {{ form.hidden_tag() }}
+            {{ form.departure_city.label(class = 'departure_city_label') }} {{ form.departure_city(class="departure_city_window", id="departure_city") }}
+            {{ form.arrival_city.label(class = 'arrival_city_label') }} {{ form.arrival_city(class="arrival_city_window", id="arrival_city") }}
+            <div class="delidiv">
+            {{ form.departure_date.label(class = 'departure_date_label')}} {{ form.departure_date(class="departure_date_window", id="departure_date") }}
+            <br>{{ form.return_date.label(class = 'return_date_label')}} {{ form.return_date(class="return_date_window", id="return_date") }}
+            </div>
+            <div class="delidiv">
                 {{ form.passengers.label(class = 'passengers_label') }} {{ form.passengers(class="passengers_window", id="passengers") }}
-                {{ form.flight_class.label(class = 'flight_class') }} {{ form.flight_class(class="flight_class_window", id="flight_class") }}
-                {{ form.submit(class="air_button") }}
+                <br>{{ form.flight_class.label(class = 'flight_class_label') }} {{ form.flight_class(class="flight_class_window", id="flight_class")}}
+            </div>
+            {{ form.submit(class = 'air_button') }}
         </form>
     </div>
 </div>
-123
 {% endblock %}
