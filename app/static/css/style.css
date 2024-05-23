@@ -170,6 +170,105 @@ img.logo {
     padding-left: 15vw;
 }
 
+
+.content{
+    align-items: center;
+    text-align: center;
+}
+
+.content h3{
+    color: #666;
+    font-weight: lighter;
+}
+
+.five-positions{
+    text-align: center;
+    margin-top: 10vh;
+}
+
+.five-positions h1{
+    font-weight: lighter;
+}
+
+.five-positions-logos{
+    display: flex;
+    justify-content: center; /* Центрируем блоки */
+    gap: 5vw  ; /* Отступы между блоками */
+    padding: 3vw; /* Внутренний отступ контейнера */
+}
+
+.block {
+    padding:1vw; /* Внутренний отступ */
+}
+
+
+.block img{
+    width: 4vw;
+    height: auto;
+}
+
+.block p{
+    max-width: 12vw;
+}
+
+
+
+.air-content{
+    align-items: center;
+    text-align: center;
+}
+
+.four-positions{
+    text-align: center;
+    margin-top: 10vh;
+}
+
+.four-positions h1{
+    font-weight: lighter;
+}
+
+.four-positions-logos{
+    display: flex;
+    justify-content: center; /* Центрируем блоки */
+    gap: 5vw  ; /* Отступы между блоками */
+    padding: 3vw; /* Внутренний отступ контейнера */
+}
+
+.air-block {
+    padding:1vw; /* Внутренний отступ */
+    width: 17vw;
+    height: 40vh;
+    border-radius: 15px;
+    overflow: hidden; /* Скрыть содержимое, выходящее за пределы контейнера */
+    position: relative;
+}
+
+
+.air-block img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Изображение обрежется, чтобы заполнить контейнер */
+    display: block; /* Убираем пробелы вокруг изображения */
+    border-radius: 15px;
+}
+
+.air-firstblock p{
+    max-width: 12vw;
+    color: white;
+    position: absolute;
+    font-weight: lighter;
+    font-size: 5vh;
+    margin-top: -25vh;
+    margin-left: 5vw;
+    text-shadow: 
+        -1px -1px 0 #000,   /* Верхний левый угол */
+        1px -1px 0 #000,    /* Верхний правый угол */
+        -1px 1px 0 #000,    /* Нижний левый угол */
+        1px 1px 0 #000;     /* Нижний правый угол */
+}
+
+
+
 .hotel{
     display: flex;
     background-color: white;
@@ -1105,14 +1204,42 @@ h1 {
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     display: flex;
+    max-width: auto;
+    margin-top: 10vh;
 }
 
 .flight-details {
     display: flex;
 }
 
+.line{
+    border: none; /* Убираем границу для браузера Firefox */
+    color: #007BFF; /* Цвет линии для остальных браузеров */
+    background-color: #007BFF; /* Цвет линии для браузера Firefox и Opera */
+    height: 2px;
+    padding-top: 0;
+    margin-top: 0;
+}
+
+.delive_hr{
+    border: none; /* Убираем границу для браузера Firefox */
+    color: #000000; /* Цвет линии для остальных браузеров */
+    background-color: #000000; /* Цвет линии для браузера Firefox и Opera */
+    height: 2px;
+}
+
+.peresadka-line{
+    border: none; /* Убираем границу для браузера Firefox */
+    color: #ff0000; /* Цвет линии для остальных браузеров */
+    background-color: #ff0000; /* Цвет линии для браузера Firefox и Opera */
+    height: 2px;
+}
+
 .left-block{
     margin-right: 3vw;
+    border-right:  1px solid;
+    padding-right: 5vw;
+    padding-left: 2vw;
 }
 
 .first-panel{
@@ -1130,7 +1257,12 @@ h1 {
     display: flex;
 }
 
-.last_flight{
+.middle-panel-first-div p{
+    padding-left: 3vw;
+    padding-right: 3vw;
+}
+
+.last-panel{
     display: block;  
     margin-left: 1vw;
     margin-right: 1vw;  
@@ -1139,4 +1271,18 @@ h1 {
 .flight-number {
     font-weight: bold;
     color: #007BFF;
+}
+
+.takeoff-logo{
+    width: 2vw;
+    height: auto;
+    /* position: absolute; */
+    margin-top: 3vh;
+}
+
+.landing-logo{
+    width: 2vw;
+    height: auto;
+    /* position: absolute; */
+    margin-top: 3vh;
 }

@@ -419,12 +419,16 @@ def search_flights():
 
                 if first_leg_seats >= passengers and second_leg_seats >= passengers:
                     transfer_duration = second_flight.departure_time - first_flight.arrival_time
+                    first_flight_duration = calculate_flight_duration(
+                        first_flight.departure_time, first_flight.arrival_time)
+                    second_flight_duration = calculate_flight_duration(
+                        second_flight.departure_time, second_flight.arrival_time)
                     total_travel_duration = calculate_flight_duration(first_flight.departure_time, first_flight.arrival_time) + \
                         calculate_flight_duration(second_flight.departure_time, second_flight.arrival_time) + \
                         transfer_duration
                     suitable_flights_with_transfers.append(
                         (first_flight, second_flight,
-                         transfer_duration, total_travel_duration)
+                         transfer_duration, total_travel_duration, first_flight_duration, second_flight_duration)
                     )
 
         return suitable_flights_with_transfers

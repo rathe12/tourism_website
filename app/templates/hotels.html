@@ -1,6 +1,11 @@
 {% extends 'accommodation.html' %}
 {% block content %}
 {{ super() }}
+<style>
+    .content{
+        display: none;
+    }
+</style>
 <h1 class="hotels_city"> Отели в {{destination}}</h1>
 {% for hotel in hotels %}
     <div class="hotel">
