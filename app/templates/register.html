@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 {% block content %}
 {{ super() }}
+<div class="delimiter"><h2>Регистрация</h2></div>
 {% for cat, msg in get_flashed_messages(True) %}
 <div class="flash {{cat}}">{{msg}}</div>
 {% endfor %}
-<h2>Register</h2>
 <form action="" method="post" class="form-contact">
     <p>{{ form.hidden_tag() }}
         {% for field in form if field.name not in ['csrf_token', 'remember', 'submit'] -%}

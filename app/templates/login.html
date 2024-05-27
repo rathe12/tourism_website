@@ -1,7 +1,10 @@
 {% extends 'base.html' %}
 {% block content %}
 {{ super() }}
-<h2>Sign In</h2>
+<div class="delimiter"><h2>Авторизация</h2></div>
+{% for cat, msg in get_flashed_messages(True) %}
+<div class="flash {{cat}}">{{msg}}</div>
+{% endfor %} 
 <form action="" method="post" class="form-contact">
     <p>{{ form.hidden_tag() }}
         {% for field in form if field.name not in ['csrf_token', 'remember', 'submit'] -%}
@@ -17,11 +20,10 @@
                    {{ field() }}
          {% endif %}
 {% endfor %}
-    <p>{{ form.remember }} {{ form.remember.label }}</p>
+    <div class="vstroka">
+        <p>{{ form.remember }}</p><p>{{ form.remember.label }}</p>
+    </div>
     <p>{{ form.submit() }}</p>
+    <h4 class="register-block">Еще нет аккаунта? <a href="{{ url_for('register')}}" class="register_link">Зарегестрироваться</a></h4>
 </form>
-<h4>Еще нет аккаунта? <a href="{{ url_for('register')}}" class="register_link">Зарегестрироваться</a></h4>
-{% for cat, msg in get_flashed_messages(True) %}
-<div class="flash {{cat}}">{{msg}}</div>
-{% endfor %} 
 {% endblock %}

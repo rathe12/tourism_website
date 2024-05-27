@@ -18,7 +18,10 @@
         </div>
         <div class="main-content">
             {% if orders_list == [] %}
-                <h1>У вас нет заказов</h1>
+                <div class="empty-cart">
+                    <h1 >У вас еще нет заказов</h1>
+                    <img src="{{url_for('static', filename='images/empty_cart.png')}}">
+                </div>
             {% else %}
                 {% for order in orders_list  %}
                 <div class="flexb">

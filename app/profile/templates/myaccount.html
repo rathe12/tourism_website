@@ -18,12 +18,16 @@
         </div>
         <div class="main-content">
             <div class="user-info">
-            <form method="POST">
+            <form method="post">
                 <div  class="user-form" >
+                    {{ form.hidden_tag() }}
                     <p>
                         <div class="user-column">
                             <label class="gender_label">{{ form.gender.label }}: </label>
                             {{ form.gender(class="gender_input", id="gender") }}
+                            {% for error in form.gender.errors %}
+                                <span class="text-danger">{{ error }}</span>
+                            {% endfor %}
                         </div>
                     </p>
                     <p>
@@ -33,9 +37,18 @@
                             <label class="birth_date_label">{{ form.birth_date.label }}</label>
                         </div>
                         <div class="user-column">
-                            {{ form.first_name(class="first_name_input", id="first_name",value=current_user.first_name) }}
-                            {{ form.last_name(class="last_name_input", id="last_name_series",value=current_user.last_name ) }}
+                            {{ form.first_name(class="first_name_input", id="first_name",value= current_user.first_name if current_user.first_name != None else '') }}
+                            {% for error in form.first_name.errors %}
+                                <span class="text-danger">{{ error }}</span>
+                            {% endfor %}
+                            {{ form.last_name(class="last_name_input", id="last_name_series",value=current_user.last_name if current_user.last_name != None else '') }}
+                            {% for error in form.last_name.errors %}
+                                <span class="text-danger">{{ error }}</span>
+                            {% endfor %}
                             {{ form.birth_date(class="birth_date_input", id="birth_date_series",value=current_user.birth_date) }}
+                            {% for error in form.birth_date.errors %}
+                                <span class="text-danger">{{ error }}</span>
+                            {% endfor %}
                         </div>
                     </p>
                         <div class="user-column">
@@ -45,9 +58,17 @@
                         </div>
                         <div class="user-column">
                             {{ form.email(class="email_input", id="email", value=current_user.email, **{'readonly': 'readonly'})|safe }}
+                            {% for error in form.email.errors %}
+                                <span class="text-danger">{{ error }}</span>
+                            {% endfor %}
                             {{ form.phone_code(class="phone_code_input", id="phone_code",value=current_user.phone_code) }}
-                            {{ form.phone_number(class="phone_number_input_user", id="phone_number",value=current_user.phone_number) }}
-    
+                            {% for error in form.phone_code.errors %}
+                                <span class="text-danger">{{ error }}</span>
+                            {% endfor %}
+                            {{ form.phone_number(class="phone_number_input_user", id="phone_number",value=current_user.phone_number if current_user.phone_number != None else '') }}
+                            {% for error in form.phone_number.errors %}
+                                <span class="text-danger">{{ error }}</span>
+                            {% endfor %}
                             {{ form.submit(class="submit_button_user") }}
                         </div>
                     </p>
@@ -56,4 +77,5 @@
             </div>
         </div>
     </div>
+    </script>
 {% endblock content %}

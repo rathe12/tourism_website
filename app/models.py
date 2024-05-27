@@ -258,32 +258,50 @@ class Flight(db.Model):
     destination_city = db.relationship(
         'AirCity', foreign_keys=[destination_city_id])
 
+    economy_price = db.Column(db.Float, nullable=False)
+    business_price = db.Column(db.Float, nullable=False)
+
     aircraft = db.relationship('Aircraft')
 
     def __repr__(self):
-        return f"Flight('{self.id}', '{self.flight_number}', '{self.origin_city_id}', '{self.destination_city_id}', '{self.departure_time}', '{self.arrival_time}', '{self.aircraft_id}')"
+        return f"Flight('{self.id}', '{self.flight_number}', '{self.origin_city_id}', '{self.destination_city_id}', '{self.departure_time}', '{self.arrival_time}', '{self.aircraft_id}', '{self.economy_price}', '{self.business_price}')"
 
 # Модель для таблицы бронирования
 
 
-# Модель для таблицы бронирования
 class AirBooking(db.Model):
     __bind_key__ = 'aircraft_db'
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, nullable=False)
-    flight_id = db.Column(db.Integer, db.ForeignKey(
-        'flight.id'), nullable=False)
-    # Заменяем 'flight.id' на 'Flight.id'
+
+    # Внешние ключи для рейсов
+    first_flight_id = db.Column(
+        db.Integer, db.ForeignKey('flight.id'), nullable=False)
+    second_flight_id = db.Column(db.Integer, db.ForeignKey('flight.id'))
+    first_return_flight_id = db.Column(
+        db.Integer, db.ForeignKey('flight.id'), nullable=False)
+    second_return_flight_id = db.Column(db.Integer, db.ForeignKey('flight.id'))
+
+    # Внешний ключ для места
     seat_id = db.Column(db.Integer, db.ForeignKey('seat.id'), nullable=False)
+
+    # Внешний ключ для класса рейса
     class_id = db.Column(db.Integer, db.ForeignKey(
         'flight_class.id'), nullable=False)
-    total_price = db.Column(db.Float, nullable=False)
 
+    # Дополнительные детали бронирования
+    total_price = db.Column(db.Float, nullable=False)
     name = db.Column(db.String(100))
     phone_number = db.Column(db.String(50))
     passport_number = db.Column(db.String(50))
     passport_series = db.Column(db.String(50))
 
-    flight = db.relationship('Flight')
+    # Явное указание внешних ключей для отношений
+    first_flight = db.relationship('Flight', foreign_keys=[first_flight_id])
+    second_flight = db.relationship('Flight', foreign_keys=[second_flight_id])
+    first_return_flight = db.relationship(
+        'Flight', foreign_keys=[first_return_flight_id])
+    second_return_flight = db.relationship(
+        'Flight', foreign_keys=[second_return_flight_id])
     seat = db.relationship('Seat')
     flight_class = db.relationship('FlightClass')

@@ -327,6 +327,55 @@ def air_tickets():
 
 @app.route('/search_flights', methods=['GET', 'POST'])
 def search_flights():
+
+    def calculate_final_price(base_price, departure_date, agency_fee_percentage, booking_date=date.today()):
+
+        def apply_time_based_markup(base_price, days_to_departure):
+            if days_to_departure > 30:
+                markup = 1.0  # без надбавки
+            elif 14 < days_to_departure <= 30:
+                markup = 1.1  # +10% к базовой цене
+            elif 7 < days_to_departure <= 14:
+                markup = 1.2  # +20% к базовой цене
+            else:
+                markup = 1.5  # +50% к базовой цене
+            return base_price * markup
+
+        def apply_seasonal_markup(price, booking_date):
+            # Предположим, что высокий сезон - лето (июнь, июль, август)
+            high_season_months = [6, 7, 8]
+            if booking_date.month in high_season_months:
+                season_markup = 1.2  # +20% к цене
+            else:
+                season_markup = 1.0  # без надбавки
+            return price * season_markup
+
+        def apply_weekday_markup(price, booking_date):
+            # Предположим, что цены выше на выходные (пятница, суббота, воскресенье)
+            # 4 - пятница, 5 - суббота, 6 - воскресенье
+            if booking_date.weekday() in [4, 5, 6]:
+                weekday_markup = 1.1  # +10% к цене
+            else:
+                weekday_markup = 1.0  # без надбавки
+            return price * weekday_markup
+
+        def apply_agency_fee(price, agency_fee_percentage):
+            return price * (1 + agency_fee_percentage / 100)
+
+        days_to_departure = (departure_date - booking_date).days
+        price_with_time_markup = apply_time_based_markup(
+            base_price, days_to_departure)
+
+        price_with_season_markup = apply_seasonal_markup(
+            price_with_time_markup, booking_date)
+        price_with_weekday_markup = apply_weekday_markup(
+            price_with_season_markup, booking_date)
+
+        final_price = apply_agency_fee(
+            price_with_weekday_markup, agency_fee_percentage)
+
+        return final_price
+
     form = AirplaneTicketsForm()
 
     if form.validate_on_submit():
@@ -450,7 +499,7 @@ def search_flights():
     return_direct_flights, return_connecting_flights = search_return_flights(
         departure_city_id, arrival_city_id, return_date, passengers, flight_class.id)
 
-    return render_template('search_flights.html', direct_flights=direct_flights, connecting_flights=connecting_flights, return_direct_flights=return_direct_flights, return_connecting_flights=return_connecting_flights, calculate_flight_duration=calculate_flight_duration, form=form, menu=menu, title='Авиабилеты')
+    return render_template('search_flights.html', direct_flights=direct_flights, connecting_flights=connecting_flights, return_direct_flights=return_direct_flights, return_connecting_flights=return_connecting_flights, calculate_flight_duration=calculate_flight_duration, form=form, menu=menu, calculate_final_price=calculate_final_price, flight_class_name=flight_class_name, title='Авиабилеты')
 
 
 @app.route('/register', methods=['GET', 'POST'])

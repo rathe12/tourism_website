@@ -32,9 +32,9 @@
                                {{ field( class='reset_passeord_window') }}
                      {% endif %}
             {% endfor %}
-            <br>{{ form.submit(class="reset_passeord_button") }}
+            <br>{{ form.submit(class="reset_passeord_button",id="submit_reset_password") }}
                 {% for cat, msg in get_flashed_messages(True) %}
-                <div class="flash {{cat}}">{{msg}}</div>
+                <div class="flash-reset {{cat}}">{{msg}}</div>
                 {% endfor %} 
             </form>
         </div>

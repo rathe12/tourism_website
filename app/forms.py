@@ -70,8 +70,8 @@ class UserForm(FlaskForm):
         'женский', 'женский')], default='мужской', validators=[DataRequired()])
     first_name = StringField('Имя', validators=[DataRequired()])
     last_name = StringField('Фамилия', validators=[DataRequired()])
-    birth_date = DateField(
-        'Дата рождения', format='%d.%m.%Y', validators=[DataRequired()])
+    birth_date = DateField('Дата рождения', format='%Y-%m-%d',
+                           validators=[DataRequired()])  # Используем формат YYYY-MM-DD
     email = StringField('E-mail', validators=[DataRequired(), Email()])
     phone_code = StringField('Код', default='+7', validators=[DataRequired()])
     phone_number = TelField('Мобильный телефон', validators=[DataRequired()])
