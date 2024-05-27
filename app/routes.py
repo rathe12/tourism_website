@@ -376,6 +376,9 @@ def search_flights():
 
         return final_price
 
+    def format_timedelta(td):
+        return f"{td.seconds // 3600}ч {td.seconds % 3600 // 60}мин"
+
     form = AirplaneTicketsForm()
 
     if form.validate_on_submit():
@@ -499,7 +502,7 @@ def search_flights():
     return_direct_flights, return_connecting_flights = search_return_flights(
         departure_city_id, arrival_city_id, return_date, passengers, flight_class.id)
 
-    return render_template('search_flights.html', direct_flights=direct_flights, connecting_flights=connecting_flights, return_direct_flights=return_direct_flights, return_connecting_flights=return_connecting_flights, calculate_flight_duration=calculate_flight_duration, form=form, menu=menu, calculate_final_price=calculate_final_price, flight_class_name=flight_class_name, title='Авиабилеты')
+    return render_template('search_flights.html', direct_flights=direct_flights, connecting_flights=connecting_flights, return_direct_flights=return_direct_flights, return_connecting_flights=return_connecting_flights, calculate_flight_duration=calculate_flight_duration, form=form, menu=menu, calculate_final_price=calculate_final_price, flight_class_name=flight_class_name, format_timedelta=format_timedelta, title='Авиабилеты')
 
 
 @app.route('/register', methods=['GET', 'POST'])

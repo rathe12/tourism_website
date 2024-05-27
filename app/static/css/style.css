@@ -1,5 +1,5 @@
 html,body {
-    font-family: 'Arial';
+    font-family: 'Montserrat', sans-serif;
     margin: 0;
     padding: 0;
     height: 100%;
@@ -404,7 +404,7 @@ img.logo {
     font-weight: lighter;
     font-size: 5vh;
     margin-top: -25vh;
-    margin-left: 5vw;
+    margin-left: 4.7vw;
     text-shadow: 
     -1px -1px 0 #000,   /* Верхний левый угол */
     1px -1px 0 #000,    /* Верхний правый угол */
@@ -1338,7 +1338,7 @@ h1 {
 
 .departure_date_window{
     height: 3vh; 
-    margin-left: 2.7vw;
+    margin-left: 3.3vw;
 }
 
 .flight_class_window{
@@ -1357,7 +1357,7 @@ h1 {
     font-size: 16px;
     cursor: pointer;
     border-radius: 10px; /* Закругленные углы */    
-    margin-left: 7vw;
+    margin-left: 5vw;
     margin-top: 3vh;
     margin-bottom: 3vh;
 }
@@ -1386,6 +1386,7 @@ h1 {
     display: flex;
     max-width: auto;
     margin-top: 10vh;
+    max-width: 50vw;
 }
 
 .flight-details {
@@ -1410,9 +1411,10 @@ h1 {
 
 .peresadka-line{
     border: none; /* Убираем границу для браузера Firefox */
-    color: #ff0000; /* Цвет линии для остальных браузеров */
-    background-color: #ff0000; /* Цвет линии для браузера Firefox и Opera */
+    color: #a8a8a8; /* Цвет линии для остальных браузеров */
+    background-color: #a8a8a8; /* Цвет линии для браузера Firefox и Opera */
     height: 2px;
+    width: 11vw;
 }
 
 .left-block{
