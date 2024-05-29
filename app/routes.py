@@ -1,5 +1,6 @@
 # Подразумевается, что модели импортированы из вашего модуля
 from . import app, db
+import json
 from flask import render_template, flash, redirect, url_for, request, session
 from app.forms import RegistrationForm, LoginForm, ResidenceForm, BookingHotelForm, AirplaneTicketsForm
 from app.models import User, City, Hotel, HotelPhoto, Room, RoomAvailability, RoomImage, BookingStatus, Booking, AirCity, Aircraft, FlightClass, Seat, Flight, AirBooking
@@ -212,7 +213,10 @@ def air_tickets():
         return_date = form.return_date.data
         passengers = form.passengers.data
         flight_class = form.flight_class.data
-        # Передача данных для дальнейшей обработки
+
+        session['passengers'] = passengers
+        session['flight_class'] = flight_class
+
         return redirect(url_for('search_flights', departure_city=departure_city, arrival_city=arrival_city, departure_date=departure_date, return_date=return_date, passengers=passengers, flight_class=flight_class))
     return render_template('air_tickets.html', form=form, menu=menu, title='Авиабилеты')
 
@@ -388,6 +392,10 @@ def search_flights():
         return_date = form.return_date.data
         passengers = form.passengers.data
         flight_class = form.flight_class.data
+
+        session['passengers'] = passengers
+        session['flight_class'] = flight_class
+
         return redirect(url_for('search_flights', departure_city=departure_city, arrival_city=arrival_city, departure_date=departure_date, return_date=return_date, passengers=passengers, flight_class=flight_class))
 
     departure_city = request.args.get('departure_city')
@@ -503,6 +511,91 @@ def search_flights():
         departure_city_id, arrival_city_id, return_date, passengers, flight_class.id)
 
     return render_template('search_flights.html', direct_flights=direct_flights, connecting_flights=connecting_flights, return_direct_flights=return_direct_flights, return_connecting_flights=return_connecting_flights, calculate_flight_duration=calculate_flight_duration, form=form, menu=menu, calculate_final_price=calculate_final_price, flight_class_name=flight_class_name, format_timedelta=format_timedelta, title='Авиабилеты')
+
+
+@app.route('/book_seats', methods=['GET', 'POST'])
+@login_required
+def book_seats():
+
+    user_id = current_user.id
+
+    # Получение рейсов из запроса
+    flights = eval(request.args.get('flights'))
+    total_price = request.args.get('total_price')
+    number_of_seats = session.get('passengers')
+    flight_class = session.get('flight_class')
+    flight_class_id = FlightClass.query.filter_by(name=flight_class).first().id
+    name = 'name'
+    phone_number = 'phone_number'
+    passport_number = 'passport_number'
+    passport_series = 'passport_series'
+
+    # Проверка наличия минимально необходимых сегментов
+    first_flight_id = flights.get('first_flight')
+    second_flight_id = flights.get('second_flight')
+    first_return_flight_id = flights.get('first_return_flight')
+    second_return_flight_id = flights.get('second_return_flight')
+
+    if not first_flight_id or not first_return_flight_id:
+        return {'error': 'You must specify at least one flight for both directions.'}
+
+    # Проверка доступности мест для каждого указанного рейса
+    flight_ids = {
+        'first_flight': first_flight_id,
+        'second_flight': second_flight_id,
+        'first_return_flight': first_return_flight_id,
+        'second_return_flight': second_return_flight_id
+    }
+
+    available_seats_per_flight = {}
+    for flight_key, flight_id in flight_ids.items():
+        if flight_id:  # Проверяем только если flight_id не None
+            available_seats = Seat.query.filter(
+                Seat.aircraft_id == Flight.query.filter_by(
+                    id=flight_id).first().aircraft_id,
+                Seat.flight_class_id == flight_class_id,
+                ~Seat.id.in_(db.session.query(AirBooking.first_seat_id).filter_by(first_flight_id=flight_id)) &
+                ~Seat.id.in_(db.session.query(AirBooking.second_seat_id).filter_by(second_flight_id=flight_id)) &
+                ~Seat.id.in_(db.session.query(AirBooking.first_return_seat_id).filter_by(first_return_flight_id=flight_id)) &
+                ~Seat.id.in_(db.session.query(AirBooking.second_return_seat_id).filter_by(
+                    second_return_flight_id=flight_id))
+            ).limit(number_of_seats).all()
+
+            if len(available_seats) < number_of_seats:
+                return {'error': f'Not enough available seats for flight {flight_id}.'}
+
+            available_seats_per_flight[flight_key] = available_seats
+
+    # Создаем бронирования для каждого рейса и каждого места
+    new_bookings = []
+    for i in range(number_of_seats):
+        new_booking = AirBooking(
+            user_id=user_id,
+            first_flight_id=first_flight_id,
+            second_flight_id=second_flight_id,
+            first_return_flight_id=first_return_flight_id,
+            second_return_flight_id=second_return_flight_id,
+            first_seat_id=available_seats_per_flight['first_flight'][
+                i].id if 'first_flight' in available_seats_per_flight else None,
+            second_seat_id=available_seats_per_flight['second_flight'][
+                i].id if 'second_flight' in available_seats_per_flight else None,
+            first_return_seat_id=available_seats_per_flight['first_return_flight'][
+                i].id if 'first_return_flight' in available_seats_per_flight else None,
+            second_return_seat_id=available_seats_per_flight['second_return_flight'][
+                i].id if 'second_return_flight' in available_seats_per_flight else None,
+            class_id=flight_class_id,
+            total_price=total_price,
+            name=name,
+            phone_number=phone_number,
+            passport_number=passport_number,
+            passport_series=passport_series
+        )
+        new_bookings.append(new_booking)
+        db.session.add(new_booking)
+
+    db.session.commit()
+
+    return render_template('book_seats.html', title='Авиабилеты', menu=menu)
 
 
 @app.route('/register', methods=['GET', 'POST'])

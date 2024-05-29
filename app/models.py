@@ -269,39 +269,41 @@ class Flight(db.Model):
 # Модель для таблицы бронирования
 
 
+# Модель для таблицы бронирования
 class AirBooking(db.Model):
     __bind_key__ = 'aircraft_db'
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, nullable=False)
-
-    # Внешние ключи для рейсов
     first_flight_id = db.Column(
         db.Integer, db.ForeignKey('flight.id'), nullable=False)
     second_flight_id = db.Column(db.Integer, db.ForeignKey('flight.id'))
-    first_return_flight_id = db.Column(
-        db.Integer, db.ForeignKey('flight.id'), nullable=False)
+    first_return_flight_id = db.Column(db.Integer, db.ForeignKey('flight.id'))
     second_return_flight_id = db.Column(db.Integer, db.ForeignKey('flight.id'))
-
-    # Внешний ключ для места
-    seat_id = db.Column(db.Integer, db.ForeignKey('seat.id'), nullable=False)
-
-    # Внешний ключ для класса рейса
+    first_seat_id = db.Column(
+        db.Integer, db.ForeignKey('seat.id'), nullable=False)
+    second_seat_id = db.Column(db.Integer, db.ForeignKey('seat.id'))
+    first_return_seat_id = db.Column(db.Integer, db.ForeignKey('seat.id'))
+    second_return_seat_id = db.Column(db.Integer, db.ForeignKey('seat.id'))
     class_id = db.Column(db.Integer, db.ForeignKey(
         'flight_class.id'), nullable=False)
-
-    # Дополнительные детали бронирования
     total_price = db.Column(db.Float, nullable=False)
     name = db.Column(db.String(100))
     phone_number = db.Column(db.String(50))
     passport_number = db.Column(db.String(50))
     passport_series = db.Column(db.String(50))
-
-    # Явное указание внешних ключей для отношений
     first_flight = db.relationship('Flight', foreign_keys=[first_flight_id])
     second_flight = db.relationship('Flight', foreign_keys=[second_flight_id])
     first_return_flight = db.relationship(
         'Flight', foreign_keys=[first_return_flight_id])
     second_return_flight = db.relationship(
         'Flight', foreign_keys=[second_return_flight_id])
-    seat = db.relationship('Seat')
+    first_seat = db.relationship('Seat', foreign_keys=[first_seat_id])
+    second_seat = db.relationship('Seat', foreign_keys=[second_seat_id])
+    first_return_seat = db.relationship(
+        'Seat', foreign_keys=[first_return_seat_id])
+    second_return_seat = db.relationship(
+        'Seat', foreign_keys=[second_return_seat_id])
     flight_class = db.relationship('FlightClass')
+
+    def __repr__(self):
+        return f"AirBooking('{self.id}', '{self.user_id}', '{self.first_flight_id}', '{self.second_flight_id}', '{self.first_return_flight_id}', '{self.second_return_flight_id}', '{self.first_seat_id}', '{self.second_seat_id}', '{self.first_return_seat_id}', '{self.second_return_seat_id}', '{self.class_id}', '{self.total_price}', '{self.name}', '{self.phone_number}', '{self.passport_number}', '{self.passport_series}')"
