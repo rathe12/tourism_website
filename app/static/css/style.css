@@ -22,7 +22,6 @@ a:hover{
 ul.mainmenu {
     list-style: none;
     background: #E9E7E7;
-    height: 9vh;
     margin: 0;
     padding: 0;
     font-size: 20px;
@@ -31,13 +30,27 @@ ul.mainmenu {
 
 .anotherli{
     float:left;
-    margin: 3vh 4vw 0 5vw; 
+    padding-top: 3vh;
+    padding-bottom: 3vh;
+    padding-left: 4vw;
+    padding-right: 4vw;
+}
+
+.selected_anotherli{
+    float:left;
+    padding-top: 3vh;
+    padding-bottom: 3vh;
+    padding-left: 4vw;
+    padding-right: 4vw;
+    color: #E9E7E7;
+    background-color: #3A97D2;
 }
 
 .liname{
     float:left;
-    margin: 3vh 4vw 0 5vw; 
-    margin-left: -6vw;
+    margin-top: 3vh;
+    margin-left: -7vw;
+    margin-right: 6vw;
     padding: 0;
     color: #3A97D2;
 }
@@ -59,9 +72,9 @@ ul.mainmenu li a:hover{
     height: 100%;
 
 }
-img.logo {
+.logo {
     padding-top: 0.5vh;
-    height: 80%;
+    height: 7vh;
     width: auto;
 }
 /* div.content{
