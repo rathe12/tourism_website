@@ -2,7 +2,7 @@
 from . import app, db
 import json
 from flask import render_template, flash, redirect, url_for, request, session
-from app.forms import RegistrationForm, LoginForm, ResidenceForm, BookingHotelForm, AirplaneTicketsForm
+from app.forms import RegistrationForm, LoginForm, ResidenceForm, BookingHotelForm, AirplaneTicketsForm, AirBookingForm
 from app.models import User, City, Hotel, HotelPhoto, Room, RoomAvailability, RoomImage, BookingStatus, Booking, AirCity, Aircraft, FlightClass, Seat, Flight, AirBooking
 # from config import dbx
 from flask_login import login_user, current_user, login_required
@@ -516,86 +516,124 @@ def search_flights():
 @app.route('/book_seats', methods=['GET', 'POST'])
 @login_required
 def book_seats():
-
-    user_id = current_user.id
-
-    # Получение рейсов из запроса
-    flights = eval(request.args.get('flights'))
-    total_price = request.args.get('total_price')
-    number_of_seats = session.get('passengers')
-    flight_class = session.get('flight_class')
+    try:
+        flights = eval(request.args.get('flights'))
+        total_price = request.args.get('total_price')
+        number_of_seats = session.get('passengers')
+        flight_class = session.get('flight_class')
+        session['flights'] = flights
+        session['total_price'] = total_price
+        session['number_of_seats'] = number_of_seats
+        session['flight_class'] = flight_class
+    except:
+        flights = session.get('flights')
+        total_price = session.get('total_price')
+        number_of_seats = session.get('number_of_seats')
+        flight_class = session.get('flight_class')
     flight_class_id = FlightClass.query.filter_by(name=flight_class).first().id
-    name = 'name'
-    phone_number = 'phone_number'
-    passport_number = 'passport_number'
-    passport_series = 'passport_series'
 
-    # Проверка наличия минимально необходимых сегментов
-    first_flight_id = flights.get('first_flight')
-    second_flight_id = flights.get('second_flight')
-    first_return_flight_id = flights.get('first_return_flight')
-    second_return_flight_id = flights.get('second_return_flight')
+    form = AirBookingForm()
+    while len(form.passengers.entries) < number_of_seats:
+        form.passengers.append_entry()
 
-    if not first_flight_id or not first_return_flight_id:
-        return {'error': 'You must specify at least one flight for both directions.'}
+    if request.method == 'POST':
+        if form.validate():
+            print("Форма прошла валидацию!")
+            print(form.data)  # Debug: print form data
+        else:
+            print("Форма не прошла валидацию!")
+            print(form.errors)  # Debug: print form errors
 
-    # Проверка доступности мест для каждого указанного рейса
-    flight_ids = {
-        'first_flight': first_flight_id,
-        'second_flight': second_flight_id,
-        'first_return_flight': first_return_flight_id,
-        'second_return_flight': second_return_flight_id
-    }
+    if form.validate_on_submit():
+        user_id = current_user.id
 
-    available_seats_per_flight = {}
-    for flight_key, flight_id in flight_ids.items():
-        if flight_id:  # Проверяем только если flight_id не None
-            available_seats = Seat.query.filter(
-                Seat.aircraft_id == Flight.query.filter_by(
-                    id=flight_id).first().aircraft_id,
-                Seat.flight_class_id == flight_class_id,
-                ~Seat.id.in_(db.session.query(AirBooking.first_seat_id).filter_by(first_flight_id=flight_id)) &
-                ~Seat.id.in_(db.session.query(AirBooking.second_seat_id).filter_by(second_flight_id=flight_id)) &
-                ~Seat.id.in_(db.session.query(AirBooking.first_return_seat_id).filter_by(first_return_flight_id=flight_id)) &
-                ~Seat.id.in_(db.session.query(AirBooking.second_return_seat_id).filter_by(
-                    second_return_flight_id=flight_id))
-            ).limit(number_of_seats).all()
+        first_flight_id = flights.get('first_flight')
+        second_flight_id = flights.get('second_flight')
+        first_return_flight_id = flights.get('first_return_flight')
+        second_return_flight_id = flights.get('second_return_flight')
 
-            if len(available_seats) < number_of_seats:
-                return {'error': f'Not enough available seats for flight {flight_id}.'}
+        if not first_flight_id or not first_return_flight_id:
+            return {'error': 'You must specify at least one flight for both directions.'}
 
-            available_seats_per_flight[flight_key] = available_seats
+        flight_ids = {
+            'first_flight': first_flight_id,
+            'second_flight': second_flight_id,
+            'first_return_flight': first_return_flight_id,
+            'second_return_flight': second_return_flight_id
+        }
 
-    # Создаем бронирования для каждого рейса и каждого места
-    new_bookings = []
-    for i in range(number_of_seats):
-        new_booking = AirBooking(
-            user_id=user_id,
-            first_flight_id=first_flight_id,
-            second_flight_id=second_flight_id,
-            first_return_flight_id=first_return_flight_id,
-            second_return_flight_id=second_return_flight_id,
-            first_seat_id=available_seats_per_flight['first_flight'][
-                i].id if 'first_flight' in available_seats_per_flight else None,
-            second_seat_id=available_seats_per_flight['second_flight'][
-                i].id if 'second_flight' in available_seats_per_flight else None,
-            first_return_seat_id=available_seats_per_flight['first_return_flight'][
-                i].id if 'first_return_flight' in available_seats_per_flight else None,
-            second_return_seat_id=available_seats_per_flight['second_return_flight'][
-                i].id if 'second_return_flight' in available_seats_per_flight else None,
-            class_id=flight_class_id,
-            total_price=total_price,
-            name=name,
-            phone_number=phone_number,
-            passport_number=passport_number,
-            passport_series=passport_series
-        )
-        new_bookings.append(new_booking)
-        db.session.add(new_booking)
+        available_seats_per_flight = {}
+        for flight_key, flight_id in flight_ids.items():
+            if flight_id:
+                available_seats = Seat.query.filter(
+                    Seat.aircraft_id == Flight.query.filter_by(
+                        id=flight_id).first().aircraft_id,
+                    Seat.flight_class_id == flight_class_id,
+                    ~Seat.id.in_(db.session.query(AirBooking.first_seat_id).filter_by(first_flight_id=flight_id)) &
+                    ~Seat.id.in_(db.session.query(AirBooking.second_seat_id).filter_by(second_flight_id=flight_id)) &
+                    ~Seat.id.in_(db.session.query(AirBooking.first_return_seat_id).filter_by(first_return_flight_id=flight_id)) &
+                    ~Seat.id.in_(db.session.query(AirBooking.second_return_seat_id).filter_by(
+                        second_return_flight_id=flight_id))
+                ).limit(number_of_seats).all()
 
-    db.session.commit()
+                if len(available_seats) < number_of_seats:
+                    return {'error': f'Not enough available seats for flight {flight_id}.'}
 
-    return render_template('book_seats.html', title='Авиабилеты', menu=menu)
+                available_seats_per_flight[flight_key] = available_seats
+
+        new_bookings = []
+        for i in range(number_of_seats):
+            passenger_data = form.passengers[i].data
+            new_booking = AirBooking(
+                user_id=user_id,
+                first_flight_id=first_flight_id,
+                second_flight_id=second_flight_id,
+                first_return_flight_id=first_return_flight_id,
+                second_return_flight_id=second_return_flight_id,
+                first_seat_id=available_seats_per_flight['first_flight'][
+                    i].id if 'first_flight' in available_seats_per_flight else None,
+                second_seat_id=available_seats_per_flight['second_flight'][
+                    i].id if 'second_flight' in available_seats_per_flight else None,
+                first_return_seat_id=available_seats_per_flight['first_return_flight'][
+                    i].id if 'first_return_flight' in available_seats_per_flight else None,
+                second_return_seat_id=available_seats_per_flight['second_return_flight'][
+                    i].id if 'second_return_flight' in available_seats_per_flight else None,
+                class_id=flight_class_id,
+                total_price=total_price,
+                name=passenger_data['namee'],
+                phone_number=passenger_data['phone_number'],
+                passport_number=passenger_data['passport_number'],
+                passport_series=passenger_data['passport_series']
+            )
+            new_bookings.append(new_booking)
+            db.session.add(new_booking)
+
+        db.session.commit()
+
+        return redirect(url_for('profile.myorders'))
+
+    def get_flight_by_id(flight_id):
+        return Flight.query.get(flight_id)
+
+    def collect_flight_info(flights):
+        flight_info_dict = {}
+
+        for key, flight_id in flights.items():
+            if flight_id is not None:
+                flight = get_flight_by_id(flight_id)
+                flight_info = {
+                    'flight_number': flight.flight_number,
+                    'origin_city': flight.origin_city.name,
+                    'destination_city': flight.destination_city.name,
+                    'aircraft_model': flight.aircraft.model,
+                }
+                flight_info_dict[key] = flight_info
+
+        return flight_info_dict
+
+    flight_info_dict = collect_flight_info(flights)
+    print(flight_info_dict)
+    return render_template('book_seats.html', form=form, title='Авиабилеты', menu=menu, flight_class=flight_class, total_price=total_price, flight_info_dict=flight_info_dict)
 
 
 @app.route('/register', methods=['GET', 'POST'])

@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, DateField, RadioField, SelectField, TelField, IntegerField
+from wtforms import FieldList, FormField, StringField, PasswordField, SubmitField, BooleanField, DateField, RadioField, SelectField, TelField, IntegerField
 from wtforms.validators import DataRequired, Email, EqualTo, Length
 
 
@@ -76,3 +76,17 @@ class UserForm(FlaskForm):
     phone_code = StringField('Код', default='+7', validators=[DataRequired()])
     phone_number = TelField('Мобильный телефон', validators=[DataRequired()])
     submit = SubmitField('Сохранить')
+
+
+class PassengerForm(FlaskForm):
+    namee = StringField('Фио', validators=[DataRequired()])
+    phone_number = StringField('Номер телефона', validators=[DataRequired()])
+    passport_series = StringField(
+        'Серия паспорта', validators=[DataRequired()])
+    passport_number = StringField(
+        'Ноемер пасапорта', validators=[DataRequired()])
+
+
+class AirBookingForm(FlaskForm):
+    passengers = FieldList(FormField(PassengerForm), min_entries=1)
+    submit = SubmitField('Забронировать')

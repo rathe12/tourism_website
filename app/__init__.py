@@ -5,7 +5,7 @@ from config import Config
 from app.profile import create_blueprint
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
-
+from flask_wtf.csrf import CSRFProtect
 # Создание экземпляра объекта SQLAlchemy
 db = SQLAlchemy()
 
@@ -24,6 +24,7 @@ login_manager.login_view = 'login'
 def create_app():
 
     from app import routes, models
+    from app.routes import book_seats
     app.register_blueprint(create_blueprint(), url_prefix='/profile')
 
     from .models import User, City, Hotel, HotelPhoto, Room, RoomAvailability, RoomImage, Booking, BookingStatus, AirCity, Aircraft, FlightClass, Seat, Flight, AirBooking

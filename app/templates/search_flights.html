@@ -17,13 +17,13 @@
         <div class="container-air-flight">
             <div class="left-block">
                 {% if flight_class_name == 'economy' %}
-                <h3>Цена:</h3> <p>{{"{:.1f}".format(calculate_final_price(flight.economy_price,flight.departure_time.date(),10) + calculate_final_price(return_flight.economy_price,return_flight.departure_time.date(),10))}}</p>
+                <h3>Цена:</h3> <p>{{"{:.0f}".format(calculate_final_price(flight.economy_price,flight.departure_time.date(),10) + calculate_final_price(return_flight.economy_price,return_flight.departure_time.date(),10))}}</p>
                 <h4>Багаж</h4>
                 <a href="{{ url_for('book_seats', flights={'first_flight': flight.id,'second_flight': None,'first_return_flight':return_flight.id,'second_return_flight': None}, total_price=calculate_final_price(flight.economy_price, flight.departure_time.date(), 10) + calculate_final_price(return_flight.economy_price, return_flight.departure_time.date(), 10)) }}">Забронировать</a> 
                 {% elif flight_class_name == 'business' %}
-                <h3>Цена:</h3> <p>{{"{:.1f}".format(calculate_final_price(flight.business_price,flight.departure_time.date(),10) + calculate_final_price(return_flight.business_price,return_flight.departure_time.date(),10))}}</p>
+                <h3>Цена:</h3> <p>{{"{:.0f}".format(calculate_final_price(flight.business_price,flight.departure_time.date(),10) + calculate_final_price(return_flight.business_price,return_flight.departure_time.date(),10))}}</p>
                 <h4>Багаж</h4>
-                <a href="{{ url_for('book_seats', flights=[flight.id, None, return_flight.id, None], total_price=calculate_final_price(flight.business_price, flight.departure_time.date(), 10) + calculate_final_price(return_flight.business_price, return_flight.departure_time.date(), 10)) }}">Забронировать</a>
+                <a href="{{ url_for('book_seats', flights={'first_flight': flight.id,'second_flight': None,'first_return_flight':return_flight.id,'second_return_flight': None}, total_price=calculate_final_price(flight.business_price, flight.departure_time.date(), 10) + calculate_final_price(return_flight.business_price, return_flight.departure_time.date(), 10)) }}">Забронировать</a>
                 {% endif %}
             </div>
 
@@ -95,12 +95,14 @@
         <div class="container-air-flight">
             <div class="left-block">
                 {% if flight_class_name == 'economy' %}
-                <h3>Цена</h3> <p>{{"{:.1f}".format(calculate_final_price(flight.economy_price,flight.departure_time.date(),10) + calculate_final_price(first_return_flight.economy_price,first_return_flight.departure_time.date(),10) + calculate_final_price(second_return_flight.economy_price,second_return_flight.departure_time.date(),10))}}</p>
-                {% elif flight_class_name == 'business' %}
-                <h3>Цена</h3> <p>{{"{:.1f}".format(calculate_final_price(flight.business_price,flight.departure_time.date(),10) + calculate_final_price(first_return_flight.business_price,first_return_flight.departure_time.date(),10) + calculate_final_price(second_return_flight.business_price,second_return_flight.departure_time.date(),10))}}</p>
-                {% endif %}
+                <h3>Цена</h3> <p>{{"{:.0f}".format(calculate_final_price(flight.economy_price,flight.departure_time.date(),10) + calculate_final_price(first_return_flight.economy_price,first_return_flight.departure_time.date(),10) + calculate_final_price(second_return_flight.economy_price,second_return_flight.departure_time.date(),10))}}</p>
                 <h4>Багаж</h4>
-                <h4>Конпка</h4>
+                <a href="{{ url_for('book_seats', flights={'first_flight': flight.id,'second_flight': None,'first_return_flight':first_return_flight.id,'second_return_flight': second_return_flight.id}, total_price= calculate_final_price(flight.economy_price,flight.departure_time.date(),10) + calculate_final_price(first_return_flight.economy_price,first_return_flight.departure_time.date(),10) + calculate_final_price(second_return_flight.economy_price,second_return_flight.departure_time.date(),10) )}}">Забронировать</a> 
+                {% elif flight_class_name == 'business' %}
+                <h3>Цена</h3> <p>{{"{:.0f}".format(calculate_final_price(flight.business_price,flight.departure_time.date(),10) + calculate_final_price(first_return_flight.business_price,first_return_flight.departure_time.date(),10) + calculate_final_price(second_return_flight.business_price,second_return_flight.departure_time.date(),10))}}</p>
+                <h4>Багаж</h4>
+                <a href="{{ url_for('book_seats', flights={'first_flight': flight.id,'second_flight': None,'first_return_flight':first_return_flight.id,'second_return_flight': second_return_flight.id}, total_price= calculate_final_price(flight.business_price,flight.departure_time.date(),10) + calculate_final_price(first_return_flight.business_price,first_return_flight.departure_time.date(),10) + calculate_final_price(second_return_flight.business_price,second_return_flight.departure_time.date(),10) )}}">Забронировать</a> 
+                {% endif %}
             </div>
 
             <div class="right-block">
@@ -214,12 +216,14 @@
     <div class="container-air-flight">
         <div class="left-block">
             {% if flight_class_name == 'economy' %}
-                <h3>Цена:</h3> <p>{{"{:.1f}".format(calculate_final_price(first_flight.economy_price,first_flight.departure_time.date(),10) + calculate_final_price(second_flight.economy_price,second_flight.departure_time.date(),10)  + calculate_final_price(return_flight.economy_price,return_flight.departure_time.date(),10))}}</p>
+                <h3>Цена:</h3> <p>{{"{:.0f}".format(calculate_final_price(first_flight.economy_price,first_flight.departure_time.date(),10) + calculate_final_price(second_flight.economy_price,second_flight.departure_time.date(),10)  + calculate_final_price(return_flight.economy_price,return_flight.departure_time.date(),10))}}</p>
+                <h4>Багаж</h4>
+                <a href="{{ url_for('book_seats', flights={'first_flight': first_flight.id,'second_flight': second_flight.id,'first_return_flight':return_flight.id,'second_return_flight': None}, total_price=calculate_final_price(first_flight.economy_price,first_flight.departure_time.date(),10) + calculate_final_price(second_flight.economy_price,second_flight.departure_time.date(),10)  + calculate_final_price(return_flight.economy_price,return_flight.departure_time.date(),10)) }}">Забронировать</a> 
                 {% elif flight_class_name == 'business' %}
-                <h3>Цена:</h3> <p>{{"{:.1f}".format(calculate_final_price(first_flight.business_price,first_flight.departure_time.date(),10) + calculate_final_price(second_flight.business_price,second_flight.departure_time.date(),10)  + calculate_final_price(return_flight.business_price,return_flight.departure_time.date(),10))}}</p>
+                <h3>Цена:</h3> <p>{{"{:.0f}".format(calculate_final_price(first_flight.business_price,first_flight.departure_time.date(),10) + calculate_final_price(second_flight.business_price,second_flight.departure_time.date(),10)  + calculate_final_price(return_flight.business_price,return_flight.departure_time.date(),10))}}</p>
+                <h4>Багаж</h4>
+                <a href="{{ url_for('book_seats', flights={'first_flight': first_flight.id,'second_flight': second_flight.id,'first_return_flight':return_flight.id,'second_return_flight': None}, total_price=calculate_final_price(first_flight.business_price,first_flight.departure_time.date(),10) + calculate_final_price(second_flight.business_price,second_flight.departure_time.date(),10)  + calculate_final_price(return_flight.business_price,return_flight.departure_time.date(),10)) }}">Забронировать</a> 
                 {% endif %}
-            <h4>Багаж</h4>
-            <h4>Конпка</h4>
         </div>
 
         <div class="right-block">
@@ -282,7 +286,7 @@
                 </div>
             </div>
             <div class="flight-details">
-                <div>Общая длительность: {{ total_travel_duration }}</div>
+                <div>Общая длительность: {{ format_timedelta(total_travel_duration) }}</div>
             </div>
 
             <hr class="delive_hr">
@@ -322,12 +326,14 @@
 
             <div class="left-block">
                 {% if flight_class_name == 'economy' %}
-                <h3>Цена:</h3> <p>{{"{:.1f}".format(calculate_final_price(first_flight.economy_price,first_flight.departure_time.date(),10) + calculate_final_price(second_flight.economy_price,second_flight.departure_time.date(),10)  + calculate_final_price(first_return_flight.economy_price,first_return_flight.departure_time.date(),10) + calculate_final_price(second_return_flight.economy_price,second_return_flight.departure_time.date(),10))}}</p>
-                {% elif flight_class_name == 'business' %}
-                <h3>Цена:</h3> <p>{{"{:.1f}".format(calculate_final_price(first_flight.business_price,first_flight.departure_time.date(),10) + calculate_final_price(second_flight.business_price,second_flight.departure_time.date(),10)  + calculate_final_price(first_return_flight.business_price,first_return_flight.departure_time.date(),10) + calculate_final_price(second_return_flight.business_price,second_return_flight.departure_time.date(),10))}}</p>
-                {% endif %}
+                <h3>Цена:</h3> <p>{{"{:.0f}".format(calculate_final_price(first_flight.economy_price,first_flight.departure_time.date(),10) + calculate_final_price(second_flight.economy_price,second_flight.departure_time.date(),10)  + calculate_final_price(first_return_flight.economy_price,first_return_flight.departure_time.date(),10) + calculate_final_price(second_return_flight.economy_price,second_return_flight.departure_time.date(),10))}}</p>
                 <h4>Багаж</h4>
-                <h4>Конпка</h4>
+                <a href="{{ url_for('book_seats', flights={'first_flight': first_flight.id,'second_flight': second_flight.id,'first_return_flight':first_return_flight.id,'second_return_flight': second_return_flight.id}, total_price=calculate_final_price(first_flight.economy_price,first_flight.departure_time.date(),10) + calculate_final_price(second_flight.economy_price,second_flight.departure_time.date(),10)  + calculate_final_price(first_return_flight.economy_price,first_return_flight.departure_time.date(),10)  + calculate_final_price(second_return_flight.economy_price,second_return_flight.departure_time.date(),10) )  }}">Забронировать</a> 
+                {% elif flight_class_name == 'business' %}
+                <h3>Цена:</h3> <p>{{"{:.0f}".format(calculate_final_price(first_flight.business_price,first_flight.departure_time.date(),10) + calculate_final_price(second_flight.business_price,second_flight.departure_time.date(),10)  + calculate_final_price(first_return_flight.business_price,first_return_flight.departure_time.date(),10) + calculate_final_price(second_return_flight.business_price,second_return_flight.departure_time.date(),10))}}</p>
+                <h4>Багаж</h4>
+                <a href="{{ url_for('book_seats', flights={'first_flight': first_flight.id,'second_flight': second_flight.id,'first_return_flight':first_return_flight.id,'second_return_flight': second_return_flight.id}, total_price=calculate_final_price(first_flight.business_price,first_flight.departure_time.date(),10) + calculate_final_price(second_flight.business_price,second_flight.departure_time.date(),10)  + calculate_final_price(first_return_flight.business_price,first_return_flight.departure_time.date(),10)  + calculate_final_price(second_return_flight.business_price,second_return_flight.departure_time.date(),10) )  }}">Забронировать</a> 
+                {% endif %}
             </div>
 
             <div class="right-block">

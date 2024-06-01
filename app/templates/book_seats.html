@@ -1,4 +1,106 @@
 {% extends 'base.html' %}
 {% block content %}
+<div class="delimiter"><h2>Бронирование билетов</h2></div>
+<div class="book-seats-container">
+    <form method="post" action="{{ url_for('book_seats') }}" class="book-seats-form">
+        {{ form.hidden_tag() }}
+                {% for passenger_form in form.passengers %}
+                    <div class="delbook">
+                        <div class="firstdelbook">
+                        <fieldset class="book-seats-fieldset">
+                            {{ passenger_form.hidden_tag() }}
+                            <legend class="book-seats-legend">Пассажир {{ loop.index }}</legend>
+                            <div class="book-seats-field">
+                                <label for="passenger-{{ loop.index }}-name">{{ passenger_form.namee.label }}</label>
+                                {{ passenger_form.namee(class="book-seats-input book-seats-full-width") }}
+                                {% if passenger_form.namee.errors %}
+                                    <ul class="book-seats-errors">
+                                        {% for error in passenger_form.namee.errors %}
+                                            <li class="book-seats-error">{{ error }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+                            </div>
+                            <div class="book-seats-field book-seats-passport">
+                                <div class="book-seats-passport-series">
+                                    <label for="passenger-{{ loop.index }}-passport_series">Серия паспорта</label>
+                                    {{ passenger_form.passport_series(class="book-seats-input book-seats-small-input") }}
+                                </div>
+                                <div class="book-seats-passport-number">
+                                    <label for="passenger-{{ loop.index }}-passport_number">Номер паспорта</label>
+                                    {{ passenger_form.passport_number(class="book-seats-input book-seats-big-input") }}
+                                </div>
+                                {% if passenger_form.passport_series.errors %}
+                                    <ul class="book-seats-errors">
+                                        {% for error in passenger_form.passport_series.errors %}
+                                            <li class="book-seats-error">{{ error }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+                                {% if passenger_form.passport_number.errors %}
+                                    <ul class="book-seats-errors">
+                                        {% for error in passenger_form.passport_number.errors %}
+                                            <li class="book-seats-error">{{ error }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+                            </div>
+                            <div class="book-seats-field">
+                                <label for="passenger-{{ loop.index }}-phone_number">{{ passenger_form.phone_number.label }}</label>
+                                {{ passenger_form.phone_number(class="book-seats-input book-seats-full-width") }}
+                                {% if passenger_form.phone_number.errors %}
+                                    <ul class="book-seats-errors">
+                                        {% for error in passenger_form.phone_number.errors %}
+                                            <li class="book-seats-error">{{ error }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+                            </div>
+                        </fieldset>
+                        </div>
+                        <div class="seconddelbook">
+                            <div id="flights-container">
+                                <!-- Flights there -->
+                                <div class="flight-section" id="flights-there">
+                                    <div class="flight-title">Вылеты туда:</div>
+                                    {% for key in ['first_flight', 'second_flight'] %}
+                                        {% if key in flight_info_dict %}
+                                            <div class="flight-info">
+                                                <p><strong>Номер рейса:</strong> {{ flight_info_dict[key]['flight_number'] }}</p>
+                                                <p><strong>Город отправления:</strong> {{ flight_info_dict[key]['origin_city'] }}</p>
+                                                <p><strong>Город назначения:</strong> {{ flight_info_dict[key]['destination_city'] }}</p>
+                                                <p><strong>Модель самолета:</strong> {{ flight_info_dict[key]['aircraft_model'] }}</p>
+                                            </div>
+                                        {% endif %}
+                                        <br>
+                                    {% endfor %}
+                                </div>
+                        
+                                <!-- Flights back -->
+                                <div class="flight-section" id="flights-back">
+                                    <div class="flight-title">Вылеты обратно:</div>
+                                    {% for key in ['first_return_flight', 'second_return_flight'] %}
+                                        {% if key in flight_info_dict %}
+                                            <div class="flight-info">
+                                                <p><strong>Номер рейса:</strong> {{ flight_info_dict[key]['flight_number'] }}</p>
+                                                <p><strong>Город отправления:</strong> {{ flight_info_dict[key]['origin_city'] }}</p>
+                                                <p><strong>Город назначения:</strong> {{ flight_info_dict[key]['destination_city'] }}</p>
+                                                <p><strong>Модель самолета:</strong> {{ flight_info_dict[key]['aircraft_model'] }}</p>
+                                            </div>
+                                        {% endif %}
+                                        <br>
+                                    {% endfor %}
+                                </div>
+                                <p><strong>Класс:</strong> {{ flight_class }}</p> 
+                                <p><strong>Цена:</strong> {{ total_price }}</p> 
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+        <div class="book-seats-submit">
+            {{ form.submit(class="book-seats-button") }}
+        </div>
+    </form>
+</div>
 
 {% endblock %}

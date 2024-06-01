@@ -10,7 +10,6 @@
     <title>{{title}}</title>
 </head>
 <body>
-    {% block content %}
     {% block mainmenu %}
     <ul class="mainmenu">
         <li class="lilogo"><img class="logo" src="{{ url_for('static', filename='images/logo.png') }}" alt="logo"></li>
@@ -24,6 +23,7 @@
         {% endfor %}
     </ul>
     {% endblock mainmenu %}
+    {% block content %}
     {% endblock content %}
 </body>
 </html>
