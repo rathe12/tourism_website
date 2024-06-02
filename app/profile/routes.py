@@ -3,7 +3,7 @@ from app.routes import menu
 from . import profile_bp
 from flask_login import logout_user, login_required, current_user
 from app.forms import ChangePassword, UserForm
-from app.models import User, Booking, Hotel, Room
+from app.models import AirBooking, Flight, Seat, User, Booking, Hotel, Room
 from werkzeug.security import generate_password_hash
 from app import db
 from datetime import datetime
@@ -58,16 +58,58 @@ def myaccount(username):
 @login_required
 def myorders():
     orders = Booking.query.filter_by(user_id=current_user.id).all()
-    print(orders)
-    orders_list = []
-    if not orders:
-        orders = 'У вас нет заказов'
-    else:
-        for order in orders:
-            hotel = Hotel.query.filter_by(id=order.hotel_id).first()
-            room = Room.query.filter_by(id=order.room_id).first()
-            orders_list.append([order, hotel, room])
-    return render_template('myorders.html', orders_list=orders_list, menu=menu, title='Заказы')
+    air_orders = AirBooking.query.filter_by(user_id=current_user.id).all()
+
+    combined_orders = []
+
+    for order in orders:
+        hotel = Hotel.query.filter_by(id=order.hotel_id).first()
+        room = Room.query.filter_by(id=order.room_id).first()
+        check_in_date = order.check_in_date if isinstance(
+            order.check_in_date, datetime) else datetime.combine(order.check_in_date, datetime.min.time())
+        combined_orders.append({
+            'type': 'hotel',
+            'order': order,
+            'hotel': hotel,
+            'room': room,
+            'date': check_in_date
+        })
+
+    for air_order in air_orders:
+        first_flight = Flight.query.filter_by(
+            id=air_order.first_flight_id).first()
+        second_flight = Flight.query.filter_by(
+            id=air_order.second_flight_id).first()
+        first_return_flight = Flight.query.filter_by(
+            id=air_order.first_return_flight_id).first()
+        second_return_flight = Flight.query.filter_by(
+            id=air_order.second_return_flight_id).first()
+        first_seat = Seat.query.filter_by(id=air_order.first_seat_id).first()
+        second_seat = Seat.query.filter_by(id=air_order.second_seat_id).first()
+        first_return_seat = Seat.query.filter_by(
+            id=air_order.first_return_seat_id).first()
+        second_return_seat = Seat.query.filter_by(
+            id=air_order.second_return_seat_id).first()
+
+        departure_time = first_flight.departure_time if isinstance(
+            first_flight.departure_time, datetime) else datetime.combine(first_flight.departure_time, datetime.min.time())
+        combined_orders.append({
+            'type': 'air',
+            'order': air_order,
+            'first_flight': first_flight,
+            'second_flight': second_flight,
+            'first_return_flight': first_return_flight,
+            'second_return_flight': second_return_flight,
+            'first_seat': first_seat,
+            'second_seat': second_seat,
+            'first_return_seat': first_return_seat,
+            'second_return_seat': second_return_seat,
+            'date': departure_time
+        })
+
+    combined_orders.sort(key=lambda x: x['date'], reverse=True)
+
+    return render_template('myorders.html', combined_orders=combined_orders, menu=menu, title='Заказы')
 
 
 @profile_bp.route('/settings', methods=['GET', 'POST'])

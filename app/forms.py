@@ -74,7 +74,7 @@ class UserForm(FlaskForm):
                            validators=[DataRequired()])  # Используем формат YYYY-MM-DD
     email = StringField('E-mail', validators=[DataRequired(), Email()])
     phone_code = StringField('Код', default='+7', validators=[DataRequired()])
-    phone_number = TelField('Мобильный телефон', validators=[DataRequired()])
+    phone_number = TelField('Телефон', validators=[DataRequired()])
     submit = SubmitField('Сохранить')
 
 

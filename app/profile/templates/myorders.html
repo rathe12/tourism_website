@@ -1,60 +1,116 @@
 {% extends 'base.html' %}
 {% block content %}
 {{ super() }}
-<!-- <style>
-    body{
-        overflow: hidden;
-    }
-</style> -->
     <div class="delimiter"><h2>Личный кабинет</h2></div>
     <div class="container">
         <div class="sidebar">
             <ul>
-                <li class="nonselected_item"><a href="{{ url_for('profile.myaccount',username=current_user.username) }}">Мой аккаунт</a></li>
+                <li class="nonselected_item"><a href="{{ url_for('profile.myaccount', username=current_user.username) }}">Мой аккаунт</a></li>
                 <li class="selected_item"><a href="{{ url_for('profile.myorders') }}">Мои заказы</a></li>
                 <li class="nonselected_item"><a href="{{ url_for('profile.settings') }}">Настройки</a></li>
                 <li class="nonselected_item"><a href="{{ url_for('profile.logout') }}">Выйти из аккаунта</a></li>
             </ul>
         </div>
         <div class="main-content">
-            {% if orders_list == [] %}
+            {% if combined_orders == [] %}
                 <div class="empty-cart">
-                    <h1 >У вас еще нет заказов</h1>
-                    <img src="{{url_for('static', filename='images/empty_cart.png')}}">
+                    <h1>У вас еще нет заказов</h1>
+                    <img src="{{ url_for('static', filename='images/empty_cart.png') }}">
                 </div>
             {% else %}
-                {% for order in orders_list  %}
-                <div class="flexb">
-                    <div class="order">
-                        <a href="{{ url_for('show_hotel', hotel_id=order[1].id) }}">{{ order[1].name }}</a>
-                        <div class="order_description">
-                            <img src="{{ order[1].image_url }}" alt="{{ order[1].name }}">
-                            <p>{{order[1].description}}</p>
-                        </div>
-                            <div class="order_price">
-                                <h2>Цена:</h2> 
-                                <div class="order_price_price">
-                                    <h3>{{ order[0].total_price }} ₽</h3>
+                {% for item in combined_orders %}
+                    {% if item.type == 'hotel' %}
+                        <div class="flexb">
+                            <div class="order">
+                                <a href="{{ url_for('show_hotel', hotel_id=item.hotel.id) }}">{{ item.hotel.name }}</a>
+                                <div class="order_description">
+                                    <img src="{{ item.hotel.image_url }}" alt="{{ item.hotel.name }}">
+                                    <p>{{ item.hotel.description }}</p>
+                                </div>
+                                <div class="order_price">
+                                    <h2>Цена:</h2>
+                                    <div class="order_price_price">
+                                        <h3>{{ item.order.total_price }} ₽</h3>
+                                    </div>
                                 </div>
                             </div>
-                    </div>
-                    <div class="order_info">
-                        <div class="order_status"></div>
-                        <h4>Статус: {{ order[0].status.name }}</h4> 
-                        <h3>Номер: {{ order[2].type  }}</h3>
-                        {% for image in order[2].images %}
-                            <a class="images_order" href="{{ image.image_url }}" target="_blank">
-                                <img class="image_order" src="{{ image.image_url }}" alt="Room Photo">
-                            </a>
-                        {% endfor %}
-                        <h3>Даты: {{ order[0].check_in_date }} - {{ order[0].check_out_date }}</h3>
-                        {% if order[0].status.name == 'Забронирован' %}
-                         <a href="#" class="myButton_order">Оплатить</a>
-                        {% else %}
-                            
-                        {% endif %}
-                    </div>
-                </div>
+                            <div class="order_info">
+                                <div class="order_status"></div>
+                                <h4>Статус: {{ item.order.status.name }}</h4>
+                                <h3>Номер: {{ item.room.type }}</h3>
+                                {% for image in item.room.images %}
+                                    <a class="images_order" href="{{ image.image_url }}" target="_blank">
+                                        <img class="image_order" src="{{ image.image_url }}" alt="Room Photo">
+                                    </a>
+                                {% endfor %}
+                                <h3>Даты: {{ item.order.check_in_date }} - {{ item.order.check_out_date }}</h3>
+                                {% if item.order.status.name == 'Забронирован' %}
+                                    <a href="#" class="myButton_order">Оплатить</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% elif item.type == 'air' %}
+                        <div class="profile-air-order">
+                            <div class="profile-air-order-header">
+                                <h3>Бронь №{{ item.order.id }}</h3>
+                                <div class="profile-air-order-status">
+                                    <h4>Статус: {{ item.order.status.name }}</h4>
+                                </div>
+                            </div>
+                            <div class="profile-air-order-content">
+                                <div class="profile-air-flight">
+                                    <h4>Рейс туда</h4>
+                                    <div class="profile-air-flight-info">
+                                        <p>Рейс: {{ item.first_flight.flight_number }}</p>
+                                        <p>Откуда: {{ item.first_flight.origin_city.name }}</p>
+                                        <p>Куда: {{ item.first_flight.destination_city.name }}</p>
+                                        <p>Время отправления: {{ item.first_flight.departure_time }}</p>
+                                        <p>Время прибытия: {{ item.first_flight.arrival_time }}</p>
+                                        <p>Место: {{ item.first_seat.seat_number }}</p>
+                                    </div>
+                                    {% if item.second_flight %}
+                                    <div class="profile-air-flight-info">
+                                        <p>Доп. рейс: {{ item.second_flight.flight_number }}</p>
+                                        <p>Откуда: {{ item.second_flight.origin_city.name }}</p>
+                                        <p>Куда: {{ item.second_flight.destination_city.name }}</p>
+                                        <p>Время отправления: {{ item.second_flight.departure_time }}</p>
+                                        <p>Время прибытия: {{ item.second_flight.arrival_time }}</p>
+                                        <p>Место: {{ item.second_seat.seat_number }}</p>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                {% if item.first_return_flight %}
+                                <div class="profile-air-flight">
+                                    <h4>Рейс обратно</h4>
+                                    <div class="profile-air-flight-info">
+                                        <p>Рейс: {{ item.first_return_flight.flight_number }}</p>
+                                        <p>Откуда: {{ item.first_return_flight.origin_city.name }}</p>
+                                        <p>Куда: {{ item.first_return_flight.destination_city.name }}</p>
+                                        <p>Время отправления: {{ item.first_return_flight.departure_time }}</p>
+                                        <p>Время прибытия: {{ item.first_return_flight.arrival_time }}</p>
+                                        <p>Место: {{ item.first_return_seat.seat_number }}</p>
+                                    </div>
+                                    {% if item.second_return_flight %}
+                                    <div class="profile-air-flight-info">
+                                        <p>Доп. рейс: {{ item.second_return_flight.flight_number }}</p>
+                                        <p>Откуда: {{ item.second_return_flight.origin_city.name }}</p>
+                                        <p>Куда: {{ item.second_return_flight.destination_city.name }}</p>
+                                        <p>Время отправления: {{ item.second_return_flight.departure_time }}</p>
+                                        <p>Время прибытия: {{ item.second_return_flight.arrival_time }}</p>
+                                        <p>Место: {{ item.second_return_seat.seat_number }}</p>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                {% endif %}
+                                <div class="profile-air-order-price">
+                                    <h4>Цена: {{ item.order.total_price }} ₽</h4>
+                                    {% if item.order.status.name == 'Забронирован' %}
+                                        <a href="#" class="myButton_order">Оплатить</a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
                 {% endfor %}
             {% endif %}
         </div>

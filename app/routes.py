@@ -10,21 +10,21 @@ from datetime import datetime, date, timedelta
 from geopy.geocoders import Nominatim
 from geopy.distance import geodesic
 
-menu = [{"name": "Акции", "url": "/"},
-        {"name": "Туры", "url": "/tours"},
+menu = [{"name": "Главная", "url": "/"},
         {"name": "Проживание", "url": "/accommodation"},
         {"name": "Авиабилеты", "url": "/air_tickets"},
-        {"name": "Профиль", "url": "/profile"}]
+        {"name": "Профиль", "url": "/profile"},
+        {"name": "О нас", "url": "/about"}]
 
 
 @app.route('/')
 def index():
-    return render_template('index.html', menu=menu, title='Акции')
+    return render_template('index.html', menu=menu, title='Главная')
 
 
-@app.route('/tours')
-def tours():
-    return render_template('tours.html', menu=menu, title='Туры')
+@app.route('/about')
+def about():
+    return render_template('about.html', menu=menu, title='О нас')
 
 
 @app.route('/accommodation', methods=['GET', 'POST'])
@@ -518,18 +518,16 @@ def search_flights():
 def book_seats():
     try:
         flights = eval(request.args.get('flights'))
-        total_price = request.args.get('total_price')
-        number_of_seats = session.get('passengers')
-        flight_class = session.get('flight_class')
+        total_price = int(float(request.args.get('total_price')))
         session['flights'] = flights
         session['total_price'] = total_price
-        session['number_of_seats'] = number_of_seats
-        session['flight_class'] = flight_class
     except:
         flights = session.get('flights')
-        total_price = session.get('total_price')
-        number_of_seats = session.get('number_of_seats')
-        flight_class = session.get('flight_class')
+        total_price = session['total_price']
+
+    user_id = current_user.id
+    number_of_seats = session.get('passengers')
+    flight_class = session.get('flight_class')
     flight_class_id = FlightClass.query.filter_by(name=flight_class).first().id
 
     form = AirBookingForm()
@@ -545,7 +543,6 @@ def book_seats():
             print(form.errors)  # Debug: print form errors
 
     if form.validate_on_submit():
-        user_id = current_user.id
 
         first_flight_id = flights.get('first_flight')
         second_flight_id = flights.get('second_flight')
@@ -586,6 +583,7 @@ def book_seats():
             passenger_data = form.passengers[i].data
             new_booking = AirBooking(
                 user_id=user_id,
+                status_id=1,
                 first_flight_id=first_flight_id,
                 second_flight_id=second_flight_id,
                 first_return_flight_id=first_return_flight_id,

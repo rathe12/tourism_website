@@ -1,5 +1,33 @@
-{% extends 'base.html' %}
-{% block content %}
-{{ super() }}
-<h1>Главная страница</h1>
-{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link type="text/css" href="{{ url_for('static', filename='css/style.css')}}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <title>{{title}}</title>
+</head>
+<div class="delimiter"></div>
+<header>
+    <div class="banner">
+        <div class="banner-content">
+            <h1>Добро пожаловать в Rathe12 Travel</h1>
+            <p>Начните покорять мир с нами</p>
+            <a href="{{ url_for('air_tickets', form=form, menu=menu, title='Авиабилеты') }}" class="cta-button">Начать путешествие</a>
+        </div>
+        <img src="{{ url_for('static', filename='images/banner.jpg') }}" alt="Banner Image" class="banner-image">
+    </div>
+</header>
+<footer>
+    <div class="footer-content">
+        <div class="social-icons">
+            <a href="#"><img src="{{ url_for('static', filename='images/facebook.png') }}" alt="Facebook"></a>
+            <a href="#"><img src="{{ url_for('static', filename='images/telegram.png') }}" alt="Instagram"></a>
+            <a href="#"><img src="{{ url_for('static', filename='images/twitter.png') }}" alt="Twitter"></a>
+        </div>
+        <p>&copy; 2024 Rathe12 Travel. Все права защищены.</p>
+    </div>
+</footer>
+</html>

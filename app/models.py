@@ -22,27 +22,11 @@ class User(UserMixin, db.Model):
     birth_date = db.Column(db.Date)
     phone_code = db.Column(db.String(5), default='+7')
     phone_number = db.Column(db.String(20))
+    # Добавляем атрибут is_admin
+    is_admin = db.Column(db.Boolean, default=False)
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
-
-    def set_gender(self, gender):
-        self.gender = gender
-
-    def set_first_name(self, first_name):
-        self.first_name = first_name
-
-    def set_last_name(self, last_name):
-        self.last_name = last_name
-
-    def set_birth_date(self, birth_date):
-        self.birth_date = birth_date
-
-    def set_phone_code(self, phone_code):
-        self.phone_code = phone_code
-
-    def set_phone_number(self, phone_number):
-        self.phone_number = phone_number
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
@@ -266,7 +250,14 @@ class Flight(db.Model):
     def __repr__(self):
         return f"Flight('{self.id}', '{self.flight_number}', '{self.origin_city_id}', '{self.destination_city_id}', '{self.departure_time}', '{self.arrival_time}', '{self.aircraft_id}', '{self.economy_price}', '{self.business_price}')"
 
-# Модель для таблицы бронирования
+
+class AirStatus(db.Model):
+    __bind_key__ = 'aircraft_db'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), nullable=False, index=True, unique=True)
+
+    def __repr__(self):
+        return f"BookingStatus('{self.name}')"
 
 
 # Модель для таблицы бронирования
@@ -274,6 +265,12 @@ class AirBooking(db.Model):
     __bind_key__ = 'aircraft_db'
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, nullable=False)
+
+    status_id = db.Column(db.Integer, db.ForeignKey(
+        'air_status.id'), nullable=False)
+
+    status = db.relationship('AirStatus')
+
     first_flight_id = db.Column(
         db.Integer, db.ForeignKey('flight.id'), nullable=False)
     second_flight_id = db.Column(db.Integer, db.ForeignKey('flight.id'))

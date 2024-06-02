@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block content %}
+{{ super() }}
+<div class="delimiter"><h2>Информация об агенстве</h2></div>
+<div class="container-about">
+    <!-- Описание компании -->
+    <div class="about-section">
+        <h2 class="section-title">О нас</h2>
+        <p class="about-text">Rathe12 Travel - это место, где ваши мечты о путешествиях становятся реальностью. Мы специализируемся на бронировании авиабилетов и отелей, предоставляя нашим клиентам лучшие цены и самые удобные условия. Наша цель - сделать ваше путешествие незабываемым и беззаботным, обеспечивая высочайший уровень сервиса.</p>
+    </div>
+
+   <!-- Достижения -->
+    <div class="achievements-section">
+        <h2 class="section-title">Наши достижения</h2>
+        <div class="achievements-row">
+            <div class="achievement">
+                <img src="{{url_for('static', filename='images/trophy.png')}}" alt="Трофей">
+                <p class="achievement-text">Более 1000 довольных клиентов</p>
+            </div>
+            <div class="achievement">
+                <img src="{{url_for('static', filename='images/airplane.png')}}" alt="Самолет">
+                <p class="achievement-text">Партнерство с крупнейшими авиакомпаниями</p>
+            </div>
+            <div class="achievement">
+                <img src="{{url_for('static', filename='images/hotel.png')}}" alt="Отель">
+                <p class="achievement-text">Бронирование более 500 отелей по всей России</p>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Отзывы и достижения -->
+    <!-- Отзывы и достижения -->
+    <div class="testimonials-section">
+        <h2 class="section-title">Отзывы</h2>
+        <div class="testimonial">
+            <p class="testimonial-text">"Rathe12 Travel сделал наше путешествие незабываемым. Сначала мы думали, что найти подходящие билеты будет сложно, но агенты Rathe12 Travel помогли нам подобрать оптимальные рейсы по лучшим ценам. Бронирование прошло быстро и без проблем. Сам полет прошел замечательно, а отель, в котором мы остановились, превзошел все наши ожидания. Спасибо за превосходный сервис!" <br> <span class="testimonial-author">- Иван Петров</span></p>
+        </div>
+        <div class="testimonial">
+            <p class="testimonial-text">"Я очень доволен работой Rathe12 Travel. Сначала я немного волновалась, потому что у меня были специфические требования к моему путешествию. Однако агент, с которым я работала, был очень внимательным и профессиональным. Он помог мне выбрать идеальные варианты для моего отдыха, и я получила именно то, что хотела. Большое спасибо за ваш труд и внимание к деталям!" <br> <span class="testimonial-author">- Елена Сидорова</span></p>
+        </div>
+        <div class="testimonial">
+            <p class="testimonial-text">"Отличная работа, Rathe12 Travel! Мы с семьей часто путешествуем и всегда ищем лучшие предложения. На этот раз мы решили воспользоваться услугами вашего агентства, и это было лучшее решение. Всё было организовано на высшем уровне. Мы сэкономили время и деньги, а также получили массу положительных эмоций. Обязательно будем обращаться к вам снова!" <br> <span class="testimonial-author">- Михаил Иванов</span></p>
+        </div>
+    </div>
+
+
+    <!-- Контактная информация -->
+    <div class="contact-section">
+        <h2 class="section-title">Контакты</h2>
+        <div class="contact-info">
+            <p><strong>Адрес:</strong> Улица Путешественников, дом 12, город Ратхей</p>
+            <p><strong>Телефон:</strong> +1234567890</p>
+            <p><strong>Email:</strong> info@rathe12travel.com</p>
+            <p><strong>Рабочие часы:</strong> Пн-Пт, 9:00 - 18:00</p>
+        </div>
+        <a href="https://t.me/rathe12travel_bot" class="telegram-link">Связаться с нами в Telegram</a>
+    </div>
+</div>
+</body>
+{% endblock %}
