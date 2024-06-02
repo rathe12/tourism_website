@@ -723,7 +723,7 @@ h1 {
     margin-bottom: 1vh;
     border-radius: 10px;
     padding-top: 1vw;
-    width: 25vw;
+    width: 35vw;
     height: auto;
 }
 
@@ -743,6 +743,21 @@ h1 {
     width: 10vw;
 }
 
+.profile-hotel-flex{
+    display: flex;
+    margin-top: 2vh;
+}
+.profile-hotel-flex p{
+    padding: 0;
+    margin: 0;
+    margin-left: 1vw;
+
+}
+.profile-hotel-flex h4{
+    padding: 0;
+    margin: 0;
+
+}
 .order_description{
 }
 
@@ -752,7 +767,7 @@ h1 {
     padding: 1%;
     display: block;
     padding-left: 2vw;
-    border-radius: 10px;
+    border-radius: 5px;
 }
 
 .order a{
@@ -854,19 +869,45 @@ h1 {
     border-radius: 10px; /* Закругленные углы */
     margin-left:3vw ;
     width: 55%;
+    margin-top: 8vh;
 }
+
 
 /* CSS стили для при наведении курсора на кнопку */
 .myButton_order:hover {
     background-color: #d69718; /* Темно-зеленый цвет фона */
 }
+
+.myButton_air_order{
+    background-color: #ec9f05; /* Зеленый цвет фона */
+    border: none;
+    color: white;
+    padding: 15px 32px; /* Отступы внутри кнопки */
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 10px; /* Закругленные углы */
+    margin-left:1vw ;
+    margin-top: 3vh;
+    width: 11vw;
+}
+
+.myButton_air_order:hover {
+    background-color: #d69718; /* Темно-зеленый цвет фона */
+}
+
 .images_order{
     display: inline-flex;
+    margin-top: 2vh;
 }
 
 .image_order{
     width: 10vw;
     height: auto;
+    border-radius: 5px;
 }
 
 .form-row {
@@ -911,12 +952,44 @@ h1 {
 
 .profile-air-order-price {
     flex: 1;
-    text-align: right;
-    margin: 10px;
-    padding-top: 10vh;
+    text-align: left;
+    margin-top: 10vh;
+    margin-bottom: 3vh;
+
+}
+.air-description{
+    border: 1px solid;
+    border-color: #dfdfdf96;
+    padding-left: 1vw;
 }
 
+.air-status{
+    margin: 0;
+    padding: 0;
+    margin-left: 0.5vw;
+}
 
+.air-price{
+    margin: 0;
+    padding: 0;
+    margin-left: 0.5vw;
+}
+.air-rubl{
+    margin: 0;
+    padding: 0;
+}
+
+.profile-air-flex{
+    display: flex;
+    margin: 0;
+    padding: 0;
+    padding-top: 2vh;
+}
+.profile-air-flex h4{
+    padding: 0;
+    margin: 0;
+    
+}
 .form-row > * {
     flex: 1;
     margin-right: 10px; /* Пространство между элементами формы */
@@ -1477,7 +1550,7 @@ h1 {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     display: flex;
     margin-top: 10vh;
-    max-width: 60vw;
+    max-width: 61vw;
 }
 
 .flight-details {
@@ -1511,14 +1584,37 @@ h1 {
 .left-block{
     margin-right: 3vw;
     border-right:  1px solid;
-    padding-right: 5vw;
-    padding-left: 2vw;
 }
 
 .first-panel{
     display: block;
     margin-left: 1vw;
     margin-right: 1vw;
+}
+
+.air_booking_button {
+    background-color: #ec9f05; /* Зеленый цвет фона */
+    border: none;
+    color: white;
+    padding: 15px 32px; /* Отступы внутри кнопки */
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 10px; /* Закругленные углы */
+    margin-right: 2vw;
+    margin-left: 1.5vw;
+}
+
+
+/* CSS стили для при наведении курсора на кнопку */
+.air_booking_button:hover {
+    background-color: #d69718; /* Темно-зеленый цвет фона */
+}
+
+.air-booking-price-logo{
+    font-size: x-large;
+    padding-left: 3vw;
 }
 
 .middle-panel{

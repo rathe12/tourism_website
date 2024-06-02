@@ -36,14 +36,27 @@
                             </div>
                             <div class="order_info">
                                 <div class="order_status"></div>
-                                <h4>Статус: {{ item.order.status.name }}</h4>
-                                <h3>Номер: {{ item.room.type }}</h3>
+                                <div class="profile-hotel-flex">
+                                    <h4>Статус:</h4>
+                                    <p>{{ item.order.status.name }}</p>
+                                </div>
+                                <div class="profile-hotel-flex">
+                                    <h4>Тип номера:</h4>
+                                    <p>{{ item.room.type }}</p>
+                                </div>
                                 {% for image in item.room.images %}
                                     <a class="images_order" href="{{ image.image_url }}" target="_blank">
                                         <img class="image_order" src="{{ image.image_url }}" alt="Room Photo">
                                     </a>
                                 {% endfor %}
-                                <h3>Даты: {{ item.order.check_in_date }} - {{ item.order.check_out_date }}</h3>
+                                <div class="profile-hotel-flex">
+                                    <h4>Дата заезда:</h4>
+                                    <p>{{ item.order.check_in_date }}</p>
+                                </div>
+                                <div class="profile-hotel-flex">
+                                    <h4>Дата выезда:</h4>
+                                    <p>{{ item.order.check_out_date }}</p>
+                                </div>
                                 {% if item.order.status.name == 'Забронирован' %}
                                     <a href="#" class="myButton_order">Оплатить</a>
                                 {% endif %}
@@ -53,9 +66,6 @@
                         <div class="profile-air-order">
                             <div class="profile-air-order-header">
                                 <h3>Бронь №{{ item.order.id }}</h3>
-                                <div class="profile-air-order-status">
-                                    <h4>Статус: {{ item.order.status.name }}</h4>
-                                </div>
                             </div>
                             <div class="profile-air-order-content">
                                 <div class="profile-air-flight">
@@ -103,10 +113,19 @@
                                 </div>
                                 {% endif %}
                                 <div class="profile-air-order-price">
-                                    <h4>Цена: {{ item.order.total_price }} ₽</h4>
-                                    {% if item.order.status.name == 'Забронирован' %}
-                                        <a href="#" class="myButton_order">Оплатить</a>
-                                    {% endif %}
+                                    <div class="air-description">
+                                        <div class="profile-air-flex">
+                                            <h4>Статус:</h4>
+                                            <p class="air-status">{{ item.order.status.name }}</p>
+                                        </div>
+                                        <div class="profile-air-flex">
+                                            <h4>Цена:</h4>
+                                            <p class="air-price">{{ item.order.total_price }}</p><p class="air-rubl">₽</p> 
+                                        </div>
+                                        {% if item.order.status.name == 'Не оплачен' %}
+                                            <a href="#" class="myButton_air_order">Оплатить</a>
+                                        {% endif %}
+                                    </div>
                                 </div>
                             </div>
                         </div>
