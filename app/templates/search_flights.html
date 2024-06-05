@@ -38,8 +38,10 @@
         </div>
 
         <div class="right-block">
-            <div class="logos">
-                <p>Логотипы</p>
+            <div class="icon-row">
+                {% for icon in get_icon_urls(1) %}
+                    <img src="{{ icon }}" alt="icon">
+                {% endfor %}
             </div>
 
             <h3>Туда</h3>
@@ -55,7 +57,7 @@
                 <div class="middle-panel">
                     <div class="middle-panel-first-div">
                         <div class="takeoff-div"><img src="{{url_for('static', filename='images/takeoff.png')}}" alt="star" class="takeoff-logo"></div>
-                        <div><p>Время полета: {{ format_timedelta(flight_duration) }}</p></div>
+                        <div><p class="air_time">Время полета: {{ format_timedelta(flight_duration) }}</p></div>
                         <div class="landing-div"><img src="{{url_for('static', filename='images/landing.png')}}" alt="star" class="landing-logo"></div>
                     </div>
                     <div>
@@ -111,8 +113,10 @@
             </div>
 
             <div class="right-block">
-                <div class="logos">
-                    <p>Логотипы</p>
+                <div class="icon-row">
+                    {% for icon in get_icon_urls(2) %}
+                        <img src="{{ icon }}" alt="icon">
+                    {% endfor %}
                 </div>
 
                 <h3>Туда</h3>
@@ -128,7 +132,7 @@
                     <div class="middle-panel">
                         <div class="middle-panel-first-div">
                             <div class="takeoff-div"><img src="{{url_for('static', filename='images/takeoff.png')}}" alt="star" class="takeoff-logo"></div>
-                            <div><p>Время полета: {{ format_timedelta(flight_duration) }}</p></div>
+                            <div><p class="air_time">Время полета: {{ format_timedelta(flight_duration) }}</p></div>
                             <div class="landing-div"><img src="{{url_for('static', filename='images/landing.png')}}" alt="star" class="landing-logo"></div>
                         </div>
                         <div>
@@ -157,7 +161,7 @@
                     <div class="middle-panel">
                         <div class="middle-panel-first-div">
                             <div class="takeoff-div"><img src="{{url_for('static', filename='images/takeoff.png')}}" alt="star" class="takeoff-logo"></div>
-                            <div><p>Время полета: {{ format_timedelta(return_flight_duration) }}</p></div>
+                            <div><p class="air_time">Время полета: {{ format_timedelta(return_flight_duration) }}</p></div>
                             <div class="landing-div"><img src="{{url_for('static', filename='images/landing.png')}}" alt="star" class="landing-logo"></div>
                         </div>
                         <div>
@@ -214,8 +218,10 @@
             
 
             <div class="right-block">
-                <div class="logos">
-                    <p>Логотипы</p>
+                <div class="icon-row">
+                    {% for icon in get_icon_urls(3) %}
+                        <img src="{{ icon }}" alt="icon">
+                    {% endfor %}
                 </div>
 
                 <h3>Туда</h3>
@@ -231,7 +237,7 @@
                     <div class="middle-panel">
                         <div class="middle-panel-first-div">
                             <div class="takeoff-div"><img src="{{url_for('static', filename='images/takeoff.png')}}" alt="star" class="takeoff-logo"></div>
-                            <div><p>Время полета: {{ format_timedelta(flight_duration) }}</p></div>
+                            <div><p class="air_time">Время полета: {{ format_timedelta(flight_duration) }}</p></div>
                             <div class="landing-div"><img src="{{url_for('static', filename='images/landing.png')}}" alt="star" class="landing-logo"></div>
                         </div>
                         <div>
@@ -260,7 +266,7 @@
                     <div class="middle-panel">
                         <div class="middle-panel-first-div">
                             <div class="takeoff-div"><img src="{{url_for('static', filename='images/takeoff.png')}}" alt="star" class="takeoff-logo"></div>
-                            <div><p>Время полета: {{ format_timedelta(first_return_flight_duration) }}</p></div>
+                            <div><p class="air_time">Время полета: {{ format_timedelta(first_return_flight_duration) }}</p></div>
                             <div class="landing-div"><img src="{{url_for('static', filename='images/landing.png')}}" alt="star" class="landing-logo"></div>
                         </div>
                         <div>
@@ -289,7 +295,7 @@
                     <div class="middle-panel">
                         <div class="middle-panel-first-div">
                             <div class="takeoff-div"><img src="{{url_for('static', filename='images/takeoff.png')}}" alt="star" class="takeoff-logo"></div>
-                            <div><p>Время полета: {{ format_timedelta(second_return_flight_duration) }}</p></div>
+                            <div><p class="air_time">Время полета: {{ format_timedelta(second_return_flight_duration) }}</p></div>
                             <div class="landing-div"><img src="{{url_for('static', filename='images/landing.png')}}" alt="star" class="landing-logo"></div>
                         </div>
                         <div>
@@ -359,8 +365,10 @@
         
 
         <div class="right-block">
-            <div class="logos">
-                <p>Логотипы</p>
+            <div class="icon-row">
+                {% for icon in get_icon_urls(2) %}
+                    <img src="{{ icon }}" alt="icon">
+                {% endfor %}
             </div>
 
             <h3>Туда</h3>
@@ -376,7 +384,7 @@
                 <div class="middle-panel">
                     <div class="middle-panel-first-div">
                         <div class="takeoff-div"><img src="{{url_for('static', filename='images/takeoff.png')}}" alt="star" class="takeoff-logo"></div>
-                        <div><p>Время полета: {{ format_timedelta(first_flight_duration) }}</p></div>
+                        <div><p class="air_time">Время полета: {{ format_timedelta(first_flight_duration) }}</p></div>
                         <div class="landing-div"><img src="{{url_for('static', filename='images/landing.png')}}" alt="star" class="landing-logo"></div>
                     </div>
                     <div>
@@ -404,7 +412,7 @@
                 <div class="middle-panel">
                     <div class="middle-panel-first-div">
                         <div class="takeoff-div"><img src="{{url_for('static', filename='images/takeoff.png')}}" alt="star" class="takeoff-logo"></div>
-                        <div><p>Время полета: {{ format_timedelta(second_flight_duration) }}</p></div>
+                        <div><p class="air_time">Время полета: {{ format_timedelta(second_flight_duration) }}</p></div>
                         <div class="landing-div"><img src="{{url_for('static', filename='images/landing.png')}}" alt="star" class="landing-logo"></div>
                     </div>
                     <div>
@@ -463,8 +471,10 @@
         
 
         <div class="right-block">
-            <div class="logos">
-                <p>Логотипы</p>
+            <div class="icon-row">
+                {% for icon in get_icon_urls(3) %}
+                    <img src="{{ icon }}" alt="icon">
+                {% endfor %}
             </div>
 
             <h3>Туда</h3>
@@ -480,7 +490,7 @@
                 <div class="middle-panel">
                     <div class="middle-panel-first-div">
                         <div class="takeoff-div"><img src="{{url_for('static', filename='images/takeoff.png')}}" alt="star" class="takeoff-logo"></div>
-                        <div><p>Время полета: {{ format_timedelta(first_flight_duration) }}</p></div>
+                        <div><p class="air_time">Время полета: {{ format_timedelta(first_flight_duration) }}</p></div>
                         <div class="landing-div"><img src="{{url_for('static', filename='images/landing.png')}}" alt="star" class="landing-logo"></div>
                     </div>
                     <div>
@@ -508,7 +518,7 @@
                 <div class="middle-panel">
                     <div class="middle-panel-first-div">
                         <div class="takeoff-div"><img src="{{url_for('static', filename='images/takeoff.png')}}" alt="star" class="takeoff-logo"></div>
-                        <div><p>Время полета: {{ format_timedelta(second_flight_duration) }}</p></div>
+                        <div><p class="air_time">Время полета: {{ format_timedelta(second_flight_duration) }}</p></div>
                         <div class="landing-div"><img src="{{url_for('static', filename='images/landing.png')}}" alt="star" class="landing-logo"></div>
                     </div>
                     <div>
@@ -540,7 +550,7 @@
                     <div class="middle-panel">
                         <div class="middle-panel-first-div">
                             <div class="takeoff-div"><img src="{{url_for('static', filename='images/takeoff.png')}}" alt="star" class="takeoff-logo"></div>
-                            <div><p>Время полета: {{ format_timedelta(return_flight_duration) }}</p></div>
+                            <div><p class="air_time">Время полета: {{ format_timedelta(return_flight_duration) }}</p></div>
                             <div class="landing-div"><img src="{{url_for('static', filename='images/landing.png')}}" alt="star" class="landing-logo"></div>
                         </div>
                         <div>
@@ -598,8 +608,10 @@
             
 
             <div class="right-block">
-                <div class="logos">
-                    <p>Логотипы</p>
+                <div class="icon-row">
+                    {% for icon in get_icon_urls(4) %}
+                        <img src="{{ icon }}" alt="icon">
+                    {% endfor %}
                 </div>
     
                 <h3>Туда</h3>
@@ -615,7 +627,7 @@
                     <div class="middle-panel">
                         <div class="middle-panel-first-div">
                             <div class="takeoff-div"><img src="{{url_for('static', filename='images/takeoff.png')}}" alt="star" class="takeoff-logo"></div>
-                            <div><p>Время полета: {{ format_timedelta(first_flight_duration) }}</p></div>
+                            <div><p class="air_time">Время полета: {{ format_timedelta(first_flight_duration) }}</p></div>
                             <div class="landing-div"><img src="{{url_for('static', filename='images/landing.png')}}" alt="star" class="landing-logo"></div>
                         </div>
                         <div>
@@ -643,7 +655,7 @@
                     <div class="middle-panel">
                         <div class="middle-panel-first-div">
                             <div class="takeoff-div"><img src="{{url_for('static', filename='images/takeoff.png')}}" alt="star" class="takeoff-logo"></div>
-                            <div><p>Время полета: {{ format_timedelta(second_flight_duration) }}</p></div>
+                            <div><p class="air_time">Время полета: {{ format_timedelta(second_flight_duration) }}</p></div>
                             <div class="landing-div"><img src="{{url_for('static', filename='images/landing.png')}}" alt="star" class="landing-logo"></div>
                         </div>
                         <div>
@@ -675,7 +687,7 @@
                     <div class="middle-panel">
                         <div class="middle-panel-first-div">
                             <div class="takeoff-div"><img src="{{url_for('static', filename='images/takeoff.png')}}" alt="star" class="takeoff-logo"></div>
-                            <div><p>Время полета: {{ format_timedelta(return_first_flight_duration) }}</p></div>
+                            <div><p class="air_time">Время полета: {{ format_timedelta(return_first_flight_duration) }}</p></div>
                             <div class="landing-div"><img src="{{url_for('static', filename='images/landing.png')}}" alt="star" class="landing-logo"></div>
                         </div>
                         <div>
@@ -703,7 +715,7 @@
                     <div class="middle-panel">
                         <div class="middle-panel-first-div">
                             <div class="takeoff-div"><img src="{{url_for('static', filename='images/takeoff.png')}}" alt="star" class="takeoff-logo"></div>
-                            <div><p>Время полета: {{ format_timedelta(return_second_flight_duration) }}</p></div>
+                            <div><p class="air_time">Время полета: {{ format_timedelta(return_second_flight_duration) }}</p></div>
                             <div class="landing-div"><img src="{{url_for('static', filename='images/landing.png')}}" alt="star" class="landing-logo"></div>
                         </div>
                         <div>

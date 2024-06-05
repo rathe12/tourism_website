@@ -555,7 +555,8 @@ ul.mainmenu li a:hover{
 
 .hotels_price_price h3{
     color: #ec9f05;
-    font-size: 200%;
+    font-size: x-large;
+    font-weight: 600;
     padding-bottom: 0;
     margin-bottom: 0;
     margin-top: 2vh;
@@ -1737,6 +1738,15 @@ h1 {
     margin-right: 1vw;  
 }
 
+.icon-row {
+    display: flex;
+    gap: 10px;
+}
+.icon-row img {
+    width: 2.2vw;
+    height: 2.2vw;
+}
+
 .flight-number {
     font-weight: bold;
     color: #007BFF;
@@ -1749,6 +1759,10 @@ h1 {
     height: auto;
     /* position: absolute; */
     margin-top: 3vh;
+}
+
+.air_time{
+    font-size: 2.2vh;
 }
 
 .landing-logo{

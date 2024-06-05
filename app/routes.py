@@ -339,6 +339,15 @@ def air_tickets():
 @app.route('/search_flights', methods=['GET', 'POST'])
 def search_flights():
 
+    def get_icon_urls(number):
+        icons = {
+            1: [url_for('static', filename='images/icon1.png')],
+            2: [url_for('static', filename='images/icon1.png'), url_for('static', filename='images/icon2.png')],
+            3: [url_for('static', filename='images/icon1.png'), url_for('static', filename='images/icon2.png'), url_for('static', filename='images/icon3.png')],
+            4: [url_for('static', filename='images/icon1.png'), url_for('static', filename='images/icon2.png'), url_for('static', filename='images/icon3.png'), url_for('static', filename='images/icon4.png')]
+        }
+        return icons.get(number, [])
+
     def calculate_final_price(base_price, departure_date, agency_fee_percentage, booking_date=date.today()):
 
         def apply_time_based_markup(base_price, days_to_departure):
@@ -517,7 +526,7 @@ def search_flights():
     return_direct_flights, return_connecting_flights = search_return_flights(
         departure_city_id, arrival_city_id, return_date, passengers, flight_class.id)
 
-    return render_template('search_flights.html', direct_flights=direct_flights, connecting_flights=connecting_flights, return_direct_flights=return_direct_flights, return_connecting_flights=return_connecting_flights, calculate_flight_duration=calculate_flight_duration, form=form, menu=menu, calculate_final_price=calculate_final_price, flight_class_name=flight_class_name, format_timedelta=format_timedelta, title='Авиабилеты')
+    return render_template('search_flights.html', direct_flights=direct_flights, connecting_flights=connecting_flights, return_direct_flights=return_direct_flights, return_connecting_flights=return_connecting_flights, calculate_flight_duration=calculate_flight_duration, form=form, menu=menu, calculate_final_price=calculate_final_price, flight_class_name=flight_class_name, format_timedelta=format_timedelta, get_icon_urls=get_icon_urls, title='Авиабилеты')
 
 
 @app.route('/book_seats', methods=['GET', 'POST'])
