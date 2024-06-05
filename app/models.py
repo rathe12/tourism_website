@@ -301,6 +301,7 @@ class AirBooking(db.Model):
     second_return_seat = db.relationship(
         'Seat', foreign_keys=[second_return_seat_id])
     flight_class = db.relationship('FlightClass')
+    baggage = db.Column(db.Boolean, default=False)
 
     def __repr__(self):
         return f"AirBooking('{self.id}', '{self.user_id}', '{self.first_flight_id}', '{self.second_flight_id}', '{self.first_return_flight_id}', '{self.second_return_flight_id}', '{self.first_seat_id}', '{self.second_seat_id}', '{self.first_return_seat_id}', '{self.second_return_seat_id}', '{self.class_id}', '{self.total_price}', '{self.name}', '{self.phone_number}', '{self.passport_number}', '{self.passport_series}')"

@@ -8,22 +8,105 @@
 </style>
 <h1>Результаты поиска</h1>
 
-
-
 {% for flight, flight_duration in direct_flights %}
+
+    <div class="container-air-flight">
+        <div class="left-block">
+            {% if flight_class_name == 'economy' %}
+            <h3>Цена:</h3> 
+            <p class="air-booking-price-logo price" data-base-price="{{ calculate_final_price(flight.economy_price, flight.departure_time.date(), 10) }}" id="price1">{{"{:.0f} ₽".format(calculate_final_price(flight.economy_price,flight.departure_time.date(),10) )}}</p>
+            <div class="baggage-div">
+                <label for="baggage1" class="baggage-logo">Багаж</label>
+                <label class="switch">
+                    <input type="checkbox" name="baggage" id="baggage1" class="baggage-checkbox" data-price-id="price1" data-link-id="link1" data-base-price="{{ flight.economy_price }}">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+            <a href="{{ url_for('book_seats', flights={'first_flight': flight.id,'second_flight': None,'first_return_flight': None,'second_return_flight': None}, baggage = False,total_price=calculate_final_price(flight.economy_price, flight.departure_time.date(), 10) ) }}" class="air_booking_button link1 book-link" id="link1">Купить</a> 
+            {% elif flight_class_name == 'business' %}
+            <h3>Цена:</h3> 
+            <p class="air-booking-price-logo price" data-base-price="{{ calculate_final_price(flight.business_price, flight.departure_time.date(), 10) }}" id="price2">{{"{:.0f} ₽".format(calculate_final_price(flight.business_price,flight.departure_time.date(),10) )}}</p>
+            <div class="baggage-div">
+                <label for="baggage2" class="baggage-logo">Багаж</label>
+                <label class="switch">
+                    <input type="checkbox" name="baggage" id="baggage2" class="baggage-checkbox" data-price-id="price2" data-link-id="link2" data-base-price="{{ flight.economy_price }}">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+            <a href="{{ url_for('book_seats', flights={'first_flight': flight.id,'second_flight': None,'first_return_flight': None,'second_return_flight': None}, baggage = False,total_price=calculate_final_price(flight.business_price, flight.departure_time.date(), 10) ) }}" class="air_booking_button link1 book-link" id="link2">Купить</a> 
+            {% endif %}
+        </div>
+
+        <div class="right-block">
+            <div class="logos">
+                <p>Логотипы</p>
+            </div>
+
+            <h3>Туда</h3>
+            
+            <div class="flight-number">Рейс: {{ flight.flight_number }}</div>
+
+            <div class="flight-details">
+                <div class="first-panel">
+                    <p>{{ flight.departure_time.strftime('%Y-%m-%d %H:%M').split(' ')[1] }}</p>
+                    <p>{{ flight.origin_city.name }}</p>
+                    <p>{{ flight.departure_time.strftime('%Y-%m-%d %H:%M').split(' ')[0] }}</p>
+                </div>
+                <div class="middle-panel">
+                    <div class="middle-panel-first-div">
+                        <div class="takeoff-div"><img src="{{url_for('static', filename='images/takeoff.png')}}" alt="star" class="takeoff-logo"></div>
+                        <div><p>Время полета: {{ format_timedelta(flight_duration) }}</p></div>
+                        <div class="landing-div"><img src="{{url_for('static', filename='images/landing.png')}}" alt="star" class="landing-logo"></div>
+                    </div>
+                    <div>
+                        <hr class="line">
+                    </div>
+                </div>
+                <div class="last-panel">
+                    <p>{{ flight.arrival_time.strftime('%Y-%m-%d %H:%M').split(' ')[1] }}</p>
+                    <p>{{ flight.destination_city.name }}</p>
+                    <p>{{ flight.arrival_time.strftime('%Y-%m-%d %H:%M').split(' ')[0] }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
         {% for return_flight, return_flight_duration in return_direct_flights %}
         <div class="container-air-flight">
             <div class="left-block">
                 {% if flight_class_name == 'economy' %}
-                <h3>Цена:</h3> <p class="air-booking-price-logo">{{"{:.0f} ₽".format(calculate_final_price(flight.economy_price,flight.departure_time.date(),10) + calculate_final_price(return_flight.economy_price,return_flight.departure_time.date(),10))}}</p>
+                <h3>Цена:</h3> 
+                <p class="air-booking-price-logo price" data-base-price="{{ calculate_final_price(flight.economy_price, flight.departure_time.date(), 10) + calculate_final_price(return_flight.economy_price, return_flight.departure_time.date(), 10) }}" id="price3">
+                    {{"{:.0f} ₽".format(calculate_final_price(flight.economy_price,flight.departure_time.date(),10) + calculate_final_price(return_flight.economy_price,return_flight.departure_time.date(),10))}}
+                </p>
                 
-                <a href="{{ url_for('book_seats', flights={'first_flight': flight.id,'second_flight': None,'first_return_flight':return_flight.id,'second_return_flight': None}, total_price=calculate_final_price(flight.economy_price, flight.departure_time.date(), 10) + calculate_final_price(return_flight.economy_price, return_flight.departure_time.date(), 10)) }}" class="air_booking_button">Забронировать</a> 
+                <div class="baggage-div">
+                    <label for="baggage3" class="baggage-logo">Багаж</label>
+                    <label class="switch">
+                        <input type="checkbox" name="baggage" id="baggage3" class="baggage-checkbox" data-price-id="price3" data-link-id="link3">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+                
+                <a href="{{ url_for('book_seats', flights={'first_flight': flight.id,'second_flight': None,'first_return_flight':return_flight.id,'second_return_flight': None}, baggage = False,total_price=calculate_final_price(flight.economy_price, flight.departure_time.date(), 10) + calculate_final_price(return_flight.economy_price, return_flight.departure_time.date(), 10)) }}" class="air_booking_button book-link" id="link3">Купить</a>
+                
                 {% elif flight_class_name == 'business' %}
-                <h3>Цена:</h3> <p class="air-booking-price-logo">{{"{:.0f} ₽".format(calculate_final_price(flight.business_price,flight.departure_time.date(),10) + calculate_final_price(return_flight.business_price,return_flight.departure_time.date(),10))}}</p>
+                <h3>Цена:</h3> 
+                <p class="air-booking-price-logo price" data-base-price="{{ calculate_final_price(flight.business_price, flight.departure_time.date(), 10) + calculate_final_price(return_flight.business_price, return_flight.departure_time.date(), 10) }}" id="price4">
+                    {{"{:.0f} ₽".format(calculate_final_price(flight.business_price,flight.departure_time.date(),10) + calculate_final_price(return_flight.business_price,return_flight.departure_time.date(),10))}}
+                </p>
                 
-                <a href="{{ url_for('book_seats', flights={'first_flight': flight.id,'second_flight': None,'first_return_flight':return_flight.id,'second_return_flight': None}, total_price=calculate_final_price(flight.business_price, flight.departure_time.date(), 10) + calculate_final_price(return_flight.business_price, return_flight.departure_time.date(), 10)) }}">Забронировать</a class='air_booking_button'>
+                <div class="baggage-div">
+                    <label for="baggage4" class="baggage-logo">Багаж</label>
+                    <label class="switch">
+                        <input type="checkbox" name="baggage" id="baggage4" class="baggage-checkbox" data-price-id="price4" data-link-id="link4">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+                
+                <a href="{{ url_for('book_seats', flights={'first_flight': flight.id,'second_flight': None,'first_return_flight':return_flight.id,'second_return_flight': None}, baggage = False,total_price=calculate_final_price(flight.business_price, flight.departure_time.date(), 10) + calculate_final_price(return_flight.business_price, return_flight.departure_time.date(), 10)) }}" class="air_booking_button book-link" id="link4">Купить</a>
+                
                 {% endif %}
             </div>
 
@@ -95,15 +178,40 @@
         <div class="container-air-flight">
             <div class="left-block">
                 {% if flight_class_name == 'economy' %}
-                <h3>Цена</h3> <p class="air-booking-price-logo">{{"{:.0f} ₽".format(calculate_final_price(flight.economy_price,flight.departure_time.date(),10) + calculate_final_price(first_return_flight.economy_price,first_return_flight.departure_time.date(),10) + calculate_final_price(second_return_flight.economy_price,second_return_flight.departure_time.date(),10))}}</p>
+                <h3>Цена:</h3> 
+                <p class="air-booking-price-logo price" data-base-price="{{ calculate_final_price(flight.economy_price, flight.departure_time.date(), 10) + calculate_final_price(first_return_flight.economy_price, first_return_flight.departure_time.date(), 10) + calculate_final_price(second_return_flight.economy_price, second_return_flight.departure_time.date(), 10) }}" id="price5">
+                    {{"{:.0f} ₽".format(calculate_final_price(flight.economy_price, flight.departure_time.date(), 10) + calculate_final_price(first_return_flight.economy_price, first_return_flight.departure_time.date(), 10) + calculate_final_price(second_return_flight.economy_price, second_return_flight.departure_time.date(), 10))}}
+                </p>
                 
-                <a href="{{ url_for('book_seats', flights={'first_flight': flight.id,'second_flight': None,'first_return_flight':first_return_flight.id,'second_return_flight': second_return_flight.id}, total_price= calculate_final_price(flight.economy_price,flight.departure_time.date(),10) + calculate_final_price(first_return_flight.economy_price,first_return_flight.departure_time.date(),10) + calculate_final_price(second_return_flight.economy_price,second_return_flight.departure_time.date(),10) )}}" class="air_booking_button">Забронировать</a> 
+                <div class="baggage-div">
+                    <label for="baggage5" class="baggage-logo">Багаж</label>
+                    <label class="switch">
+                        <input type="checkbox" name="baggage" id="baggage5" class="baggage-checkbox" data-price-id="price5" data-link-id="link5">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+                
+                <a href="{{ url_for('book_seats', flights={'first_flight': flight.id, 'second_flight': None, 'first_return_flight': first_return_flight.id, 'second_return_flight': second_return_flight.id}, total_price= calculate_final_price(flight.economy_price, flight.departure_time.date(), 10) + calculate_final_price(first_return_flight.economy_price, first_return_flight.departure_time.date(), 10) + calculate_final_price(second_return_flight.economy_price, second_return_flight.departure_time.date(), 10)) }}" class="air_booking_button book-link" id="link5">Купить</a>
+                
                 {% elif flight_class_name == 'business' %}
-                <h3>Цена</h3> <p class="air-booking-price-logo">{{"{:.0f} ₽".format(calculate_final_price(flight.business_price,flight.departure_time.date(),10) + calculate_final_price(first_return_flight.business_price,first_return_flight.departure_time.date(),10) + calculate_final_price(second_return_flight.business_price,second_return_flight.departure_time.date(),10))}}</p>
+                <h3>Цена:</h3> 
+                <p class="air-booking-price-logo price" data-base-price="{{ calculate_final_price(flight.business_price, flight.departure_time.date(), 10) + calculate_final_price(first_return_flight.business_price, first_return_flight.departure_time.date(), 10) + calculate_final_price(second_return_flight.business_price, second_return_flight.departure_time.date(), 10) }}" id="price6">
+                    {{"{:.0f} ₽".format(calculate_final_price(flight.business_price, flight.departure_time.date(), 10) + calculate_final_price(first_return_flight.business_price, first_return_flight.departure_time.date(), 10) + calculate_final_price(second_return_flight.business_price, second_return_flight.departure_time.date(), 10))}}
+                </p>
                 
-                <a href="{{ url_for('book_seats', flights={'first_flight': flight.id,'second_flight': None,'first_return_flight':first_return_flight.id,'second_return_flight': second_return_flight.id}, total_price= calculate_final_price(flight.business_price,flight.departure_time.date(),10) + calculate_final_price(first_return_flight.business_price,first_return_flight.departure_time.date(),10) + calculate_final_price(second_return_flight.business_price,second_return_flight.departure_time.date(),10) )}}" class="air_booking_button">Забронировать</a> 
+                <div class="baggage-div">
+                    <label for="baggage6" class="baggage-logo">Багаж</label>
+                    <label class="switch">
+                        <input type="checkbox" name="baggage" id="baggage6" class="baggage-checkbox" data-price-id="price6" data-link-id="link6">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+                
+                <a href="{{ url_for('book_seats', flights={'first_flight': flight.id, 'second_flight': None, 'first_return_flight': first_return_flight.id, 'second_return_flight': second_return_flight.id}, total_price= calculate_final_price(flight.business_price, flight.departure_time.date(), 10) + calculate_final_price(first_return_flight.business_price, first_return_flight.departure_time.date(), 10) + calculate_final_price(second_return_flight.business_price, second_return_flight.departure_time.date(), 10)) }}" class="air_booking_button book-link" id="link6">Купить</a>
+                
                 {% endif %}
             </div>
+            
 
             <div class="right-block">
                 <div class="logos">
@@ -212,19 +320,147 @@
 
 {% for first_flight, second_flight, transfer_duration, total_travel_duration,first_flight_duration,second_flight_duration in connecting_flights %}
 
+    <div class="container-air-flight">
+        <div class="left-block">
+            {% if flight_class_name == 'economy' %}
+            <h3>Цена:</h3> 
+            <p class="air-booking-price-logo price" data-base-price="{{ calculate_final_price(first_flight.economy_price, first_flight.departure_time.date(), 10) + calculate_final_price(second_flight.economy_price, second_flight.departure_time.date(), 10) }}" id="price7">
+                {{"{:.0f} ₽".format(calculate_final_price(first_flight.economy_price, first_flight.departure_time.date(), 10) + calculate_final_price(second_flight.economy_price, second_flight.departure_time.date(), 10))}}
+            </p>
+            
+            <div class="baggage-div">
+                <label for="baggage7" class="baggage-logo">Багаж</label>
+                <label class="switch">
+                    <input type="checkbox" name="baggage" id="baggage7" class="baggage-checkbox" data-price-id="price7" data-link-id="link7">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+            
+            <a href="{{ url_for('book_seats', flights={'first_flight': first_flight.id, 'second_flight': second_flight.id, 'first_return_flight': None, 'second_return_flight': None}, baggage = False,total_price=calculate_final_price(first_flight.economy_price, first_flight.departure_time.date(), 10) + calculate_final_price(second_flight.economy_price, second_flight.departure_time.date(), 10)) }}" class="air_booking_button book-link" id="link7">Купить</a>
+            
+            {% elif flight_class_name == 'business' %}
+            <h3>Цена:</h3> 
+            <p class="air-booking-price-logo price" data-base-price="{{ calculate_final_price(first_flight.business_price, first_flight.departure_time.date(), 10) + calculate_final_price(second_flight.business_price, second_flight.departure_time.date(), 10) }}" id="price8">
+                {{"{:.0f} ₽".format(calculate_final_price(first_flight.business_price, first_flight.departure_time.date(), 10) + calculate_final_price(second_flight.business_price, second_flight.departure_time.date(), 10))}}
+            </p>
+            
+            <div class="baggage-div">
+                <label for="baggage8" class="baggage-logo">Багаж</label>
+                <label class="switch">
+                    <input type="checkbox" name="baggage" id="baggage8" class="baggage-checkbox" data-price-id="price8" data-link-id="link8">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+            
+            <a href="{{ url_for('book_seats', flights={'first_flight': first_flight.id, 'second_flight': second_flight.id, 'first_return_flight': None, 'second_return_flight': None}, baggage = False,total_price=calculate_final_price(first_flight.business_price, first_flight.departure_time.date(), 10) + calculate_final_price(second_flight.business_price, second_flight.departure_time.date(), 10)) }}" class="air_booking_button book-link" id="link8">Купить</a>
+            
+            {% endif %}
+        </div>
+        
+
+        <div class="right-block">
+            <div class="logos">
+                <p>Логотипы</p>
+            </div>
+
+            <h3>Туда</h3>
+
+            <div class="flight-number">Рейс: {{ first_flight.flight_number }}</div>
+
+            <div class="flight-details">
+                <div class="first-panel">
+                    <p>{{ first_flight.departure_time.strftime('%Y-%m-%d %H:%M').split(' ')[1] }}</p>
+                    <p>{{ first_flight.origin_city.name }}</p>
+                    <p>{{ first_flight.departure_time.strftime('%Y-%m-%d %H:%M').split(' ')[0] }}</p>
+                </div>
+                <div class="middle-panel">
+                    <div class="middle-panel-first-div">
+                        <div class="takeoff-div"><img src="{{url_for('static', filename='images/takeoff.png')}}" alt="star" class="takeoff-logo"></div>
+                        <div><p>Время полета: {{ format_timedelta(first_flight_duration) }}</p></div>
+                        <div class="landing-div"><img src="{{url_for('static', filename='images/landing.png')}}" alt="star" class="landing-logo"></div>
+                    </div>
+                    <div>
+                        <hr class="line">
+                    </div>
+                </div>
+                <div class="last-panel">
+                    <p>{{ first_flight.arrival_time.strftime('%Y-%m-%d %H:%M').split(' ')[1] }}</p>
+                    <p>{{ first_flight.destination_city.name }}</p>
+                    <p>{{ first_flight.arrival_time.strftime('%Y-%m-%d %H:%M').split(' ')[0] }}</p>
+                </div>
+            </div>
+            <div class="flight-details">
+                <hr class="peresadka-line"><div>Пересадка: {{ format_timedelta(transfer_duration) }}</div><hr class="peresadka-line">
+            </div>
+
+            <div class="flight-number">Рейс: {{ second_flight.flight_number }}</div>
+
+            <div class="flight-details">
+                <div class="first-panel">
+                    <p>{{ second_flight.departure_time.strftime('%Y-%m-%d %H:%M').split(' ')[1] }}</p>
+                    <p>{{ second_flight.origin_city.name }}</p>
+                    <p>{{ second_flight.departure_time.strftime('%Y-%m-%d %H:%M').split(' ')[0] }}</p>
+                </div>
+                <div class="middle-panel">
+                    <div class="middle-panel-first-div">
+                        <div class="takeoff-div"><img src="{{url_for('static', filename='images/takeoff.png')}}" alt="star" class="takeoff-logo"></div>
+                        <div><p>Время полета: {{ format_timedelta(second_flight_duration) }}</p></div>
+                        <div class="landing-div"><img src="{{url_for('static', filename='images/landing.png')}}" alt="star" class="landing-logo"></div>
+                    </div>
+                    <div>
+                        <hr class="line">
+                    </div>
+                </div>
+                <div class="last-panel">
+                    <p>{{ second_flight.arrival_time.strftime('%Y-%m-%d %H:%M').split(' ')[1] }}</p>
+                    <p>{{ second_flight.destination_city.name }}</p>
+                    <p>{{ second_flight.arrival_time.strftime('%Y-%m-%d %H:%M').split(' ')[0] }}</p>
+                </div>
+            </div>
+            <div class="flight-details">
+                <div>Общая длительность: {{ format_timedelta(total_travel_duration) }}</div>
+            </div>
+        </div>
+    </div>
+
     {% for return_flight, return_flight_duration in return_direct_flights %}
     <div class="container-air-flight">
         <div class="left-block">
             {% if flight_class_name == 'economy' %}
-                <h3>Цена:</h3> <p class="air-booking-price-logo">{{"{:.0f} ₽".format(calculate_final_price(first_flight.economy_price,first_flight.departure_time.date(),10) + calculate_final_price(second_flight.economy_price,second_flight.departure_time.date(),10)  + calculate_final_price(return_flight.economy_price,return_flight.departure_time.date(),10))}}</p>
-                
-                <a href="{{ url_for('book_seats', flights={'first_flight': first_flight.id,'second_flight': second_flight.id,'first_return_flight':return_flight.id,'second_return_flight': None}, total_price=calculate_final_price(first_flight.economy_price,first_flight.departure_time.date(),10) + calculate_final_price(second_flight.economy_price,second_flight.departure_time.date(),10)  + calculate_final_price(return_flight.economy_price,return_flight.departure_time.date(),10)) }}" class="air_booking_button">Забронировать</a> 
-                {% elif flight_class_name == 'business' %}
-                <h3>Цена:</h3> <p class="air-booking-price-logo">{{"{:.0f} ₽".format(calculate_final_price(first_flight.business_price,first_flight.departure_time.date(),10) + calculate_final_price(second_flight.business_price,second_flight.departure_time.date(),10)  + calculate_final_price(return_flight.business_price,return_flight.departure_time.date(),10))}}</p>
-                
-                <a href="{{ url_for('book_seats', flights={'first_flight': first_flight.id,'second_flight': second_flight.id,'first_return_flight':return_flight.id,'second_return_flight': None}, total_price=calculate_final_price(first_flight.business_price,first_flight.departure_time.date(),10) + calculate_final_price(second_flight.business_price,second_flight.departure_time.date(),10)  + calculate_final_price(return_flight.business_price,return_flight.departure_time.date(),10)) }}" class="air_booking_button">Забронировать</a> 
-                {% endif %}
+            <h3>Цена:</h3> 
+            <p class="air-booking-price-logo price" data-base-price="{{ calculate_final_price(first_flight.economy_price, first_flight.departure_time.date(), 10) + calculate_final_price(second_flight.economy_price, second_flight.departure_time.date(), 10) + calculate_final_price(return_flight.economy_price, return_flight.departure_time.date(), 10) }}" id="price9">
+                {{"{:.0f} ₽".format(calculate_final_price(first_flight.economy_price, first_flight.departure_time.date(), 10) + calculate_final_price(second_flight.economy_price, second_flight.departure_time.date(), 10) + calculate_final_price(return_flight.economy_price, return_flight.departure_time.date(), 10))}}
+            </p>
+            
+            <div class="baggage-div">
+                <label for="baggage9" class="baggage-logo">Багаж</label>
+                <label class="switch">
+                    <input type="checkbox" name="baggage" id="baggage9" class="baggage-checkbox" data-price-id="price9" data-link-id="link9">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+            
+            <a href="{{ url_for('book_seats', flights={'first_flight': first_flight.id, 'second_flight': second_flight.id, 'first_return_flight': return_flight.id, 'second_return_flight': None}, baggage = False,total_price=calculate_final_price(first_flight.economy_price, first_flight.departure_time.date(), 10) + calculate_final_price(second_flight.economy_price, second_flight.departure_time.date(), 10) + calculate_final_price(return_flight.economy_price, return_flight.departure_time.date(), 10)) }}" class="air_booking_button book-link" id="link9">Купить</a>
+            
+            {% elif flight_class_name == 'business' %}
+            <h3>Цена:</h3> 
+            <p class="air-booking-price-logo price" data-base-price="{{ calculate_final_price(first_flight.business_price, first_flight.departure_time.date(), 10) + calculate_final_price(second_flight.business_price, second_flight.departure_time.date(), 10) + calculate_final_price(return_flight.business_price, return_flight.departure_time.date(), 10) }}" id="price10">
+                {{"{:.0f} ₽".format(calculate_final_price(first_flight.business_price, first_flight.departure_time.date(), 10) + calculate_final_price(second_flight.business_price, second_flight.departure_time.date(), 10) + calculate_final_price(return_flight.business_price, return_flight.departure_time.date(), 10))}}
+            </p>
+            
+            <div class="baggage-div">
+                <label for="baggage10" class="baggage-logo">Багаж</label>
+                <label class="switch">
+                    <input type="checkbox" name="baggage" id="baggage10" class="baggage-checkbox" data-price-id="price10" data-link-id="link10">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+            
+            <a href="{{ url_for('book_seats', flights={'first_flight': first_flight.id, 'second_flight': second_flight.id, 'first_return_flight': return_flight.id, 'second_return_flight': None}, baggage = False,total_price=calculate_final_price(first_flight.business_price, first_flight.departure_time.date(), 10) + calculate_final_price(second_flight.business_price, second_flight.departure_time.date(), 10) + calculate_final_price(return_flight.business_price, return_flight.departure_time.date(), 10)) }}" class="air_booking_button book-link" id="link10">Купить</a>
+            
+            {% endif %}
         </div>
+        
 
         <div class="right-block">
             <div class="logos">
@@ -326,15 +562,40 @@
 
             <div class="left-block">
                 {% if flight_class_name == 'economy' %}
-                <h3>Цена:</h3> <p class="air-booking-price-logo">{{"{:.0f} ₽".format(calculate_final_price(first_flight.economy_price,first_flight.departure_time.date(),10) + calculate_final_price(second_flight.economy_price,second_flight.departure_time.date(),10)  + calculate_final_price(first_return_flight.economy_price,first_return_flight.departure_time.date(),10) + calculate_final_price(second_return_flight.economy_price,second_return_flight.departure_time.date(),10))}}</p>
+                <h3>Цена:</h3> 
+                <p class="air-booking-price-logo price" data-base-price="{{ calculate_final_price(first_flight.economy_price, first_flight.departure_time.date(), 10) + calculate_final_price(second_flight.economy_price, second_flight.departure_time.date(), 10) + calculate_final_price(first_return_flight.economy_price, first_return_flight.departure_time.date(), 10) + calculate_final_price(second_return_flight.economy_price, second_return_flight.departure_time.date(), 10) }}" id="price11">
+                    {{"{:.0f} ₽".format(calculate_final_price(first_flight.economy_price, first_flight.departure_time.date(), 10) + calculate_final_price(second_flight.economy_price, second_flight.departure_time.date(), 10) + calculate_final_price(first_return_flight.economy_price, first_return_flight.departure_time.date(), 10) + calculate_final_price(second_return_flight.economy_price, second_return_flight.departure_time.date(), 10))}}
+                </p>
                 
-                <a href="{{ url_for('book_seats', flights={'first_flight': first_flight.id,'second_flight': second_flight.id,'first_return_flight':first_return_flight.id,'second_return_flight': second_return_flight.id}, total_price=calculate_final_price(first_flight.economy_price,first_flight.departure_time.date(),10) + calculate_final_price(second_flight.economy_price,second_flight.departure_time.date(),10)  + calculate_final_price(first_return_flight.economy_price,first_return_flight.departure_time.date(),10)  + calculate_final_price(second_return_flight.economy_price,second_return_flight.departure_time.date(),10) )  }}" class="air_booking_button">Забронировать</a> 
+                <div class="baggage-div">
+                    <label for="baggage11" class="baggage-logo">Багаж</label>
+                    <label class="switch">
+                        <input type="checkbox" name="baggage" id="baggage11" class="baggage-checkbox" data-price-id="price11" data-link-id="link11">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+                
+                <a href="{{ url_for('book_seats', flights={'first_flight': first_flight.id, 'second_flight': second_flight.id, 'first_return_flight': first_return_flight.id, 'second_return_flight': second_return_flight.id}, baggage = False,total_price=calculate_final_price(first_flight.economy_price, first_flight.departure_time.date(), 10) + calculate_final_price(second_flight.economy_price, second_flight.departure_time.date(), 10) + calculate_final_price(first_return_flight.economy_price, first_return_flight.departure_time.date(), 10) + calculate_final_price(second_return_flight.economy_price, second_return_flight.departure_time.date(), 10)) }}" class="air_booking_button book-link" id="link11">Купить</a>
+                
                 {% elif flight_class_name == 'business' %}
-                <h3>Цена:</h3> <p class="air-booking-price-logo">{{"{:.0f} ₽".format(calculate_final_price(first_flight.business_price,first_flight.departure_time.date(),10) + calculate_final_price(second_flight.business_price,second_flight.departure_time.date(),10)  + calculate_final_price(first_return_flight.business_price,first_return_flight.departure_time.date(),10) + calculate_final_price(second_return_flight.business_price,second_return_flight.departure_time.date(),10))}}</p>
+                <h3>Цена:</h3> 
+                <p class="air-booking-price-logo price" data-base-price="{{ calculate_final_price(first_flight.business_price, first_flight.departure_time.date(), 10) + calculate_final_price(second_flight.business_price, second_flight.departure_time.date(), 10) + calculate_final_price(first_return_flight.business_price, first_return_flight.departure_time.date(), 10) + calculate_final_price(second_return_flight.business_price, second_return_flight.departure_time.date(), 10) }}" id="price12">
+                    {{"{:.0f} ₽".format(calculate_final_price(first_flight.business_price, first_flight.departure_time.date(), 10) + calculate_final_price(second_flight.business_price, second_flight.departure_time.date(), 10) + calculate_final_price(first_return_flight.business_price, first_return_flight.departure_time.date(), 10) + calculate_final_price(second_return_flight.business_price, second_return_flight.departure_time.date(), 10))}}
+                </p>
                 
-                <a href="{{ url_for('book_seats', flights={'first_flight': first_flight.id,'second_flight': second_flight.id,'first_return_flight':first_return_flight.id,'second_return_flight': second_return_flight.id}, total_price=calculate_final_price(first_flight.business_price,first_flight.departure_time.date(),10) + calculate_final_price(second_flight.business_price,second_flight.departure_time.date(),10)  + calculate_final_price(first_return_flight.business_price,first_return_flight.departure_time.date(),10)  + calculate_final_price(second_return_flight.business_price,second_return_flight.departure_time.date(),10) )  }}" class="air_booking_button">Забронировать</a> 
+                <div class="baggage-div">
+                    <label for="baggage12" class="baggage-logo">Багаж</label>
+                    <label class="switch">
+                        <input type="checkbox" name="baggage" id="baggage12" class="baggage-checkbox" data-price-id="price12" data-link-id="link12">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+                
+                <a href="{{ url_for('book_seats', flights={'first_flight': first_flight.id, 'second_flight': second_flight.id, 'first_return_flight': first_return_flight.id, 'second_return_flight': second_return_flight.id}, baggage = False,total_price=calculate_final_price(first_flight.business_price, first_flight.departure_time.date(), 10) + calculate_final_price(second_flight.business_price, second_flight.departure_time.date(), 10) + calculate_final_price(first_return_flight.business_price, first_return_flight.departure_time.date(), 10) + calculate_final_price(second_return_flight.business_price, second_return_flight.departure_time.date(), 10)) }}" class="air_booking_button book-link" id="link12">Купить</a>
+                
                 {% endif %}
             </div>
+            
 
             <div class="right-block">
                 <div class="logos">
@@ -464,5 +725,5 @@
 
 {% endfor %}
  
-
+<script src="{{ url_for('static', filename='js/changeprice.js') }}"></script> 
 {% endblock %}

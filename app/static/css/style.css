@@ -459,7 +459,7 @@ ul.mainmenu li a:hover{
 .hotel_description{
     display: flex;
     width: 55vw;
-    max-height: 30vh;
+    max-height: 35vh;
 }
 
 .hotel_description_text{
@@ -475,6 +475,7 @@ ul.mainmenu li a:hover{
 .hotel_preview{
     height: 94%; /* Картинка займет всю высоту контейнера */
     width: auto; /* Ширина будет авто для сохранения пропорций */
+    max-width: 20vw;
     object-fit: cover; /* Картинка будет покрывать весь контейнер, сохраняя пропорции */
     padding: 1%;
     border-radius: 10px;
@@ -1582,8 +1583,9 @@ h1 {
 }
 
 .left-block{
-    margin-right: 3vw;
+    margin-right: 2vw;
     border-right:  1px solid;
+    width: 17vw;
 }
 
 .first-panel{
@@ -1592,11 +1594,36 @@ h1 {
     margin-right: 1vw;
 }
 
+.first-panel p:first-child {
+    font-size: x-large;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.last-panel p:first-child {
+    font-size: x-large;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.first-panel p:nth-child(2) {
+    font-style: oblique;
+    font-size: large;
+    margin-top: 2vh;
+    margin-bottom: 0;
+}
+
+.last-panel p:nth-child(2) {
+    font-style: oblique;
+    font-size: large;
+    margin-top: 2vh;
+    margin-bottom: 0;
+}
 .air_booking_button {
     background-color: #ec9f05; /* Зеленый цвет фона */
     border: none;
     color: white;
-    padding: 15px 32px; /* Отступы внутри кнопки */
+    padding: 2vh 4.5vw; /* Отступы внутри кнопки */
     text-align: center;
     text-decoration: none;
     font-size: 16px;
@@ -1606,6 +1633,77 @@ h1 {
     margin-left: 1.5vw;
 }
 
+.baggage-div{
+    display: flex;
+    border: 1px solid;
+    margin-left: 2vw;
+    margin-right: 6vw;
+    padding: 1vh;
+    margin-bottom: 5vh;
+    border-radius: 15px;
+    border-color: #bebebe;
+}
+/* Стили для переключателя */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 25px;
+    margin-left: 0.5vw;
+    margin-right: 0;
+  }
+  
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 20px;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 19px;
+    width: 19px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+  }
+  
+  input:checked + .slider {
+    background-color: #2196F3;
+  }
+  
+  input:checked + .slider:before {
+    transform: translateX(26px);
+  }
+  
+  /* Круглая версия переключателя */
+  .slider.round {
+    border-radius: 20px;
+  }
+  
+  .slider.round:before {
+    border-radius: 50%;
+  }
+  
+.baggage-logo{
+    font-size: large;
+
+}
 
 /* CSS стили для при наведении курсора на кнопку */
 .air_booking_button:hover {
@@ -1615,6 +1713,8 @@ h1 {
 .air-booking-price-logo{
     font-size: x-large;
     padding-left: 3vw;
+    margin-right: 0;
+    padding-right: 0;
 }
 
 .middle-panel{
@@ -1640,6 +1740,8 @@ h1 {
 .flight-number {
     font-weight: bold;
     color: #007BFF;
+    margin-bottom: 2vh;
+    margin-top: 1vh;
 }
 
 .takeoff-logo{

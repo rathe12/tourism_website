@@ -7,3 +7,11 @@
 4. Проверить все формы на обработчики и привести их в нормальный вид
 
 6. Сделать хоть какое-то оформление что бы выглядело не как пустышка
+
+<div class="baggage-div">
+                <label for="baggage" class="baggage-logo">Багаж</label>
+                <label class="switch">
+                    <input type="checkbox" name="baggage" value="0">
+                    <span class="slider round"></span>
+                </label>
+            </div>

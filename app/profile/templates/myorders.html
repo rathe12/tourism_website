@@ -118,6 +118,17 @@
                                             <h4>Статус:</h4>
                                             <p class="air-status">{{ item.order.status.name }}</p>
                                         </div>
+                                        {% if item.order.baggage %}
+                                        <div class="profile-air-flex">
+                                            <h4>Багаж:</h4>
+                                            <p class="air-status">Да</p>
+                                        </div>
+                                        {% else %}
+                                        <div class="profile-air-flex">
+                                            <h4>Багаж:</h4>
+                                            <p class="air-status">Нет</p>
+                                        </div>
+                                        {% endif %}
                                         <div class="profile-air-flex">
                                             <h4>Цена:</h4>
                                             <p class="air-price">{{ item.order.total_price }}</p><p class="air-rubl">₽</p> 

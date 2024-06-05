@@ -102,11 +102,14 @@ def show_hotel(hotel_id):
     availability_room_type = []
     availability_room_info = []
     room_numbers = []
+    room_ids = []
     all_room_numbers = []
 
     for room in hotel.rooms:
         availability = RoomAvailability.query.filter_by(room_id=room.id).all()
         for room_info in availability:
+            if room_info.room_id not in room_ids:
+                room_ids.append(room_info.room_id)
             if room_info.room_number not in room_numbers:
                 all_room_numbers.append(room_info.room_number)
                 if room_info.check_out_date > datetime.today().date():
@@ -142,12 +145,16 @@ def show_hotel(hotel_id):
 
     for all_rm_nmbr in set(all_room_numbers):
         if all_rm_nmbr not in intersecting_keys:
-            info = RoomAvailability.query.filter_by(
-                room_number=all_rm_nmbr).first()
-            availability_room_info.append(
-                {'room_id': info.room_id, 'room_number': info.room_number})
+            for room_id in room_ids:
+                try:
+                    info = RoomAvailability.query.filter_by(
+                        room_number=all_rm_nmbr, room_id=room_id).first()
+                    availability_room_info.append(
+                        {'room_id': info.room_id, 'room_number': info.room_number})
 
-            availability_room_type.append(info.room)
+                    availability_room_type.append(info.room)
+                except:
+                    pass
 
     session['availability_room_info'] = availability_room_info
     print(session.get('availability_room_info'))
@@ -519,22 +526,26 @@ def book_seats():
     try:
         flights = eval(request.args.get('flights'))
         total_price = int(float(request.args.get('total_price')))
+        baggage = request.args.get('baggage')
         session['flights'] = flights
         session['total_price'] = total_price
+        session['baggage'] = baggage
     except:
         flights = session.get('flights')
         total_price = session['total_price']
+        baggage = session['baggage']
 
+    print(baggage)
     user_id = current_user.id
     number_of_seats = session.get('passengers')
     flight_class = session.get('flight_class')
     flight_class_id = FlightClass.query.filter_by(name=flight_class).first().id
-
     form = AirBookingForm()
     while len(form.passengers.entries) < number_of_seats:
         form.passengers.append_entry()
 
     if request.method == 'POST':
+        baggage = request.form.get('baggage')
         if form.validate():
             print("Форма прошла валидацию!")
             print(form.data)  # Debug: print form data
@@ -543,14 +554,15 @@ def book_seats():
             print(form.errors)  # Debug: print form errors
 
     if form.validate_on_submit():
+        baggage = session['baggage']
 
         first_flight_id = flights.get('first_flight')
         second_flight_id = flights.get('second_flight')
         first_return_flight_id = flights.get('first_return_flight')
         second_return_flight_id = flights.get('second_return_flight')
 
-        if not first_flight_id or not first_return_flight_id:
-            return {'error': 'You must specify at least one flight for both directions.'}
+        if not first_flight_id:
+            return {'error': 'You must specify at least one flight.'}
 
         flight_ids = {
             'first_flight': first_flight_id,
@@ -601,7 +613,8 @@ def book_seats():
                 name=passenger_data['namee'],
                 phone_number=passenger_data['phone_number'],
                 passport_number=passenger_data['passport_number'],
-                passport_series=passenger_data['passport_series']
+                passport_series=passenger_data['passport_series'],
+                baggage=bool(baggage)
             )
             new_bookings.append(new_booking)
             db.session.add(new_booking)

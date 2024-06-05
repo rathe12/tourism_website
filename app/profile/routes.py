@@ -93,6 +93,9 @@ def myorders():
 
         departure_time = first_flight.departure_time if isinstance(
             first_flight.departure_time, datetime) else datetime.combine(first_flight.departure_time, datetime.min.time())
+        baggage = Flight.query.filter_by(
+            id=air_order.baggage).first()
+
         combined_orders.append({
             'type': 'air',
             'order': air_order,
@@ -104,7 +107,8 @@ def myorders():
             'second_seat': second_seat,
             'first_return_seat': first_return_seat,
             'second_return_seat': second_return_seat,
-            'date': departure_time
+            'date': departure_time,
+            'baggage': baggage
         })
 
     combined_orders.sort(key=lambda x: x['date'], reverse=True)
